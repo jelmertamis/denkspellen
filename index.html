@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Myrddins Denkspellen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;800&display=swap">
+<style>
+:root{
+  --bg:#EAF1FF; --ink:#1B2140; --ink2:#4A5373; --paper:#FFFFFF; --soft:#F3F6FF; --line:#C9D5F0;
+  --violet:#6A4CE0; --red:#E03A2E; --teal:#0B8F88; --orange:#D9730D; --pink:#C93584; --blue:#1F6FD1;
+  --good:#1E9E5A; --goodbg:#E4F6EB; --goodink:#0F5C33; --bad:#E03A2E; --badbg:#FDECEA;
+  --warnbg:#FFF3DC; --warnink:#6B3D00; --sun:#FFC83D;
+  --game:var(--violet);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.5;padding:0 16px 56px}
+.wrap{max-width:980px;margin:0 auto}
+h1,h2,h3,h4,.display{font-family:"Baloo 2","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,summary:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+svg{display:block}
+
+/* header */
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-block:28px 22px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:64px;height:64px;flex:none}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:14px;font-weight:700;color:var(--ink2)}
+h1{font-size:clamp(34px,6vw,56px);font-weight:800}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.starchip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border-radius:999px;padding:6px 18px 6px 12px;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
+.starchip svg{width:30px;height:30px}
+.pill{background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:9px 16px;font-size:16px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
+.pill svg{width:20px;height:20px}
+.pill[aria-pressed="false"]{color:var(--ink2)}
+
+/* home */
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.card{--c:var(--violet);background:var(--c);color:#fff;border-radius:24px;padding:22px 22px 18px;text-align:left;display:grid;gap:6px;align-content:start;box-shadow:0 7px 0 rgba(27,33,64,.28);transition:transform .12s ease,box-shadow .12s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(27,33,64,.28)}
+.card:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(27,33,64,.28)}
+.cicon{width:72px;height:72px;margin-bottom:6px}
+.cicon svg{width:100%;height:100%}
+.cname{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:30px;line-height:1.05}
+.csub{font-size:17px;opacity:.95}
+.cstars{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-weight:700;font-size:17px;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px 3px 8px;justify-self:start;font-variant-numeric:tabular-nums}
+.cstars svg{width:20px;height:20px}
+
+.parents{margin-top:28px;background:var(--paper);border-radius:20px;padding:6px 22px}
+.parents summary{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer;padding-block:12px}
+.parents .body{display:grid;gap:12px;padding-bottom:18px;max-width:68ch;color:var(--ink2);font-size:17px}
+.parents ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.parents b{color:var(--ink)}
+
+/* play */
+.playbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:4px 16px}
+.playbar h2{font-size:clamp(28px,5vw,40px);font-weight:800;color:var(--game);flex:1;min-width:180px}
+.back{background:var(--paper);border-radius:999px;padding:10px 18px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
+.back svg{width:20px;height:20px}
+.say{width:56px;height:56px;border-radius:50%;background:var(--game);color:#fff;display:grid;place-items:center;box-shadow:0 4px 0 rgba(27,33,64,.25)}
+.say svg{width:28px;height:28px}
+.say[disabled]{opacity:.35;cursor:not-allowed}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:16px;height:16px;border-radius:50%;border:3px solid var(--game);background:var(--paper)}
+.dot.ok{background:var(--good);border-color:var(--good)}
+.dot.miss{background:#F4C2BC;border-color:#F4C2BC}
+.dot.cur{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--game)}
+.stage{background:var(--paper);border-radius:28px;padding:clamp(18px,4vw,36px);border-top:10px solid var(--game)}
+
+.intro,.done{display:grid;justify-items:center;text-align:center;gap:16px;padding-block:10px}
+.bigicon{width:128px;height:128px;border-radius:50%;background:var(--game);display:grid;place-items:center}
+.bigicon svg{width:76px;height:76px}
+.intro h3,.done h3{font-size:clamp(34px,6vw,48px);font-weight:800}
+.lead{font-size:clamp(20px,2.6vw,24px);max-width:34ch}
+.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.big{background:var(--game);color:#fff;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:28px;padding:10px 38px;border-radius:999px;box-shadow:0 5px 0 rgba(27,33,64,.28)}
+.big:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(27,33,64,.28)}
+.big.alt{background:var(--paper);color:var(--game);border:3px solid var(--game)}
+.big small{display:block;font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.2;margin-bottom:4px}
+.ghost{border:2px solid var(--line);border-radius:999px;padding:9px 20px;font-weight:700;color:var(--ink2);background:var(--paper)}
+.check{display:flex;gap:10px;align-items:center;font-size:17px;color:var(--ink2)}
+.check input{width:22px;height:22px;accent-color:var(--game)}
+.note{font-size:15px;color:var(--ink2);max-width:44ch}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.center{justify-content:center}
+.ask{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(22px,3vw,28px);text-align:center;margin-block:18px 14px}
+.lbl{text-transform:uppercase;letter-spacing:.08em;font-size:14px;font-weight:700;color:var(--ink2);text-align:center}
+.hint{text-align:center;color:var(--ink2);margin-block:14px 10px}
+
+/* feedback */
+.fb{margin:20px auto 0;max-width:640px;border-radius:18px;padding:14px 20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.fb.good{background:var(--goodbg);color:var(--goodink)}
+.fb.bad{background:var(--warnbg);color:var(--warnink)}
+.fb .msg{display:grid;gap:2px}
+.fb strong{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:28px;line-height:1.1}
+.fb .next{background:var(--game);color:#fff;font-weight:700;padding:10px 24px;border-radius:999px;font-size:19px}
+
+/* patronen */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(100%,400px);margin:0 auto}
+.cell{aspect-ratio:1;background:var(--soft);border:2px solid var(--line);border-radius:14px;display:grid;place-items:center;max-width:100%}
+.cell svg{width:88%;height:88%}
+.cell.miss{border:3px dashed var(--game);background:var(--paper)}
+.cell.miss span{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(40px,9vw,64px);color:var(--game)}
+.cell.good{border:4px solid var(--good);background:var(--goodbg)}
+.cell.bad{border:4px solid var(--bad);background:var(--badbg)}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:min(100%,560px);margin:0 auto}
+.opt{aspect-ratio:1;background:var(--paper);border:3px solid var(--line);border-radius:16px;display:grid;place-items:center;max-width:100%;transition:transform .1s}
+.opt:hover{border-color:var(--game);transform:translateY(-2px)}
+.opt svg{width:84%;height:84%}
+.opt.good{border:5px solid var(--good);background:var(--goodbg)}
+.opt.bad{border:5px solid var(--bad);background:var(--badbg)}
+
+/* blokken */
+.blocks{display:flex;gap:clamp(14px,4vw,40px);justify-content:center;flex-wrap:wrap}
+.bcol{display:grid;gap:8px;justify-items:center}
+.board,.myboard{width:min(40vw,250px)}
+.myboard{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:3px;background:var(--ink);border:4px solid var(--ink);border-radius:4px}
+.tile{padding:0;aspect-ratio:1;display:block;background:#fff}
+.tile svg{width:100%;height:100%}
+
+/* keypad */
+.kpShow{min-height:72px;display:flex;gap:8px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+.kpShow span{width:52px;height:64px;display:grid;place-items:center;border-bottom:5px solid var(--game);font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:44px;font-variant-numeric:tabular-nums}
+.kpShow em{color:var(--ink2);font-style:normal;align-self:center}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(100%,330px);margin:0 auto}
+.key{height:66px;border-radius:16px;background:var(--soft);border:2px solid var(--line);font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:32px}
+.key:active{transform:translateY(2px)}
+.key.alt{font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:18px;font-weight:700;color:var(--ink2)}
+.key.ok{background:var(--game);border-color:var(--game);color:#fff;font-size:24px}
+
+/* onthouden */
+.span{display:grid;justify-items:center;gap:14px}
+.bigdigit{width:min(60vw,220px);aspect-ratio:1;border-radius:50%;background:var(--game);color:#fff;display:grid;place-items:center;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;margin-block:10px}
+.bigdigit span{font-size:24px}
+.bigdigit .d{font-size:clamp(90px,20vw,150px);line-height:1}
+.bigdigit .pulse{width:48px;height:48px;border-radius:50%;background:#fff;animation:pulse .9s ease-out}
+@keyframes pulse{from{transform:scale(.4);opacity:.3}to{transform:scale(1);opacity:1}}
+
+/* rekenen */
+.story{width:100%;max-width:720px;margin:0 auto 20px;display:flex;gap:16px;align-items:flex-start;text-align:left;background:var(--soft);border:2px solid var(--line);border-radius:20px;padding:18px 20px;font-size:clamp(20px,2.6vw,25px);line-height:1.4}
+.story svg{width:40px;height:40px;flex:none;color:var(--game)}
+
+/* lijken */
+.pair{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin-block:8px 6px}
+.word{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(36px,7vw,58px);padding:6px 26px;border-radius:20px;background:color-mix(in srgb,var(--game) 12%,#fff);color:var(--game)}
+.amp{font-family:"Baloo 2",system-ui,sans-serif;font-size:36px;color:var(--ink2)}
+.answers{max-width:640px;margin:18px auto 0;display:grid;gap:10px}
+.ans{background:var(--soft);border-radius:16px;padding:12px 18px}
+.ans h4{font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);font-family:"Atkinson Hyperlegible",system-ui,sans-serif}
+.ans p{font-size:21px}
+.grade{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.grade .yes{background:var(--good);color:#fff}
+.grade button{padding:12px 24px;border-radius:999px;font-weight:700;font-size:19px}
+.grade .no{background:var(--paper);border:2px solid var(--line);color:var(--ink2)}
+
+/* zoeken */
+.search{display:grid;gap:18px;justify-items:center}
+.timer{width:min(100%,560px);display:flex;align-items:center;gap:12px}
+.track{flex:1;height:16px;border-radius:999px;background:var(--soft);border:2px solid var(--line);overflow:hidden}
+.bar{height:100%;background:var(--game);transition:width 1s linear}
+.timer b{font-family:"Baloo 2",system-ui,sans-serif;font-size:30px;min-width:2.2ch;text-align:right;font-variant-numeric:tabular-nums}
+.srow{display:flex;align-items:center;gap:12px;justify-content:center;padding:12px;border-radius:20px;transition:background .15s}
+.srow.ok{background:var(--goodbg)}
+.srow.no{background:var(--badbg)}
+.target,.g{display:grid;place-items:center;background:var(--paper);border-radius:16px}
+.target{width:clamp(66px,21vw,116px);aspect-ratio:1;border:5px solid var(--game)}
+.g{width:clamp(58px,18vw,100px);aspect-ratio:1;border:2px solid var(--line)}
+.target svg,.g svg{width:78%;height:78%}
+.sep{width:4px;align-self:stretch;background:var(--line);border-radius:2px}
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(100%,520px)}
+.yn button{height:84px;border-radius:22px;color:#fff;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:36px;box-shadow:0 5px 0 rgba(27,33,64,.25)}
+.yn button:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(27,33,64,.25)}
+.yn .yes{background:var(--good)}
+.yn .no{background:var(--bad)}
+
+.done svg.bigstar{width:130px;height:130px}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+
+@media (max-width:440px){
+  .opts{grid-template-columns:repeat(2,1fr);width:min(100%,300px)}
+  .board,.myboard{width:min(42vw,250px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="20" cy="22" r="14" fill="#6A4CE0" stroke="#1B2140" stroke-width="3"/>
+        <rect x="32" y="10" width="24" height="24" rx="4" fill="#E03A2E" stroke="#1B2140" stroke-width="3"/>
+        <polygon points="32,36 50,60 14,60" fill="#FFC83D" stroke="#1B2140" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <p class="eyebrow">Oefenen voor de puzzeldag bij Ponte</p>
+        <h1>Denkspellen van Myrddin</h1>
+      </div>
+    </div>
+    <div class="tools">
+      <span class="starchip" title="Sterren verdiend"><span id="starIconTop"></span><span id="starTotal">0</span></span>
+      <button class="pill" id="voiceBtn" aria-pressed="true"></button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="games" id="gameGrid" aria-label="Kies een spel"></section>
+
+    <details class="parents">
+      <summary>Voor papa en mama</summary>
+      <div class="body">
+        <p><b>Waarvoor is dit?</b> Om te wennen aan de s&#xf3;&#xf3;rt puzzels die bij een intelligentieonderzoek (zoals de WISC-V) voorkomen, zodat de onderzoeksdag minder spannend en onbekend voelt.</p>
+        <ul>
+          <li><b>Eigen opgaven, geen echte testvragen.</b> Alle puzzels zijn zelf gemaakt of worden willekeurig gegenereerd.</li>
+          <li><b>Niet stampen.</b> De test meet hoe een kind met nieuwe opgaven omgaat. Veel oefenen met hetzelfde soort opgaven kan de uitslag vertekenen. Een paar korte rondes als spel is genoeg.</li>
+          <li><b>Ogen sparen.</b> Grote vormen, weinig tekst, voorlezen staat aan. Speel kort (zo'n 10 minuten) en neem pauze bij vermoeide ogen.</li>
+          <li><b>Wat lijkt erop?</b> Myrddin zegt het antwoord hardop; jullie kijken mee en geven de ster.</li>
+          <li>Sterren worden alleen in deze browser bewaard.</li>
+        </ul>
+      </div>
+    </details>
+  </main>
+
+  <main id="play" hidden>
+    <div class="playbar">
+      <button class="back" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Menu</button>
+      <h2 id="playTitle"></h2>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <button class="say" id="sayBtn" aria-label="Lees de vraag voor"></button>
+    </div>
+    <section class="stage" id="stage" aria-live="polite"></section>
+  </main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const rnd=n=>Math.floor(Math.random()*n);
+const R=(a,b)=>a+rnd(b-a+1);
+const pick=a=>a[rnd(a.length)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const stage=$('#stage'), home=$('#home'), play=$('#play');
+
+/* ---------- opslag ---------- */
+const store={
+  get(k,d){try{const v=localStorage.getItem('denkspel:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem('denkspel:'+k,JSON.stringify(v))}catch(e){}}
+};
+let stars=store.get('stars',{});
+let voiceOn=store.get('voice',true);
+
+/* ---------- iconen ---------- */
+const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 14.9,8.6 22,9.3 16.6,14 18.2,21 12,17.3 5.8,21 7.4,14 2,9.3 9.1,8.6" fill="#FFC83D" stroke="#B07A00" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+const SPEAKER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const W='stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"';
+const ICONS={
+  patronen:`<svg viewBox="0 0 64 64" aria-hidden="true">${[0,1,2].map(r=>[0,1,2].map(c=>r===2&&c===2?`<rect x="${6+c*19}" y="${6+r*19}" width="14" height="14" rx="3" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 3"/>`:`<rect x="${6+c*19}" y="${6+r*19}" width="14" height="14" rx="3" fill="#fff"/>`).join('')).join('')}</svg>`,
+  blokken:`<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" fill="none" ${W}/><polygon points="6,6 32,6 6,32" fill="#fff"/><rect x="32" y="6" width="26" height="26" fill="#fff"/><polygon points="58,32 58,58 32,58" fill="#fff"/><polygon points="6,32 32,58 6,58" fill="#fff"/></svg>`,
+  onthouden:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="13" cy="32" r="10" fill="#fff"/><circle cx="32" cy="32" r="10" fill="#fff"/><circle cx="51" cy="32" r="10" fill="#fff"/><text x="13" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">4</text><text x="32" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">7</text><text x="51" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">2</text></svg>`,
+  rekenen:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 8v20M6 18h20M40 18h18M11 42l12 12M23 42L11 54M40 44h18M40 52h18" fill="none" ${W}/></svg>`,
+  lijken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="24" cy="32" r="17" fill="none" ${W}/><circle cx="40" cy="32" r="17" fill="none" ${W}/><path d="M32 18a17 17 0 0 1 0 28a17 17 0 0 1 0-28z" fill="#fff"/></svg>`,
+  zoeken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="27" cy="27" r="16" fill="none" ${W} stroke-width="5"/><path d="M39 39l16 16" ${W} stroke-width="7"/></svg>`
+};
+$('#starIconTop').innerHTML=STAR;
+$('#sayBtn').innerHTML=SPEAKER;
+
+/* ---------- voorlezen ---------- */
+let nlVoice=null;
+function loadVoices(){
+  try{const v=speechSynthesis.getVoices();nlVoice=v.find(x=>/^nl[-_]NL/i.test(x.lang))||v.find(x=>/^nl/i.test(x.lang))||null}catch(e){}
+  drawVoiceBtn();
+}
+function canSpeak(){return voiceOn&&!!nlVoice}
+if('speechSynthesis' in window){try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}}
+function speak(text,rate=.9){
+  if(!canSpeak())return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.voice=nlVoice;u.lang=nlVoice.lang;u.rate=rate;speechSynthesis.speak(u)}catch(e){}
+}
+function drawVoiceBtn(){
+  const b=$('#voiceBtn');
+  b.innerHTML=SPEAKER+(nlVoice?(voiceOn?'Voorlezen: aan':'Voorlezen: uit'):'Geen Nederlandse stem');
+  b.setAttribute('aria-pressed',String(voiceOn&&!!nlVoice));
+  $('#sayBtn').disabled=!canSpeak();
+}
+$('#voiceBtn').onclick=()=>{voiceOn=!voiceOn;store.set('voice',voiceOn);if(!voiceOn)try{speechSynthesis.cancel()}catch(e){};drawVoiceBtn()};
+if('speechSynthesis' in window)loadVoices();else drawVoiceBtn();
+
+/* ---------- spelmotor ---------- */
+let G=null, timers=[];
+const later=(fn,ms)=>{const t=setTimeout(fn,ms);timers.push(t);return t};
+const wait=ms=>new Promise(r=>later(r,ms));
+function clearTimers(){timers.forEach(clearTimeout);timers=[];if(G&&G.interval)clearInterval(G.interval);try{speechSynthesis.cancel()}catch(e){}}
+function setPrompt(t){if(G)G.prompt=t}
+function sayPrompt(){if(G&&G.prompt)speak(G.prompt)}
+$('#sayBtn').onclick=sayPrompt;
+
+function updateStars(){$('#starTotal').textContent=Object.values(stars).reduce((a,b)=>a+b,0)}
+function addStar(){stars[G.def.id]=(stars[G.def.id]||0)+1;store.set('stars',stars);G.earned++;updateStars()}
+
+const GAMES=[
+  {id:'patronen',name:'Patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',rounds:8,
+   intro:'Kijk goed naar de plaatjes. Er mist er \u00e9\u00e9n. Welk plaatje hoort op de lege plek?',round:roundPatroon},
+  {id:'blokken',name:'Blokken',sub:'Maak het voorbeeld precies na',color:'var(--red)',rounds:6,
+   intro:'Tik op de blokjes om ze te draaien. Maak precies hetzelfde patroon als het voorbeeld.',round:roundBlok},
+  {id:'onthouden',name:'Cijfers onthouden',sub:'Luister goed en tik ze na',color:'var(--teal)',rounds:null,
+   intro:'Ik zeg een paar cijfers. Luister goed. Daarna tik jij ze in.'},
+  {id:'rekenen',name:'Rekenen',sub:'Sommen in een verhaaltje',color:'var(--orange)',rounds:8,
+   intro:'Ik vertel een kort verhaaltje met een som. Reken het uit in je hoofd en tik het antwoord in.',round:roundReken},
+  {id:'lijken',name:'Wat lijkt erop?',sub:'Wat hebben twee dingen samen?',color:'var(--pink)',rounds:8,
+   intro:'Ik noem twee dingen. Bedenk hoe ze op elkaar lijken en zeg het hardop.',round:roundLijk},
+  {id:'zoeken',name:'Zoek het teken',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',rounds:null,
+   intro:'Kijk naar het teken links. Zit precies hetzelfde teken in de rij? Tik op ja of nee. Zo snel als je kunt!'}
+];
+
+function renderHome(){
+  const grid=$('#gameGrid');
+  grid.innerHTML=GAMES.map(g=>`<button class="card" style="--c:${g.color}" data-id="${g.id}">
+    <span class="cicon">${ICONS[g.id]}</span><span class="cname">${g.name}</span><span class="csub">${g.sub}</span>
+    <span class="cstars">${STAR}${stars[g.id]||0}</span></button>`).join('');
+  grid.querySelectorAll('.card').forEach(b=>b.onclick=()=>openGame(b.dataset.id));
+  updateStars();
+}
+
+function openGame(id){
+  clearTimers();
+  const def=GAMES.find(g=>g.id===id);
+  G={def,round:0,total:def.rounds,results:[],earned:0,locked:false,token:0};
+  play.style.setProperty('--game',def.color);
+  $('#playTitle').textContent=def.name;
+  home.hidden=true;play.hidden=false;window.scrollTo(0,0);
+  renderDots();showIntro();
+}
+$('#backBtn').onclick=()=>{clearTimers();G=null;play.hidden=true;home.hidden=false;renderHome();window.scrollTo(0,0)};
+
+function renderDots(){
+  const d=$('#dots');
+  if(!G.total||!G.started){d.innerHTML='';return}
+  d.innerHTML=Array.from({length:G.total},(_,i)=>{
+    const r=G.results[i];return `<span class="dot ${r===true?'ok':r===false?'miss':''} ${i===G.round&&r==null?'cur':''}"></span>`}).join('');
+}
+
+function showIntro(){
+  const d=G.def;setPrompt(d.intro);
+  stage.innerHTML=`<div class="intro"><div class="bigicon">${ICONS[d.id]}</div><h3>${d.name}</h3><p class="lead">${d.intro}</p><div class="btns" id="introBtns"></div><div id="introExtra"></div></div>`;
+  const box=$('#introBtns');
+  if(d.id==='onthouden'){
+    box.innerHTML=`<button class="big" id="fw"><small>zeg ze na zoals ik ze zeg</small>Vooruit</button><button class="big alt" id="bw"><small>zeg ze andersom</small>Achteruit</button>`;
+    const forced=!canSpeak();
+    $('#introExtra').innerHTML=`<label class="check"><input type="checkbox" id="showDigits" ${forced||store.get('showDigits',false)?'checked':''} ${forced?'disabled':''}> Cijfers ook op het scherm laten zien</label>${forced?'<p class="note">Voorlezen staat uit of er is geen Nederlandse stem, dus de cijfers verschijnen op het scherm.</p>':''}`;
+    const go=mode=>{G.showDigits=$('#showDigits').checked;if(!forced)store.set('showDigits',G.showDigits);startSpan(mode)};
+    $('#fw').onclick=()=>go('vooruit');$('#bw').onclick=()=>go('achteruit');
+  }else if(d.id==='zoeken'){
+    box.innerHTML=`<button class="big" id="go">Start! (45 seconden)</button>`;$('#go').onclick=startZoeken;
+  }else{
+    box.innerHTML=`<button class="big" id="go">Start</button>`;
+    $('#go').onclick=()=>{G.started=true;G.round=0;G.results=[];G.locked=false;renderDots();d.round(0)};
+  }
+  sayPrompt();
+}
+
+const PRAISE=['Goed zo!','Super!','Knap gedaan!','Helemaal goed!','Yes!','Top!'];
+function showFeedback(ok,msg,onNext){
+  const fb=document.createElement('div');
+  fb.className='fb '+(ok?'good':'bad');
+  fb.innerHTML=`<div class="msg"><strong>${ok?pick(PRAISE):'Bijna!'}</strong>${msg?`<span>${msg}</span>`:''}</div>${ok?'':'<button class="next">Verder</button>'}`;
+  stage.appendChild(fb);
+  if(ok){speak(fb.querySelector('strong').textContent);later(onNext,1400)}
+  else{const b=fb.querySelector('.next');b.onclick=onNext;b.focus({preventScroll:true});fb.scrollIntoView({block:'nearest',behavior:'smooth'})}
+}
+function roundDone(ok,badMsg,goodMsg){
+  G.results[G.round]=ok;if(ok)addStar();renderDots();
+  showFeedback(ok,ok?goodMsg:badMsg,advance);
+}
+function advance(){
+  G.round++;G.locked=false;
+  if(G.total&&G.round>=G.total){finish();return}
+  renderDots();G.def.round(G.round);
+}
+function finish(line){
+  clearTimers();
+  const n=G.earned;
+  G.started=false;renderDots();
+  stage.innerHTML=`<div class="done">${STAR.replace('<svg','<svg class="bigstar"')}<h3>Klaar!</h3><p class="lead">${line||`Je hebt ${n} ${n===1?'ster':'sterren'} verdiend.`}</p>
+    <div class="btns"><button class="big" id="again">Nog een keer</button><button class="big alt" id="menu">Ander spel</button></div></div>`;
+  $('#again').onclick=()=>openGame(G.def.id);
+  $('#menu').onclick=()=>$('#backBtn').click();
+  speak('Klaar! Goed gedaan.');
+  confetti();
+}
+
+/* ---------- toetsenblok ---------- */
+function keypad(host,{max=3,onSubmit}){
+  let val=[];
+  host.innerHTML=`<div class="kpShow" aria-live="polite"></div><div class="kp">${[1,2,3,4,5,6,7,8,9].map(d=>`<button class="key" data-d="${d}">${d}</button>`).join('')}<button class="key alt" data-x="del" aria-label="Wis laatste cijfer">wis</button><button class="key" data-d="0">0</button><button class="key ok" data-x="ok">klaar</button></div>`;
+  const show=host.querySelector('.kpShow');
+  const draw=()=>{show.innerHTML=val.length?val.map(d=>`<span>${d}</span>`).join(''):'<em>tik je antwoord</em>'};
+  draw();
+  host.querySelectorAll('.key').forEach(b=>b.onclick=()=>{
+    if(G.locked)return;
+    if(b.dataset.d!=null){if(val.length<max){val.push(+b.dataset.d);draw()}}
+    else if(b.dataset.x==='del'){val.pop();draw()}
+    else if(val.length){G.locked=true;onSubmit(val)}
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(play.hidden)return;
+  const kp=stage.querySelector('.kp');
+  if(kp){let s=null;
+    if(/^[0-9]$/.test(e.key))s=`[data-d="${e.key}"]`;else if(e.key==='Backspace')s='[data-x="del"]';else if(e.key==='Enter')s='[data-x="ok"]';
+    if(s){e.preventDefault();kp.querySelector(s)?.click()}}
+  const yn=stage.querySelector('.yn');
+  if(yn){if(e.key==='j'||e.key==='ArrowLeft'){e.preventDefault();$('#yes').click()}if(e.key==='n'||e.key==='ArrowRight'){e.preventDefault();$('#no').click()}}
+});
+
+/* ---------- 1. Patronen ---------- */
+const COLORS=['#E03A2E','#1F6FD1','#1E9E5A'];
+const SHAPES=['circle','square','triangle'];
+function shapeSVG(s,col,cx,cy,r){
+  const st=`fill="${col}" stroke="#1B2140" stroke-width="3" stroke-linejoin="round"`;
+  if(s==='circle')return `<circle cx="${cx}" cy="${cy}" r="${r}" ${st}/>`;
+  if(s==='square')return `<rect x="${cx-r*.88}" y="${cy-r*.88}" width="${r*1.76}" height="${r*1.76}" rx="3" ${st}/>`;
+  const h=r*1.1;return `<polygon points="${cx},${cy-h} ${cx+h*1.05},${cy+h*.8} ${cx-h*1.05},${cy+h*.8}" ${st}/>`;
+}
+function cellSVG(c){
+  const pos={1:[[50,52]],2:[[29,52],[71,52]],3:[[50,29],[28,71],[72,71]]}[c.n];
+  const r=c.n===1?27:c.n===2?17:15;
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${pos.map(([x,y])=>shapeSVG(SHAPES[c.s],COLORS[c.c],x,y,r)).join('')}</svg>`;
+}
+function genMatrix(level){
+  const sp=shuffle([0,1,2]),cp=shuffle([0,1,2]),np=shuffle([1,2,3]);
+  const grid=[];
+  for(let r=0;r<3;r++)for(let c=0;c<3;c++){
+    let s,col,n=1;
+    if(level===1){s=sp[r];col=cp[c]}
+    else if(level===2){s=sp[(r+c)%3];col=cp[c]}
+    else{s=sp[(r+c)%3];col=cp[(r+2*c)%3];n=np[r]}
+    grid.push({s,c:col,n});
+  }
+  const miss=level===3?rnd(9):8, ans=grid[miss];
+  const ns=level===3?[1,2,3]:[1], cands=[];
+  for(const s of [0,1,2])for(const c of [0,1,2])for(const n of ns){
+    const diff=(s!==ans.s)+(c!==ans.c)+(n!==ans.n);if(diff)cands.push({s,c,n,diff});
+  }
+  const one=shuffle(cands.filter(x=>x.diff===1)),more=shuffle(cands.filter(x=>x.diff>1));
+  const d=level===1?one.slice(0,3):[...one.slice(0,2),...more.slice(0,1)];
+  return {grid,miss,ans,opts:shuffle([ans,...d])};
+}
+function roundPatroon(i){
+  const m=genMatrix(i<3?1:i<6?2:3);
+  setPrompt('Welk plaatje hoort op de lege plek?');
+  stage.innerHTML=`<div class="matrix">${m.grid.map((c,k)=>k===m.miss?`<div class="cell miss" id="missCell"><span>?</span></div>`:`<div class="cell">${cellSVG(c)}</div>`).join('')}</div>
+    <p class="ask">Welk plaatje hoort op de lege plek?</p>
+    <div class="opts">${m.opts.map((c,k)=>`<button class="opt" data-k="${k}" aria-label="Keuze ${k+1}">${cellSVG(c)}</button>`).join('')}</div>`;
+  stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    if(G.locked)return;G.locked=true;
+    const k=+b.dataset.k,ok=m.opts[k]===m.ans,mc=$('#missCell');
+    mc.innerHTML=cellSVG(m.opts[k]);mc.classList.add(ok?'good':'bad');b.classList.add(ok?'good':'bad');
+    if(!ok)stage.querySelector(`.opt[data-k="${m.opts.indexOf(m.ans)}"]`).classList.add('good');
+    roundDone(ok,'Het groene plaatje was goed. Kijk wat er in elke rij en kolom hetzelfde blijft.');
+  });
+}
+
+/* ---------- 2. Blokken ---------- */
+const RED='#E03A2E', CYCLE=[0,2,3,4,5,1];
+function tileInner(st){
+  const p={2:'0,0 100,0 0,100',3:'0,0 100,0 100,100',4:'100,0 100,100 0,100',5:'0,0 100,100 0,100'}[st];
+  return `<rect width="100" height="100" fill="${st===1?RED:'#FFFFFF'}"/>${p?`<polygon points="${p}" fill="${RED}"/>`:''}`;
+}
+function boardSVG(arr,n){
+  let s=`<svg viewBox="-4 -4 ${n*100+8} ${n*100+8}" class="board" role="img" aria-label="Voorbeeldpatroon">`;
+  arr.forEach((st,k)=>{s+=`<g transform="translate(${(k%n)*100} ${Math.floor(k/n)*100})">${tileInner(st)}</g>`});
+  for(let i=1;i<n;i++)s+=`<path d="M${i*100} 0V${n*100}M0 ${i*100}H${n*100}" stroke="#1B2140" stroke-opacity=".35" stroke-width="2"/>`;
+  return s+`<rect width="${n*100}" height="${n*100}" fill="none" stroke="#1B2140" stroke-width="6"/></svg>`;
+}
+function genBlocks(n){
+  let a;
+  do{a=Array.from({length:n*n},()=>pick([0,1,2,3,4,5,2,3,4,5]))}while(!a.some(s=>s>=2)||a.every(s=>s===a[0]));
+  return a;
+}
+function roundBlok(i){
+  const n=i<3?2:3,target=genBlocks(n),mine=Array(n*n).fill(0),t0=Date.now();
+  setPrompt('Tik op de blokjes tot ze er precies zo uitzien als het voorbeeld.');
+  stage.innerHTML=`<div class="blocks"><div class="bcol"><p class="lbl">Voorbeeld</p>${boardSVG(target,n)}</div>
+    <div class="bcol"><p class="lbl">Jouw blokken</p><div class="myboard" style="--n:${n}">${mine.map((s,k)=>`<button class="tile" data-k="${k}" aria-label="Blokje ${k+1}"><svg viewBox="0 0 100 100">${tileInner(0)}</svg></button>`).join('')}</div></div></div>
+    <p class="hint">Tik op een blokje om het te draaien.</p><div class="row center"><button class="ghost" id="skipB">Overslaan</button></div>`;
+  stage.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{
+    if(G.locked)return;
+    const k=+b.dataset.k;mine[k]=CYCLE[(CYCLE.indexOf(mine[k])+1)%6];
+    b.querySelector('svg').innerHTML=tileInner(mine[k]);
+    if(mine.every((s,j)=>s===target[j])){G.locked=true;roundDone(true,null,`Gelukt in ${Math.round((Date.now()-t0)/1000)} seconden.`)}
+  });
+  $('#skipB').onclick=()=>{if(G.locked)return;G.locked=true;roundDone(false,'Geen probleem, het volgende patroon is weer nieuw.')};
+}
+
+/* ---------- 3. Cijfers onthouden ---------- */
+function startSpan(mode){
+  Object.assign(G,{mode,len:2,fails:0,best:0,started:true,total:null,locked:false});
+  renderDots();spanRound();
+}
+async function spanRound(){
+  G.locked=false;const tok=++G.token;
+  const seq=[];while(seq.length<G.len){const d=rnd(10);if(d!==seq[seq.length-1])seq.push(d)}
+  const show=G.showDigits||!canSpeak();
+  const fw=G.mode==='vooruit';
+  setPrompt(fw?'Luister goed en tik de cijfers daarna in.':'Luister goed. Tik de cijfers daarna andersom in.');
+  stage.innerHTML=`<div class="span"><p class="lbl">${G.len} cijfers \u00b7 ${G.mode}</p><div class="bigdigit" id="bd"><span>Luister\u2026</span></div></div>`;
+  await wait(1200);
+  for(const d of seq){
+    if(tok!==G.token)return;
+    const bd=$('#bd');
+    bd.innerHTML=show?`<span class="d">${d}</span>`:'<span class="pulse"></span>';
+    speak(String(d),.85);
+    await wait(800);if(tok!==G.token)return;
+    $('#bd').innerHTML='<span></span>';
+    await wait(250);
+  }
+  if(tok!==G.token)return;
+  const want=fw?seq:[...seq].reverse();
+  stage.innerHTML=`<div class="span"><p class="ask">${fw?'Tik de cijfers in dezelfde volgorde.':'Tik de cijfers andersom in.'}</p><div id="kp"></div></div>`;
+  keypad($('#kp'),{max:G.len,onSubmit(val){
+    const ok=val.join('')===want.join('');
+    if(ok){addStar();G.best=G.len;G.len++;G.fails=0}else G.fails++;
+    const end=(!ok&&G.fails>=2)||G.len>9;
+    const next=()=>{if(end){finish(G.best?`Je kon ${G.best} cijfers ${fw?'onthouden':'andersom onthouden'}. Knap!`:'Dat was lastig. Probeer het straks nog eens!')}else spanRound()};
+    showFeedback(ok,ok?null:`Het was ${want.join(' ')}. Jij tikte ${val.join(' ')}.${G.fails===1?' Nog een keer met evenveel cijfers.':''}`,next);
+  }});
+}
+
+/* ---------- 4. Rekenen ---------- */
+const REKEN=[
+ [()=>{const a=R(3,9),b=R(2,9);return{t:`Myrddin heeft ${a} knikkers. Hij krijgt er ${b} bij. Hoeveel knikkers heeft hij nu?`,a:a+b}},
+  ()=>{const a=R(9,15),b=R(2,7);return{t:`Er zitten ${a} vogels in een boom. Er vliegen er ${b} weg. Hoeveel vogels zitten er nog in de boom?`,a:a-b}},
+  ()=>{const a=R(6,12),b=R(2,5);return{t:`In de trommel zitten ${a} koekjes. Je eet er ${b} op. Hoeveel koekjes zitten er nog in de trommel?`,a:a-b}},
+  ()=>{const a=R(4,9),b=R(4,9);return{t:`Op tafel liggen ${a} rode blokken en ${b} blauwe blokken. Hoeveel blokken liggen er samen?`,a:a+b}},
+  ()=>{const a=R(7,12),b=R(2,5);return{t:`Je hebt ${a} ballonnen. Er knappen er ${b}. Hoeveel ballonnen heb je nog?`,a:a-b}}],
+ [()=>{const a=R(2,5),b=R(2,5);return{t:`Er liggen ${a} zakjes. In elk zakje zitten ${b} snoepjes. Hoeveel snoepjes zijn het samen?`,a:a*b}},
+  ()=>{const a=R(2,4);return{t:`Een spin heeft 8 poten. Hoeveel poten hebben ${a} spinnen samen?`,a:8*a}},
+  ()=>{const a=R(3,9);return{t:`Myrddin heeft ${2*a} stickers. Hij geeft de helft aan een vriend. Hoeveel stickers houdt hij zelf?`,a}},
+  ()=>{const k=R(2,4),e=R(2,5);return{t:`Je hebt ${k*e} appels en verdeelt ze eerlijk over ${k} kinderen. Hoeveel appels krijgt elk kind?`,a:e}},
+  ()=>{const a=R(20,40),b=R(5,15);return{t:`In de klas staan ${a} stoelen. Er gaan er ${b} naar de gymzaal. Hoeveel stoelen staan er nog in de klas?`,a:a-b}}],
+ [()=>{const a=R(15,25),b=R(2,5),c=R(6,9);return{t:`Je hebt ${a} euro. Je koopt een ijsje van ${b} euro en een boek van ${c} euro. Hoeveel euro heb je nog over?`,a:a-b-c,u:'euro'}},
+  ()=>{const a=R(10,20),b=R(2,6),c=R(2,6);return{t:`In de bus zitten ${a} mensen. Bij de halte stappen er ${b} uit en ${c} in. Hoeveel mensen zitten er nu in de bus?`,a:a-b+c}},
+  ()=>{const r=R(2,4),k=R(3,6),g=R(1,3);return{t:`Een doos heeft ${r} rijen met ${k} eieren. Er zijn ${g} eieren gebroken. Hoeveel eieren zijn er nog heel?`,a:r*k-g}},
+  ()=>{const w=R(3,6),p=pick([5,10]);return{t:`Een trein heeft ${w} wagons. In elke wagon zitten ${p} mensen. Hoeveel mensen zitten er in de hele trein?`,a:w*p}},
+  ()=>{const p=R(3,6),x=R(2,4);return{t:`Myrddin zwemt elke dag ${p} baantjes. Hoeveel baantjes zwemt hij in ${x} dagen?`,a:p*x}}]
+];
+function roundReken(i){
+  const lvl=REKEN[i<3?0:i<6?1:2];
+  let f;do{f=pick(lvl)}while(f===G.lastF&&lvl.length>1);G.lastF=f;
+  const q=f();setPrompt(q.t);
+  stage.innerHTML=`<button class="story" id="story" aria-label="Lees de som nog een keer voor">${SPEAKER}<span>${q.t}</span></button><div id="kp"></div>`;
+  $('#story').onclick=sayPrompt;
+  keypad($('#kp'),{max:3,onSubmit(v){const ok=+v.join('')===q.a;roundDone(ok,`Het antwoord was ${q.a}${q.u?' '+q.u:''}.`)}});
+  sayPrompt();
+}
+
+/* ---------- 5. Wat lijkt erop? ---------- */
+const PAIRS=[
+ ['een appel','een peer','Het is allebei fruit.','Je kunt ze allebei eten. Ze groeien aan een boom.'],
+ ['een fiets','een auto','Het zijn allebei vervoermiddelen.','Ze hebben allebei wielen. Je kunt ermee rijden.'],
+ ['een trommel','een gitaar','Het zijn allebei muziekinstrumenten.','Je kunt er allebei muziek mee maken.'],
+ ['een hamer','een zaag','Het is allebei gereedschap.','Je kunt er allebei mee klussen.'],
+ ['rood','blauw','Het zijn allebei kleuren.','Je kunt er allebei mee verven of kleuren.'],
+ ['de zon','een lamp','Ze geven allebei licht.','Ze worden allebei warm.'],
+ ['een vis','een walvis','Ze leven allebei in het water.','Het zijn dieren. Ze kunnen allebei zwemmen.'],
+ ['regen','sneeuw','Het is allebei water dat uit de lucht valt.','Het is allebei weer.'],
+ ['een stoel','een bank','Het zijn allebei meubels om op te zitten.','Ze staan allebei in huis.'],
+ ['je oog','je oor','Het zijn allebei zintuigen.','Ze zitten allebei aan je hoofd.'],
+ ['de winter','de zomer','Het zijn allebei seizoenen.','Het zijn allebei tijden van het jaar.'],
+ ['een kaart','een kompas','Ze helpen je allebei de weg te vinden.','Je neemt ze allebei mee op tocht.'],
+ ['een berg','een heuvel','Het zijn allebei hoge stukken land.','Je kunt ze allebei op klimmen.'],
+ ['boos','blij','Het zijn allebei gevoelens.','Je kunt ze allebei zien aan iemands gezicht.'],
+ ['een ei','een zaadje','Er kan allebei nieuw leven uit groeien.','Ze zijn allebei klein en rond.'],
+ ['een klok','een kalender','Ze laten allebei zien hoe laat of welke dag het is.','Ze hangen vaak aan de muur.']
+];
+const bare=s=>s.replace(/^(een|de|het|je) /,'');
+function roundLijk(i){
+  if(i===0)G.deck=shuffle(PAIRS);
+  const [a,b,best,ok]=G.deck[i];
+  const q=`Hoe lijken ${a} en ${b} op elkaar?`;setPrompt(q);
+  stage.innerHTML=`<div class="pair"><span class="word">${bare(a)}</span><span class="amp">&amp;</span><span class="word">${bare(b)}</span></div>
+    <p class="ask">${q}</p><p class="hint">Zeg je antwoord hardop.</p>
+    <div class="row center" id="revealRow"><button class="big" id="reveal">Laat het antwoord zien</button></div><div id="ansBox"></div>`;
+  $('#reveal').onclick=()=>{
+    $('#revealRow').remove();
+    $('#ansBox').innerHTML=`<div class="answers"><div class="ans"><h4>Heel goed antwoord</h4><p>${best}</p></div><div class="ans"><h4>Ook goed</h4><p>${ok}</p></div>
+      <p class="lbl">Papa of mama kiest</p><div class="grade"><button class="yes" id="gY">Goed antwoord</button><button class="no" id="gN">Nog even oefenen</button></div></div>`;
+    $('#gY').onclick=()=>{if(G.locked)return;G.locked=true;roundDone(true)};
+    $('#gN').onclick=()=>{if(G.locked)return;G.locked=true;roundDone(false,'Denk aan de groep waar ze allebei bij horen.')};
+  };
+  sayPrompt();
+}
+
+/* ---------- 6. Zoek het teken ---------- */
+const GLYPHS=['M10 32 L10 10 L30 10','M6 20 L32 20 M22 10 L32 20 L22 30','M8 10 L32 10 M20 10 L20 32','M12 34 L12 6 L32 13 L12 20','M8 24 A12 12 0 0 1 32 24 M20 24 L20 34'];
+const glyph=g=>`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="${GLYPHS[g.b]}" transform="rotate(${g.r*90} 20 20)" fill="none" stroke="#1B2140" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+function genSearch(){
+  const t={b:rnd(5),r:rnd(4)},has=Math.random()<.5,same=(x,y)=>x.b===y.b&&x.r===y.r;
+  const row=[];
+  if(Math.random()<.55)row.push({b:t.b,r:(t.r+1+rnd(3))%4});
+  const pool=[];for(let b=0;b<5;b++)for(let r=0;r<4;r++)pool.push({b,r});
+  for(const g of shuffle(pool)){if(row.length>=3)break;if(!same(g,t)&&!row.some(x=>same(x,g)))row.push(g)}
+  if(has)row[rnd(3)]=t;
+  return{t,row:shuffle(row),has};
+}
+function startZoeken(){
+  const TOTAL=45;
+  Object.assign(G,{left:TOTAL,good:0,bad:0,started:true,locked:false});renderDots();
+  setPrompt('Zit het teken erbij? Tik op ja of nee.');
+  stage.innerHTML=`<div class="search"><div class="timer"><div class="track"><div class="bar" id="tbar" style="width:100%"></div></div><b id="tleft">${TOTAL}</b></div>
+    <div class="srow" id="srow"></div><div class="yn"><button class="yes" id="yes">Ja</button><button class="no" id="no">Nee</button></div><p class="lbl" id="scount">0 goed</p></div>`;
+  let cur;
+  const draw=()=>{cur=genSearch();$('#srow').innerHTML=`<div class="target">${glyph(cur.t)}</div><div class="sep"></div>${cur.row.map(g=>`<div class="g">${glyph(g)}</div>`).join('')}`};
+  const answer=yes=>{
+    if(G.left<=0)return;
+    const ok=yes===cur.has,sr=$('#srow');
+    if(ok){G.good++;if(G.good%2===0)addStar()}else G.bad++;
+    sr.classList.remove('ok','no');void sr.offsetWidth;sr.classList.add(ok?'ok':'no');later(()=>sr.classList.remove('ok','no'),220);
+    $('#scount').textContent=`${G.good} goed`;draw();
+  };
+  $('#yes').onclick=()=>answer(true);$('#no').onclick=()=>answer(false);
+  draw();
+  G.interval=setInterval(()=>{
+    G.left--;$('#tleft').textContent=G.left;$('#tbar').style.width=(G.left/TOTAL*100)+'%';
+    if(G.left<=0)finish(`Je had er ${G.good} goed in ${TOTAL} seconden${G.bad?` (en ${G.bad} fout)`:''}. Daarmee verdiende je ${G.earned} ${G.earned===1?'ster':'sterren'}.`);
+  },1000);
+}
+
+/* ---------- confetti ---------- */
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const c=document.createElement('canvas');c.className='confetti';document.body.appendChild(c);
+  const dpr=window.devicePixelRatio||1,w=innerWidth,h=innerHeight;c.width=w*dpr;c.height=h*dpr;
+  const x=c.getContext('2d');x.scale(dpr,dpr);
+  const cols=['#6A4CE0','#E03A2E','#0B8F88','#D9730D','#C93584','#1F6FD1','#FFC83D'];
+  const P=Array.from({length:120},()=>({x:w/2+(Math.random()-.5)*140,y:h*.35,vx:(Math.random()-.5)*13,vy:-Math.random()*13-4,s:7+Math.random()*8,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.3}));
+  let t=0;(function f(){t++;x.clearRect(0,0,w,h);
+    P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
+    if(t<150)requestAnimationFrame(f);else c.remove()})();
+}
+
+renderHome();
+</script>
+
+</html>
