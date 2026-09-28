@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Myrddins Denkspellen</title>
+<title>Myrddins Toverschool</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Cinzel:wght@700;900&display=swap">
 <style>
 :root{
-  --bg:#EAF1FF; --ink:#1B2140; --ink2:#4A5373; --paper:#FFFFFF; --soft:#F3F6FF; --line:#C9D5F0;
-  --violet:#6A4CE0; --red:#E03A2E; --teal:#0B8F88; --orange:#D9730D; --pink:#C93584; --blue:#1F6FD1; --plum:#8E3FB8;
-  --good:#1E9E5A; --goodbg:#E4F6EB; --goodink:#0F5C33; --bad:#E03A2E; --badbg:#FDECEA;
-  --warnbg:#FFF3DC; --warnink:#6B3D00; --sun:#FFC83D;
+  --bg:#0B1026; --ink:#2A1E12; --ink2:#5C4A32; --paper:#F7ECD0; --soft:#FBF4E1; --line:#D9C59A;
+  --violet:#4B3A8F; --red:#A4232F; --teal:#1F6B4E; --orange:#A8620F; --pink:#8A2E6B; --blue:#1E4E8C; --plum:#6B3FA0;
+  --good:#2E7D32; --goodbg:#E3F1DA; --goodink:#1B4D1E; --bad:#B3261E; --badbg:#F8DCD3;
+  --warnbg:#F6E2B8; --warnink:#5E3A00; --sun:#E3B341; --gold:#E3B341; --cream:#F6E7B8;
   --game:var(--violet);
   color-scheme:light;
 }
@@ -21,7 +21,7 @@
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg) radial-gradient(circle at 12% 0,#fff 0,transparent 38%) no-repeat;color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.5;padding:0 16px 56px;min-height:100vh}
 .wrap{max-width:980px;margin:0 auto}
-h1,h2,h3,h4,.display{font-family:"Baloo 2","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
+h1,h2,h3,h4,.display{font-family:"Cinzel","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 button:focus-visible,summary:focus-visible,select:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
@@ -35,7 +35,7 @@ svg{display:block}
 .eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:14px;font-weight:700;color:var(--ink2)}
 h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.starchip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border-radius:999px;padding:6px 18px 6px 12px;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
+.starchip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border-radius:999px;padding:6px 18px 6px 12px;font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
 .starchip svg{width:30px;height:30px}
 .starchip.bump{animation:pop .4s}
 .pill{background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:9px 16px;font-size:16px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
@@ -52,7 +52,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .hero .tag{justify-self:start;background:var(--sun);color:var(--ink);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 12px}
 .hero h2{font-size:clamp(30px,4.6vw,42px);font-weight:800}
 .hero p{font-size:17px;opacity:.96;max-width:54ch}
-.hero .go{background:#fff;color:var(--violet);font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:24px;padding:10px 28px;border-radius:999px;white-space:nowrap;position:relative;z-index:1}
+.hero .go{background:#fff;color:var(--violet);font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:24px;padding:10px 28px;border-radius:999px;white-space:nowrap;position:relative;z-index:1}
 .secthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .secthead h2{font-size:30px;font-weight:800}
 .secthead p{color:var(--ink2);font-size:16px}
@@ -62,14 +62,14 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .card:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(27,33,64,.28)}
 .cicon{width:72px;height:72px;margin-bottom:6px}
 .cicon svg{width:100%;height:100%}
-.cname{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:30px;line-height:1.05}
+.cname{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:30px;line-height:1.05}
 .csub{font-size:17px;opacity:.95}
 .cmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .cstars{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:16px;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px 3px 8px;font-variant-numeric:tabular-nums}
 .cstars svg{width:20px;height:20px}
 
 .parents{margin-top:28px;background:var(--paper);border-radius:20px;padding:6px 22px}
-.parents summary{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer;padding-block:12px}
+.parents summary{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer;padding-block:12px}
 .parents .body{display:grid;gap:12px;padding-bottom:18px;max-width:70ch;color:var(--ink2);font-size:17px}
 .parents ul{margin:0;padding-left:20px;display:grid;gap:6px}
 .parents b{color:var(--ink)}
@@ -92,7 +92,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .steps i.ok{background:var(--good)}
 .steps i.cur{background:var(--game);width:36px}
 .lvl{display:inline-flex;align-items:center;gap:10px;background:var(--paper);border-radius:999px;padding:6px 16px;font-weight:700;font-size:16px;color:var(--ink2)}
-.lvl b{font-family:"Baloo 2",system-ui,sans-serif;font-size:24px;color:var(--game);line-height:1}
+.lvl b{font-family:"Cinzel",system-ui,sans-serif;font-size:24px;color:var(--game);line-height:1}
 .ladder{display:flex;gap:2px;align-items:flex-end;height:22px}
 .ladder i{width:5px;border-radius:2px;background:var(--line)}
 .ladder i.on{background:var(--game)}
@@ -110,7 +110,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .intro h3,.done h3{font-size:clamp(34px,6vw,48px);font-weight:800}
 .lead{font-size:clamp(20px,2.6vw,24px);max-width:36ch}
 .btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center}
-.big{background:var(--game);color:#fff;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:28px;padding:10px 38px;border-radius:999px;box-shadow:0 5px 0 rgba(27,33,64,.28)}
+.big{background:var(--game);color:#fff;font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:28px;padding:10px 38px;border-radius:999px;box-shadow:0 5px 0 rgba(27,33,64,.28)}
 .big:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(27,33,64,.28)}
 .big.alt{background:var(--paper);color:var(--game);border:3px solid var(--game)}
 .big small{display:block;font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.2;margin-bottom:4px}
@@ -121,7 +121,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .testnote{background:var(--soft);border:2px dashed var(--line);border-radius:16px;padding:10px 16px;font-size:17px;color:var(--ink2);max-width:52ch}
 .row{display:flex;gap:12px;flex-wrap:wrap}
 .center{justify-content:center}
-.ask{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(22px,3vw,28px);text-align:center;margin-block:18px 14px}
+.ask{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:clamp(22px,3vw,28px);text-align:center;margin-block:18px 14px}
 .lbl{text-transform:uppercase;letter-spacing:.08em;font-size:14px;font-weight:700;color:var(--ink2);text-align:center}
 .hint{text-align:center;color:var(--ink2);margin-block:14px 10px}
 
@@ -136,7 +136,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .fb.bad{background:var(--warnbg);color:var(--warnink)}
 .fb.neutral{background:var(--soft);color:var(--ink2);justify-content:center}
 .fb .msg{display:grid;gap:2px}
-.fb strong{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:28px;line-height:1.1}
+.fb strong{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:28px;line-height:1.1}
 .fb .next{background:var(--game);color:#fff;font-weight:700;padding:10px 24px;border-radius:999px;font-size:19px}
 .pop{animation:pop .4s ease}
 @keyframes pop{50%{transform:scale(1.07)}}
@@ -148,7 +148,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .cell{aspect-ratio:1;background:var(--soft);border:2px solid var(--line);border-radius:14px;display:grid;place-items:center;max-width:100%}
 .cell svg{width:88%;height:88%}
 .cell.miss{border:3px dashed var(--game);background:var(--paper)}
-.cell.miss span{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(40px,9vw,64px);color:var(--game)}
+.cell.miss span{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:clamp(40px,9vw,64px);color:var(--game)}
 .cell.good{border:4px solid var(--good);background:var(--goodbg)}
 .cell.bad{border:4px solid var(--bad);background:var(--badbg)}
 .opts{display:grid;grid-template-columns:repeat(var(--oc,4),1fr);gap:12px;width:min(100%,calc(var(--oc,4)*140px));margin:0 auto}
@@ -182,22 +182,22 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 
 /* keypad */
 .kpShow{min-height:72px;display:flex;gap:8px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
-.kpShow span{width:52px;height:64px;display:grid;place-items:center;border-bottom:5px solid var(--game);font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:44px;font-variant-numeric:tabular-nums}
+.kpShow span{width:52px;height:64px;display:grid;place-items:center;border-bottom:5px solid var(--game);font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:44px;font-variant-numeric:tabular-nums}
 .kpShow em{color:var(--ink2);font-style:normal;align-self:center}
 .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(100%,330px);margin:0 auto}
-.key{height:66px;border-radius:16px;background:var(--soft);border:2px solid var(--line);font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:32px}
+.key{height:66px;border-radius:16px;background:var(--soft);border:2px solid var(--line);font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:32px}
 .key:active{transform:translateY(2px)}
 .key.alt{font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:18px;font-weight:700;color:var(--ink2)}
 .key.ok{background:var(--game);border-color:var(--game);color:#fff;font-size:24px}
 
 /* onthouden */
 .span{display:grid;justify-items:center;gap:14px}
-.bigdigit{width:min(60vw,220px);aspect-ratio:1;border-radius:50%;background:var(--game);color:#fff;display:grid;place-items:center;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;margin-block:10px}
+.bigdigit{width:min(60vw,220px);aspect-ratio:1;border-radius:50%;background:var(--game);color:#fff;display:grid;place-items:center;font-family:"Cinzel",system-ui,sans-serif;font-weight:800;margin-block:10px}
 .bigdigit span{font-size:24px}
 .bigdigit .d{font-size:clamp(90px,20vw,150px);line-height:1}
 .bigdigit .pulse{width:48px;height:48px;border-radius:50%;background:#fff;animation:pulse .9s ease-out}
 @keyframes pulse{from{transform:scale(.4);opacity:.3}to{transform:scale(1);opacity:1}}
-.example{display:flex;gap:18px;align-items:center;justify-content:center;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:36px}
+.example{display:flex;gap:18px;align-items:center;justify-content:center;font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:36px}
 .example span{background:var(--soft);border-radius:14px;padding:2px 16px}
 .example svg{width:36px;height:36px;color:var(--game)}
 
@@ -209,15 +209,15 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 
 /* lijken */
 .pair{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin-block:8px 6px}
-.word{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(36px,7vw,58px);padding:6px 26px;border-radius:20px;background:color-mix(in srgb,var(--game) 12%,#fff);color:var(--game)}
-.amp{font-family:"Baloo 2",system-ui,sans-serif;font-size:36px;color:var(--ink2)}
+.word{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:clamp(36px,7vw,58px);padding:6px 26px;border-radius:20px;background:color-mix(in srgb,var(--game) 12%,#fff);color:var(--game)}
+.amp{font-family:"Cinzel",system-ui,sans-serif;font-size:36px;color:var(--ink2)}
 .answers{max-width:660px;margin:18px auto 0;display:grid;gap:10px}
 .ans{background:var(--soft);border-radius:16px;padding:12px 18px}
 .ans h4{font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);font-family:"Atkinson Hyperlegible",system-ui,sans-serif}
 .ans p{font-size:21px}
 .grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
 .grade button{padding:10px 12px;border-radius:18px;font-weight:700;font-size:17px;line-height:1.25;border:2px solid var(--line);background:var(--paper);color:var(--ink2)}
-.grade button b{display:block;font-family:"Baloo 2",system-ui,sans-serif;font-size:26px;color:var(--ink)}
+.grade button b{display:block;font-family:"Cinzel",system-ui,sans-serif;font-size:26px;color:var(--ink)}
 .grade .g2{background:var(--good);border-color:var(--good);color:#fff}
 .grade .g2 b{color:#fff}
 .grade .g1{background:#E8F0FF;border-color:#B9CDF5}
@@ -228,7 +228,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .timer{width:min(100%,560px);display:flex;align-items:center;gap:12px}
 .track{flex:1;height:16px;border-radius:999px;background:var(--soft);border:2px solid var(--line);overflow:hidden}
 .bar{height:100%;background:var(--game);transition:width 1s linear}
-.timer b{font-family:"Baloo 2",system-ui,sans-serif;font-size:30px;min-width:2.2ch;text-align:right;font-variant-numeric:tabular-nums}
+.timer b{font-family:"Cinzel",system-ui,sans-serif;font-size:30px;min-width:2.2ch;text-align:right;font-variant-numeric:tabular-nums}
 .srow{display:flex;align-items:center;gap:10px;justify-content:center;padding:12px;border-radius:20px;transition:background .15s;flex-wrap:nowrap;max-width:100%}
 .srow.ok{background:var(--goodbg)}
 .srow.no{background:var(--badbg)}
@@ -240,7 +240,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .target svg,.g svg{width:78%;height:78%}
 .sep{width:4px;align-self:stretch;background:var(--line);border-radius:2px;flex:none}
 .yn{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(100%,520px)}
-.yn button{height:84px;border-radius:22px;color:#fff;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:36px;box-shadow:0 5px 0 rgba(27,33,64,.25)}
+.yn button{height:84px;border-radius:22px;color:#fff;font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:36px;box-shadow:0 5px 0 rgba(27,33,64,.25)}
 .yn button:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(27,33,64,.25)}
 .yn .yes{background:var(--good)}
 .yn .no{background:var(--bad)}
@@ -267,8 +267,8 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .report{display:grid;gap:22px}
 .iqcard{display:grid;justify-items:center;text-align:center;gap:6px}
 .iqcard .lbl{margin-bottom:2px}
-.iqbig{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(76px,15vw,128px);line-height:.95;color:var(--violet);font-variant-numeric:tabular-nums}
-.iqcls{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:26px}
+.iqbig{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:clamp(76px,15vw,128px);line-height:.95;color:var(--violet);font-variant-numeric:tabular-nums}
+.iqcls{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:26px}
 .iqband{color:var(--ink2)}
 .bell{width:min(100%,640px);margin:0 auto}
 .bell svg{width:100%;height:auto}
@@ -281,11 +281,11 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .strack{position:relative;height:26px;border-radius:13px;background:linear-gradient(90deg,#FDECEA 0%,#F3F6FF 28%,#F3F6FF 72%,#E4F6EB 100%);border:2px solid var(--line)}
 .strack .mid{position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:var(--ink2);opacity:.5}
 .strack .pt{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--c);border:3px solid #fff;box-shadow:0 0 0 2px var(--ink);transform:translate(-50%,-50%)}
-.subrow .sv{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:24px;text-align:right;font-variant-numeric:tabular-nums}
+.subrow .sv{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:24px;text-align:right;font-variant-numeric:tabular-nums}
 .subrow.skip{opacity:.5}
 .scale-legend{display:grid;grid-template-columns:minmax(120px,190px) 1fr 70px;gap:12px;font-size:13px;color:var(--ink2)}
 .scale-legend span:nth-child(2){display:flex;justify-content:space-between}
-.basis h4{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:20px;color:var(--ink);margin-top:6px}
+.basis h4{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:20px;color:var(--ink);margin-top:6px}
 .basis ol{margin:0;padding-left:22px;display:grid;gap:6px}
 .twrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .btable{width:100%;border-collapse:collapse;font-size:15px;min-width:520px}
@@ -293,12 +293,12 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .btable th{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
 .btable td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
 .formula{font-family:ui-monospace,Consolas,monospace;font-size:15px;background:var(--soft);border-radius:10px;padding:8px 12px;color:var(--ink)}
-.box details summary{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer}
+.box details summary{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer}
 .box details .basis{display:grid;gap:12px;margin-top:10px;color:var(--ink2);font-size:16px}
 .hist{width:100%;border-collapse:collapse;font-size:16px}
 .hist th,.hist td{padding:8px 10px;border-bottom:2px solid var(--soft);text-align:left}
 .hist th{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
-.hist td.n{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px}
+.hist td.n{font-family:"Cinzel",system-ui,sans-serif;font-weight:800;font-size:22px}
 .box{background:var(--soft);border-radius:18px;padding:16px 20px;display:grid;gap:10px}
 .box h4{font-size:22px}
 @media (max-width:560px){
@@ -320,6 +320,49 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
   .board,.myboard{width:min(42vw,250px)}
   .wopts{grid-template-columns:repeat(2,1fr)}
 }
+/* ===== thema: toverschool ===== */
+body{background:var(--bg)}
+.sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 115%,#3B2A6B 0%,transparent 60%),linear-gradient(180deg,#060A1C 0%,#121840 55%,#22184A 100%)}
+.sky .stars{position:absolute;inset:0;
+  background-image:radial-gradient(1.6px 1.6px at 12% 18%,#fff 50%,transparent 52%),radial-gradient(1.2px 1.2px at 32% 64%,#fff 50%,transparent 52%),radial-gradient(2px 2px at 58% 30%,#FFF3C4 50%,transparent 52%),radial-gradient(1.2px 1.2px at 78% 72%,#fff 50%,transparent 52%),radial-gradient(1.5px 1.5px at 90% 12%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 45% 88%,#fff 50%,transparent 52%);
+  background-size:340px 340px;animation:twinkle 5s ease-in-out infinite alternate}
+.sky .stars.b{background-size:530px 530px;background-position:120px 70px;animation-delay:-2.5s}
+@keyframes twinkle{from{opacity:.35}to{opacity:.95}}
+.sky .moon{position:absolute;top:34px;right:7%;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 36% 34%,#FFF8DC,#EADB9F 62%,#CDB874);box-shadow:0 0 70px 24px rgba(255,236,170,.22)}
+@media (max-width:760px){.sky .moon{width:64px;height:64px;top:-22px;right:-22px}}
+.sky .castle{position:absolute;left:0;bottom:0;width:100%;height:34vh;min-height:160px}
+.eyebrow{color:#E9D9A8}
+h1{color:var(--cream);font-size:clamp(28px,5.4vw,52px);text-shadow:0 2px 0 #000,0 0 26px rgba(227,179,65,.45)}
+.brand svg{width:70px;height:70px}
+.secthead h2{color:var(--cream)}
+.secthead p{color:#CFC3A0}
+.playbar h2{min-width:auto;font-size:clamp(22px,3.8vw,36px);color:var(--cream);text-shadow:0 0 18px color-mix(in srgb,var(--game) 80%,transparent),0 2px 0 #000}
+.pill,.back,.starchip{background:var(--paper);border:2px solid var(--gold);color:var(--ink)}
+.lvl{background:var(--paper);border:2px solid var(--gold)}
+.say{border:2px solid var(--gold)}
+.parchment,.stage,.parents{background:radial-gradient(ellipse at 50% 40%,#FBF2D8 0%,#F4E4BC 70%,#EAD39F 100%)}
+.stage{border:3px solid var(--gold);border-top:10px solid var(--game);box-shadow:0 22px 44px -22px rgba(0,0,0,.9),inset 0 0 70px rgba(150,105,35,.2)}
+.parents{border:2px solid var(--gold);box-shadow:inset 0 0 50px rgba(150,105,35,.15)}
+.hero{background:linear-gradient(120deg,#3A1E5C 0%,#1B2A5C 100%);border:3px solid var(--gold);box-shadow:0 8px 0 rgba(0,0,0,.5),0 0 44px -12px rgba(227,179,65,.6)}
+.hero:hover{box-shadow:0 11px 0 rgba(0,0,0,.5),0 0 54px -8px rgba(227,179,65,.75)}
+.hero::after{background:radial-gradient(circle,rgba(227,179,65,.25),transparent 70%)}
+.hero h2{color:var(--cream)}
+.hero .go{background:var(--gold);color:#2A1E12}
+.card{border:3px solid rgba(227,179,65,.8);background:linear-gradient(165deg,var(--c) 0%,color-mix(in srgb,var(--c) 62%,#000) 100%);box-shadow:0 7px 0 rgba(0,0,0,.5)}
+.card:hover{box-shadow:0 10px 0 rgba(0,0,0,.5),0 0 28px -6px rgba(227,179,65,.7)}
+.card:active{box-shadow:0 3px 0 rgba(0,0,0,.5)}
+.cname{text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.cstars{background:rgba(0,0,0,.25);border:1px solid rgba(227,179,65,.6)}
+.bigicon{border:4px solid var(--gold);box-shadow:0 0 30px -4px rgba(227,179,65,.7)}
+.big{border:2px solid var(--gold)}
+.cell,.opt,.wopt,.scalebox,.key,.story,.ans,.hrow,.box,.target,.g{background-color:#FFFaEc}
+.hrow.next{background:#FFFaEc}
+.fb.half{background:#E6E3F4;color:#2E2466}
+.done svg.bigstar{filter:drop-shadow(0 0 18px rgba(227,179,65,.8))}
+.sparkle{position:fixed;pointer-events:none;z-index:60;width:14px;height:14px;color:var(--gold);animation:spark .8s ease-out forwards}
+@keyframes spark{from{opacity:1;transform:translate(-50%,-50%) scale(.4) rotate(0)}to{opacity:0;transform:translate(-50%,-50%) scale(1.6) rotate(90deg)}}
+
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
 }
@@ -327,17 +370,39 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 
 </head>
 <body>
+<div class="sky" aria-hidden="true">
+  <div class="stars"></div><div class="stars b"></div><div class="moon"></div>
+  <svg class="castle" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="#0A0E28" d="M0 300V238Q180 200 360 226T720 214T1200 232V300Z"/>
+    <g fill="#0C1130">
+      <rect x="400" y="170" width="44" height="70"/><polygon points="392,170 422,112 452,170"/>
+      <rect x="450" y="120" width="64" height="120"/><polygon points="442,120 482,34 522,120"/>
+      <path d="M514 150h150v90H514z M514 150v-14h14v14h14v-14h14v14h14v-14h14v14h14v-14h14v14h14v-14h14v14h14v-14h14v14h12v-14h10v14z"/>
+      <rect x="664" y="96" width="54" height="144"/><polygon points="656,96 691,6 726,96"/>
+      <rect x="724" y="150" width="46" height="90"/><polygon points="718,150 747,96 776,150"/>
+      <rect x="780" y="186" width="34" height="54"/><polygon points="775,186 797,150 819,186"/>
+    </g>
+    <g fill="#F2C75C" opacity=".9">
+      <rect x="476" y="140" width="8" height="14" rx="4"/><rect x="476" y="176" width="8" height="14" rx="4"/>
+      <rect x="686" y="120" width="9" height="16" rx="4.5"/><rect x="686" y="160" width="9" height="16" rx="4.5"/><rect x="686" y="200" width="9" height="16" rx="4.5"/>
+      <rect x="560" y="176" width="8" height="12" rx="4"/><rect x="600" y="176" width="8" height="12" rx="4"/><rect x="640" y="176" width="8" height="12" rx="4"/>
+      <rect x="418" y="190" width="7" height="12" rx="3.5"/><rect x="743" y="170" width="7" height="12" rx="3.5"/>
+    </g>
+  </svg>
+</div>
 <div class="wrap">
   <header class="top">
     <div class="brand">
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="20" cy="22" r="14" fill="#6A4CE0" stroke="#1B2140" stroke-width="3"/>
-        <rect x="32" y="10" width="24" height="24" rx="4" fill="#E03A2E" stroke="#1B2140" stroke-width="3"/>
-        <polygon points="32,36 50,60 14,60" fill="#FFC83D" stroke="#1B2140" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M33 4C28 14 22 30 17 46h32C45 33 42 22 44 14c-4 1-8-3-11-10z" fill="#3A1E5C" stroke="#E3B341" stroke-width="2.5" stroke-linejoin="round"/>
+        <ellipse cx="32" cy="48" rx="28" ry="8" fill="#2A1846" stroke="#E3B341" stroke-width="2.5"/>
+        <path d="M18.5 41.5h29" stroke="#E3B341" stroke-width="4"/>
+        <polygon points="31,20 33,25 38,25 34,28 35.5,33 31,30 26.5,33 28,28 24,25 29,25" fill="#F6E7B8"/>
+        <circle cx="39" cy="34" r="1.6" fill="#F6E7B8"/><circle cx="24" cy="36" r="1.2" fill="#F6E7B8"/>
       </svg>
       <div>
-        <p class="eyebrow">Oefenen voor de puzzeldag bij Ponte</p>
-        <h1>Denkspellen van Myrddin</h1>
+        <p class="eyebrow">Toverlessen voor de puzzeldag bij Ponte</p>
+        <h1>Myrddins Toverschool</h1>
       </div>
     </div>
     <div class="tools">
@@ -349,20 +414,21 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
   <main id="home">
     <button class="hero" id="heroBtn">
       <svg class="hicon" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.16)"/>
-        <path d="M50 18c-15 0-26 10-26 24 0 8 4 14 9 18v12h34V60c5-4 9-10 9-18 0-14-11-24-26-24z" fill="#fff" stroke="#1B2140" stroke-width="3.5" stroke-linejoin="round"/>
-        <rect x="36" y="74" width="28" height="9" rx="4" fill="#FFC83D" stroke="#1B2140" stroke-width="3.5"/>
-        <path d="M42 50l6 6 12-14" fill="none" stroke="#6A4CE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.07)" stroke="#E3B341" stroke-width="2"/>
+        <path d="M24 80L64 40" stroke="#4A2E17" stroke-width="10" stroke-linecap="round"/>
+        <path d="M56 48l8-8" stroke="#F6E7B8" stroke-width="10" stroke-linecap="round"/>
+        <polygon points="72,14 75.5,24 86,24 77.5,30.5 80.5,41 72,34.5 63.5,41 66.5,30.5 58,24 68.5,24" fill="#E3B341" stroke="#F6E7B8" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M44 22v8M40 26h8M86 52v6M83 55h6M30 44v5M27.5 46.5h5" stroke="#F6E7B8" stroke-width="2.5" stroke-linecap="round"/>
       </svg>
       <span class="htxt">
-        <span class="tag">Nieuw</span>
-        <h2>De grote denktest</h2>
-        <p>Zeven onderdelen, net als bij een echte test: het wordt steeds moeilijker en stopt vanzelf als het te moeilijk wordt. Aan het eind een uitslag voor papa en mama.</p>
+        <span class="tag">Examen</span>
+        <h2>Het grote tovenaarsexamen</h2>
+        <p>Zeven vakken, net als bij een echte test: het wordt steeds moeilijker en stopt vanzelf als het te moeilijk wordt. Aan het eind een uitslag voor papa en mama.</p>
       </span>
       <span class="go" id="heroGo">Begin</span>
     </button>
 
-    <div class="secthead"><h2>Oefenen</h2><p>Goed? Dan wordt het moeilijker. Fout? Dan iets makkelijker.</p></div>
+    <div class="secthead"><h2>Toverlessen</h2><p>Goed? Dan wordt de spreuk moeilijker. Fout? Dan iets makkelijker.</p></div>
     <section class="games" id="gameGrid" aria-label="Kies een spel"></section>
 
     <details class="parents">
@@ -372,7 +438,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
         <ul>
           <li><b>Eigen opgaven, geen echte testvragen.</b> Alle puzzels zijn zelf gemaakt of worden willekeurig gegenereerd.</li>
           <li><b>Oefenen past zich aan.</b> Elk spel heeft niveaus. Goed antwoord: een niveau omhoog. Fout: een niveau omlaag. Het spel onthoudt ongeveer waar je bleef.</li>
-          <li><b>De grote denktest</b> werkt zoals een echte test: startniveau op basis van de leeftijd, terugzakken als de eerste opgaven niet lukken, stoppen na drie fouten op rij. Het kind ziet tijdens de test niet of iets goed of fout is.</li>
+          <li><b>Het tovenaarsexamen</b> werkt zoals een echte test: startniveau op basis van de leeftijd, terugzakken als de eerste opgaven niet lukken, stoppen na drie fouten op rij. Het kind ziet tijdens de test niet of iets goed of fout is.</li>
           <li><b>Het speel-IQ is een schatting, geen echte IQ-score.</b> De opgaven en de vergelijking met leeftijdgenoten zijn niet wetenschappelijk genormeerd. Zie het als een spelletje en vertel het getal liever niet aan je kind.</li>
           <li><b>Niet stampen.</b> De echte test meet hoe een kind met nieuwe opgaven omgaat. Veel oefenen kan de uitslag vertekenen. Een paar korte rondes als spel is genoeg.</li>
           <li><b>Ogen sparen.</b> Grote vormen, weinig tekst, voorlezen staat aan. Speel kort (zo'n 10 minuten) en neem pauze bij vermoeide ogen. De test mag je in stukjes doen.</li>
@@ -428,7 +494,7 @@ const W='stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="
 const ICONS={
   patronen:`<svg viewBox="0 0 64 64" aria-hidden="true">${[0,1,2].map(r=>[0,1,2].map(c=>r===2&&c===2?`<rect x="${6+c*19}" y="${6+r*19}" width="14" height="14" rx="3" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 3"/>`:`<rect x="${6+c*19}" y="${6+r*19}" width="14" height="14" rx="3" fill="#fff"/>`).join('')).join('')}</svg>`,
   blokken:`<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" fill="none" ${W}/><polygon points="6,6 32,6 6,32" fill="#fff"/><rect x="32" y="6" width="26" height="26" fill="#fff"/><polygon points="58,32 58,58 32,58" fill="#fff"/><polygon points="6,32 32,58 6,58" fill="#fff"/></svg>`,
-  onthouden:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="13" cy="32" r="10" fill="#fff"/><circle cx="32" cy="32" r="10" fill="#fff"/><circle cx="51" cy="32" r="10" fill="#fff"/><text x="13" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">4</text><text x="32" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">7</text><text x="51" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">2</text></svg>`,
+  onthouden:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="13" cy="32" r="10" fill="#fff"/><circle cx="32" cy="32" r="10" fill="#fff"/><circle cx="51" cy="32" r="10" fill="#fff"/><text x="13" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Cinzel, serif">4</text><text x="32" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Cinzel, serif">7</text><text x="51" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Cinzel, serif">2</text></svg>`,
   rekenen:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 8v20M6 18h20M40 18h18M11 42l12 12M23 42L11 54M40 44h18M40 52h18" fill="none" ${W}/></svg>`,
   lijken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="24" cy="32" r="17" fill="none" ${W}/><circle cx="40" cy="32" r="17" fill="none" ${W}/><path d="M32 18a17 17 0 0 1 0 28a17 17 0 0 1 0-28z" fill="#fff"/></svg>`,
   zoeken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="27" cy="27" r="16" fill="none" ${W} stroke-width="5"/><path d="M39 39l16 16" ${W} stroke-width="7"/></svg>`,
@@ -474,29 +540,29 @@ function updateStars(bump){
 function addStar(n=1){stars[G.def.id]=(stars[G.def.id]||0)+n;store.set('stars',stars);G.earned+=n;updateStars(true)}
 
 const GAMES=[
-  {id:'blokken',name:'Blokken',sub:'Maak het voorbeeld precies na',color:'var(--red)',kind:'ladder',
+  {id:'blokken',name:'Toverblokken',sub:'Tover het voorbeeld precies na',color:'var(--red)',kind:'ladder',
    intro:'Tik op de blokjes om ze te draaien. Maak precies hetzelfde patroon als het voorbeeld.',
    item:itemBlok,start:[2,.6],norm:[4,.7,2]},
   {id:'lijken',name:'Wat lijkt erop?',sub:'Wat hebben twee dingen samen?',color:'var(--pink)',kind:'ladder',full:2,
    intro:'Ik noem twee dingen. Bedenk hoe ze op elkaar lijken en zeg het hardop.',
    item:itemLijk,start:[2,.8],norm:[8,2.4,4]},
-  {id:'patronen',name:'Patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',kind:'ladder',
-   intro:'Kijk goed naar de plaatjes. Er mist er één. Welk plaatje hoort op de lege plek?',
+  {id:'patronen',name:'Magische patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',kind:'ladder',
+   intro:'Een van de magische plaatjes is verdwenen! Welk plaatje hoort op de lege plek?',
    item:itemPatroon,start:[2,.8],norm:[5,1.1,2.6]},
-  {id:'onthouden',name:'Cijfers onthouden',sub:'Luister goed en tik ze na',color:'var(--teal)',kind:'span',
-   intro:'Ik zeg een paar cijfers. Luister goed. Daarna tik jij ze in.',norm:[7,.75,1.8]},
-  {id:'weegschaal',name:'Weegschaal',sub:'Wat maakt het weer in evenwicht?',color:'var(--plum)',kind:'ladder',
+  {id:'onthouden',name:'Toverformules',sub:'Onthoud de geheime cijfers',color:'var(--teal)',kind:'span',
+   intro:'Ik fluister een geheime toverformule van cijfers. Luister goed. Daarna tik jij hem in.',norm:[7,.75,1.8]},
+  {id:'weegschaal',name:'Toverweegschaal',sub:'Wat maakt het weer in evenwicht?',color:'var(--plum)',kind:'ladder',
    intro:'Deze weegschalen zijn in evenwicht: links is even zwaar als rechts. Welke vormen maken de laatste weegschaal ook recht?',
    item:itemWeeg,start:[2,.7],norm:[4,1,2.3]},
-  {id:'rekenen',name:'Rekenen',sub:'Sommen in een verhaaltje',color:'var(--orange)',kind:'ladder',
-   intro:'Ik vertel een kort verhaaltje met een som. Reken het uit in je hoofd en tik het antwoord in.',
+  {id:'rekenen',name:'Toverrekenen',sub:'Sommen uit het toverboek',color:'var(--orange)',kind:'ladder',
+   intro:'Ik lees een som voor uit het toverboek. Reken het uit in je hoofd en tik het antwoord in.',
    item:itemReken,start:[3,.9],norm:[6,1.2,2.6]},
-  {id:'zoeken',name:'Zoek het teken',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',kind:'speed',
-   intro:'Kijk naar het teken links. Zit precies hetzelfde teken in de rij? Tik op ja of nee. Zo snel als je kunt!',norm:[8,2.4,4]}
+  {id:'zoeken',name:'Zoek de rune',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',kind:'speed',
+   intro:'Kijk naar de rune links. Zit precies dezelfde rune in de rij? Tik op ja of nee. Zo snel als je kunt!',norm:[8,2.4,4]}
 ];
 const GD=id=>GAMES.find(g=>g.id===id);
 const ORDER=GAMES.map(g=>g.id);
-const TESTNOTE='Dit is de test. Je ziet niet of je antwoord goed is, net als bij de echte puzzeldag. Het wordt steeds moeilijker en stopt vanzelf. Gewoon je best doen!';
+const TESTNOTE='Dit is het examen. Je ziet niet of je antwoord goed is, net als bij de echte puzzeldag. Het wordt steeds moeilijker en stopt vanzelf. Gewoon je best doen!';
 
 function show(v){view=v;home.hidden=v!=='home';play.hidden=v==='home';window.scrollTo(0,0)}
 function goHome(){clearTimers();G=null;show('home');renderHome()}
@@ -576,7 +642,7 @@ function showIntro(){
   sayPrompt();
 }
 
-const PRAISE=['Goed zo!','Super!','Knap gedaan!','Helemaal goed!','Yes!','Top!'];
+const PRAISE=['Magisch!','Betoverend!','Knap getoverd!','Helemaal goed!','Tovenaarswerk!','Wauw!'];
 function showFeedback(kind,msg,onNext){
   const fb=document.createElement('div');
   fb.className='fb '+kind;
@@ -596,7 +662,7 @@ function finish(line){
   const n=G.earned;
   G.started=false;renderBar();
   stage.innerHTML=`<div class="done">${STAR.replace('<svg','<svg class="bigstar"')}<h3>Klaar!</h3><p class="lead">${line||`Je hebt ${n} ${n===1?'ster':'sterren'} verdiend.`}</p>
-    <div class="btns"><button class="big" id="again">Nog een keer</button><button class="big alt" id="menu">Ander spel</button></div></div>`;
+    <div class="btns"><button class="big" id="again">Nog een keer</button><button class="big alt" id="menu">Andere les</button></div></div>`;
   $('#again').onclick=()=>openGame(G.def.id,false);
   $('#menu').onclick=goHome;
   speak('Klaar! Goed gedaan.');
@@ -826,7 +892,7 @@ function scaleSVG(l,r,look){
     <rect x="14" y="${by}" width="292" height="9" rx="4.5" fill="#1B2140"/>
     <circle cx="160" cy="${by+4.5}" r="7" fill="#FFC83D" stroke="#1B2140" stroke-width="3"/>
     ${pile(l,look,85,by)}
-    ${r==null?`<text x="235" y="${by-16}" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="60" style="fill:var(--game)">?</text>`:pile(r,look,235,by)}
+    ${r==null?`<text x="235" y="${by-16}" text-anchor="middle" font-family="Cinzel, serif" font-weight="800" font-size="60" style="fill:var(--game)">?</text>`:pile(r,look,235,by)}
   </svg>`;
 }
 function optSVG(s,look){const rows=Math.ceil(s.length/4);return `<svg viewBox="0 0 140 ${rows*31+10}" aria-hidden="true">${pile(s,look,70,rows*31+6)}</svg>`}
@@ -967,24 +1033,24 @@ const two=()=>{const p=pick(NAMES);return[p,pick(NAMES.filter(x=>x!==p))]};
 const RK=[
  ()=>{const n=R(3,5);return{t:'Hoeveel sterren zie je?',a:n,pic:n}},
  ()=>{const n=R(6,10);return{t:'Tel goed: hoeveel sterren zie je?',a:n,pic:n}},
- ()=>{const a=R(2,5),b=R(1,3),p=pick(NAMES);return{t:`${p} heeft ${a} knikkers en krijgt er ${b} bij. Hoeveel knikkers zijn het nu?`,a:a+b}},
- ()=>{const a=R(6,9),b=R(2,4);return{t:`Er zitten ${a} vogels in een boom. Er vliegen er ${b} weg. Hoeveel vogels zitten er nog?`,a:a-b}},
- ()=>{const a=R(5,9),b=R(4,9);return{t:`Op tafel liggen ${a} rode blokken en ${b} blauwe blokken. Hoeveel blokken zijn het samen?`,a:a+b}},
- ()=>{const a=R(11,18),b=R(3,8);return{t:`Je hebt ${a} ballonnen. Er knappen er ${b}. Hoeveel ballonnen heb je nog?`,a:a-b}},
- ()=>{const a=R(3,9),p=pick(NAMES);return{t:`${p} heeft ${2*a} stickers en geeft de helft weg. Hoeveel stickers houdt ${p} zelf?`,a}},
- ()=>{const a=R(2,5),b=R(2,5);return{t:`Er liggen ${a} zakjes. In elk zakje zitten ${b} snoepjes. Hoeveel snoepjes zijn het samen?`,a:a*b}},
- ()=>{const a=R(2,4);return{t:`Een spin heeft 8 poten. Hoeveel poten hebben ${a} spinnen samen?`,a:8*a}},
- ()=>{const k=R(3,5),e=R(3,6);return{t:`Je verdeelt ${k*e} appels eerlijk over ${k} kinderen. Hoeveel appels krijgt elk kind?`,a:e}},
- ()=>{const a=R(15,25),b=R(2,5),c=R(6,9);return{t:`Je hebt ${a} euro. Je koopt een ijsje van ${b} euro en een boek van ${c} euro. Hoeveel euro houd je over?`,a:a-b-c,u:'euro'}},
- ()=>{const a=R(10,20),b=R(2,6),c=R(2,6);return{t:`In de bus zitten ${a} mensen. Bij de halte stappen er ${b} uit en ${c} in. Hoeveel mensen zitten er nu in de bus?`,a:a-b+c}},
- ()=>{const r=R(2,4),k=R(3,6),g=R(1,3);return{t:`Een doos heeft ${r} rijen van ${k} eieren. Er zijn ${g} eieren gebroken. Hoeveel eieren zijn er nog heel?`,a:r*k-g}},
+ ()=>{const a=R(2,5),b=R(1,3),p=pick(NAMES);return{t:`${p} heeft ${a} toverstokken en krijgt er ${b} bij. Hoeveel toverstokken zijn het nu?`,a:a+b}},
+ ()=>{const a=R(6,9),b=R(2,4);return{t:`Er zitten ${a} uilen op de toren. Er vliegen er ${b} weg. Hoeveel uilen zitten er nog?`,a:a-b}},
+ ()=>{const a=R(5,9),b=R(4,9);return{t:`Op de plank staan ${a} rode drankjes en ${b} blauwe drankjes. Hoeveel drankjes zijn het samen?`,a:a+b}},
+ ()=>{const a=R(11,18),b=R(3,8);return{t:`In de zaal branden ${a} kaarsen. Er waaien er ${b} uit. Hoeveel kaarsen branden er nog?`,a:a-b}},
+ ()=>{const a=R(3,9),p=pick(NAMES);return{t:`${p} heeft ${2*a} toverkaarten en geeft de helft weg. Hoeveel kaarten houdt ${p} zelf?`,a}},
+ ()=>{const a=R(2,5),b=R(2,5);return{t:`Er liggen ${a} zakjes. In elk zakje zitten ${b} toversnoepjes. Hoeveel snoepjes zijn het samen?`,a:a*b}},
+ ()=>{const a=R(2,4);return{t:`Een reuzenspin heeft 8 poten. Hoeveel poten hebben ${a} reuzenspinnen samen?`,a:8*a}},
+ ()=>{const k=R(3,5),e=R(3,6);return{t:`Je verdeelt ${k*e} toverbonen eerlijk over ${k} leerlingen. Hoeveel bonen krijgt elke leerling?`,a:e}},
+ ()=>{const a=R(15,25),b=R(2,5),c=R(6,9);return{t:`Je hebt ${a} goudstukken. Je koopt een uilenveer van ${b} goudstukken en een spreukenboek van ${c} goudstukken. Hoeveel goudstukken houd je over?`,a:a-b-c,u:'goudstukken'}},
+ ()=>{const a=R(10,20),b=R(2,6),c=R(2,6);return{t:`In de vliegende koets zitten ${a} leerlingen. Bij het kasteel stappen er ${b} uit en ${c} in. Hoeveel leerlingen zitten er nu in de koets?`,a:a-b+c}},
+ ()=>{const r=R(2,4),k=R(3,6),g=R(1,3);return{t:`Een nest heeft ${r} rijen van ${k} drakeneieren. Er zijn er ${g} uitgekomen. Hoeveel eieren zijn er nog niet uitgekomen?`,a:r*k-g}},
  ()=>{const b=R(5,9),d=R(2,4),y=R(2,5),[p,q]=two();return{t:`${p} is ${d} jaar ouder dan ${q}. ${q} is ${b} jaar. Hoe oud is ${p} over ${y} jaar?`,a:b+d+y,u:'jaar'}},
- ()=>{const s=pick([8,12,16]);return{t:`Een pizza heeft ${s} stukken. Jullie eten een kwart van de pizza op. Hoeveel stukken blijven er over?`,a:s*3/4}},
- ()=>{const p=pick([8,10,12,14,16]),n=R(2,4);return{t:`Een spel kost ${p} euro. In de uitverkoop is het de helft goedkoper. Hoeveel betaal je voor ${n} spellen?`,a:p/2*n,u:'euro'}},
- ()=>{const u=R(2,4),a=R(2,3),b=R(5,9);return{t:`${a} schriften kosten samen ${a*u} euro. Hoeveel kosten ${b} schriften?`,a:u*b,u:'euro'}},
- ()=>{const v=pick([8,10,12,14,16,20]),h=pick([1.5,2.5]);return{t:`Een fietser rijdt ${v} kilometer per uur. Hoeveel kilometer rijdt ze in ${h===1.5?'anderhalf uur':'tweeënhalf uur'}?`,a:v*h,u:'kilometer'}},
- ()=>{const s=R(4,12),[p,q]=two();return{t:`${p} heeft twee keer zoveel knikkers als ${q}. Samen hebben ze ${3*s} knikkers. Hoeveel knikkers heeft ${p}?`,a:2*s}},
- ()=>{const w=pick([2,4,6,8]),x=R(2,4);return{t:`Een kraan vult een emmer in ${w} minuten. Hoeveel minuten duurt het om ${x} en een halve emmer te vullen?`,a:w*x+w/2,u:'minuten'}}
+ ()=>{const s=pick([8,12,16]);return{t:`Een pompoentaart heeft ${s} stukken. Jullie eten een kwart van de taart op. Hoeveel stukken blijven er over?`,a:s*3/4}},
+ ()=>{const p=pick([8,10,12,14,16]),n=R(2,4);return{t:`Een toverboek kost ${p} goudstukken. In de uitverkoop is het de helft goedkoper. Hoeveel betaal je voor ${n} boeken?`,a:p/2*n,u:'goudstukken'}},
+ ()=>{const u=R(2,4),a=R(2,3),b=R(5,9);return{t:`${a} ganzenveren kosten samen ${a*u} goudstukken. Hoeveel kosten ${b} ganzenveren?`,a:u*b,u:'goudstukken'}},
+ ()=>{const v=pick([8,10,12,14,16,20]),h=pick([1.5,2.5]);return{t:`Een vliegende bezem gaat ${v} kilometer per uur. Hoeveel kilometer vliegt de bezem in ${h===1.5?'anderhalf uur':'tweeënhalf uur'}?`,a:v*h,u:'kilometer'}},
+ ()=>{const s=R(4,12),[p,q]=two();return{t:`${p} heeft twee keer zoveel toverstenen als ${q}. Samen hebben ze ${3*s} toverstenen. Hoeveel toverstenen heeft ${p}?`,a:2*s}},
+ ()=>{const w=pick([2,4,6,8]),x=R(2,4);return{t:`Een ketel toverdrank is in ${w} minuten klaar. Hoeveel minuten duurt het om ${x} en een halve ketel te maken?`,a:w*x+w/2,u:'minuten'}}
 ];
 GD('rekenen').max=RK.length;
 function itemReken(level,done){
@@ -1096,7 +1162,7 @@ function iqClass(iq){return iq>=130?'zeer hoog':iq>=120?'hoog':iq>=110?'bovengem
 function testChrome(back){
   clearTimers();G=null;
   play.style.setProperty('--game','var(--violet)');
-  $('#playTitle').textContent='Grote denktest';$('#backLbl').textContent=back;
+  $('#playTitle').textContent='Tovenaarsexamen';$('#backLbl').textContent=back;
   renderBar();
 }
 function openHub(){
@@ -1120,7 +1186,7 @@ function openHub(){
 }
 function renderSetup(){
   const b=store.get('birth',null),nowY=new Date().getFullYear();
-  stage.innerHTML=`<div class="setup"><div class="bigicon">${ICONS.patronen}</div><h3 class="display" style="font-size:clamp(32px,5vw,44px)">De grote denktest</h3>
+  stage.innerHTML=`<div class="setup"><div class="bigicon">${ICONS.patronen}</div><h3 class="display" style="font-size:clamp(28px,5vw,42px)">Het grote tovenaarsexamen</h3>
     <p class="lead">Zeven onderdelen achter elkaar, net als bij een echte test.</p>
     <ul>
       <li>Elk onderdeel begint op een niveau dat past bij de leeftijd en wordt steeds moeilijker.</li>
@@ -1156,12 +1222,12 @@ function afterSubtest(celebrate){
     T.saved=true;store.set('test',T);
   }
   G.started=false;renderBar();
-  stage.innerHTML=`<div class="done">${STAR.replace('<svg','<svg class="bigstar"')}<h3>${celebrate?'Onderdeel klaar!':'Overgeslagen'}</h3>
+  stage.innerHTML=`<div class="done">${STAR.replace('<svg','<svg class="bigstar"')}<h3>${celebrate?'Vak gehaald!':'Overgeslagen'}</h3>
     <p class="lead">${left.length?`${celebrate?'Goed je best gedaan! ':''}Nog ${left.length} ${left.length===1?'onderdeel':'onderdelen'} te gaan.`:'Dat was het laatste onderdeel. Super gedaan!'}</p>
     <div class="btns">${next?`<button class="big" id="nx">Volgende: ${GD(next).name}</button><button class="big alt" id="pz">Even pauze</button>`:'<button class="big" id="pz">Naar de uitslag</button>'}</div></div>`;
   if(next)$('#nx').onclick=()=>openGame(next,true);
   $('#pz').onclick=next?openHub:renderReport;
-  if(celebrate){speak(left.length?'Onderdeel klaar! Goed gedaan.':'Helemaal klaar! Super gedaan.');confetti()}
+  if(celebrate){speak(left.length?'Vak gehaald! Goed gedaan.':'Helemaal klaar! Super gedaan.');confetti()}
 }
 function computeReport(T){
   const rows=ORDER.map(id=>{const g=GD(id),r=T.res[id];if(!r||r.skipped)return{g,skip:true,r};return{g,r,sc:scaled(g,r.raw,T.age)}});
@@ -1220,7 +1286,7 @@ function confetti(){
   const c=document.createElement('canvas');c.className='confetti';document.body.appendChild(c);
   const dpr=window.devicePixelRatio||1,w=innerWidth,h=innerHeight;c.width=w*dpr;c.height=h*dpr;
   const x=c.getContext('2d');x.scale(dpr,dpr);
-  const cols=['#6A4CE0','#E03A2E','#0B8F88','#D9730D','#C93584','#1F6FD1','#FFC83D','#8E3FB8'];
+  const cols=['#E3B341','#F6E7B8','#FFF3C4','#C9962B','#FFFFFF','#B79CFF'];
   const P=Array.from({length:120},()=>({x:w/2+(Math.random()-.5)*140,y:h*.35,vx:(Math.random()-.5)*13,vy:-Math.random()*13-4,s:7+Math.random()*8,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.3}));
   let t=0;(function f(){t++;x.clearRect(0,0,w,h);
     P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
@@ -1229,20 +1295,20 @@ function confetti(){
 
 /* ---------- uitleg: waarop is de test gebaseerd ---------- */
 const BASIS=`
-  <p>De denktest is gebouwd naar het voorbeeld van de <b>WISC-V</b> (Wechsler Intelligence Scale for Children, in Nederland de WISC-V-NL). Dat is de intelligentietest die psychologen het vaakst gebruiken bij kinderen van 6 tot en met 16 jaar. De opzet, de soorten opgaven en de manier van scoren lijken erop. De opgaven zelf zijn zelfgemaakt en de normen zijn geschat.</p>
+  <p>Het tovenaarsexamen is gebouwd naar het voorbeeld van de <b>WISC-V</b> (Wechsler Intelligence Scale for Children, in Nederland de WISC-V-NL). Dat is de intelligentietest die psychologen het vaakst gebruiken bij kinderen van 6 tot en met 16 jaar. De opzet, de soorten opgaven en de manier van scoren lijken erop. De opgaven zelf zijn zelfgemaakt en de normen zijn geschat.</p>
 
   <h4>1. Soorten opgaven</h4>
   <p>De WISC-V meet vijf gebieden, elk met een paar onderdelen. Elk spel hier lijkt op een van die onderdelen:</p>
   <div class="twrap"><table class="btable">
     <thead><tr><th>Spel hier</th><th>Lijkt op (WISC-V)</th><th>Gebied</th><th>Wat het meet</th></tr></thead>
     <tbody>
-      <tr><td>Blokken</td><td>Blokpatronen</td><td>Visueel-ruimtelijk</td><td>Een figuur uit elkaar halen en nabouwen</td></tr>
+      <tr><td>Toverblokken</td><td>Blokpatronen</td><td>Visueel-ruimtelijk</td><td>Een figuur uit elkaar halen en nabouwen</td></tr>
       <tr><td>Wat lijkt erop?</td><td>Overeenkomsten</td><td>Verbaal begrip</td><td>Begrippen onder één noemer brengen</td></tr>
-      <tr><td>Patronen</td><td>Matrix Redeneren</td><td>Fluïde redeneren</td><td>Regels ontdekken in nieuwe plaatjes</td></tr>
-      <tr><td>Cijfers onthouden</td><td>Cijferreeksen</td><td>Werkgeheugen</td><td>Informatie vasthouden en ermee werken</td></tr>
-      <tr><td>Weegschaal</td><td>Gewichten</td><td>Fluïde redeneren</td><td>Logisch en rekenkundig redeneren met vormen</td></tr>
-      <tr><td>Rekenen</td><td>Rekenen</td><td>Werkgeheugen (aanvullend)</td><td>Hoofdrekenen met een verhaaltje</td></tr>
-      <tr><td>Zoek het teken</td><td>Symbool Zoeken</td><td>Verwerkingssnelheid</td><td>Snel en nauwkeurig vergelijken</td></tr>
+      <tr><td>Magische patronen</td><td>Matrix Redeneren</td><td>Fluïde redeneren</td><td>Regels ontdekken in nieuwe plaatjes</td></tr>
+      <tr><td>Toverformules</td><td>Cijferreeksen</td><td>Werkgeheugen</td><td>Informatie vasthouden en ermee werken</td></tr>
+      <tr><td>Toverweegschaal</td><td>Gewichten</td><td>Fluïde redeneren</td><td>Logisch en rekenkundig redeneren met vormen</td></tr>
+      <tr><td>Toverrekenen</td><td>Rekenen</td><td>Werkgeheugen (aanvullend)</td><td>Hoofdrekenen met een verhaaltje</td></tr>
+      <tr><td>Zoek de rune</td><td>Symbool Zoeken</td><td>Verwerkingssnelheid</td><td>Snel en nauwkeurig vergelijken</td></tr>
     </tbody></table></div>
   <p>Niet nagemaakt zijn onder andere Woordkennis, Visuele Puzzels, Plaatjesreeks en Substitutie. Een echte WISC-V heeft er dus meer onderdelen en een andere samenstelling.</p>
 
