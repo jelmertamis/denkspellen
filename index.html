@@ -11,7 +11,7 @@
 <style>
 :root{
   --bg:#0B1026; --ink:#2A1E12; --ink2:#5C4A32; --paper:#F7ECD0; --soft:#FBF4E1; --line:#D9C59A;
-  --violet:#3E4A7A; --red:#7E2F2A; --teal:#2F5D4A; --orange:#8A5A1C; --pink:#6B3552; --blue:#2E5870; --plum:#5A4A7A;
+  --violet:#3E4A7A; --red:#7E2F2A; --teal:#2F5D4A; --orange:#8A5A1C; --pink:#6B3552; --blue:#2E5870; --plum:#5A4A7A; --night:#3A2E5C;
   --good:#2E7D32; --goodbg:#E3F1DA; --goodink:#1B4D1E; --bad:#B3261E; --badbg:#F8DCD3;
   --warnbg:#F6E2B8; --warnink:#5E3A00; --sun:#E3B341; --gold:#E3B341; --cream:#F6E7B8;
   --game:var(--violet);
@@ -399,6 +399,37 @@ h1{font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:.01em}
 .cell,.opt,.wopt,.scalebox,.story,.ans,.hrow,.box{border-radius:10px}
 .fb{border-radius:12px;border:1px solid rgba(184,145,58,.45)}
 
+/* ===== kaarten & tarot: mysterieus ===== */
+.sky{background:radial-gradient(ellipse at 30% 100%,rgba(130,90,200,.28) 0%,transparent 55%),radial-gradient(ellipse at 80% 20%,rgba(90,70,160,.22) 0%,transparent 50%),linear-gradient(180deg,#08081C 0%,#141338 45%,#241F48 80%,#332A48 100%)}
+.sky .constel{position:absolute;top:130px;right:5%;width:min(34vw,340px);opacity:.6}
+@media (max-width:760px){.sky .constel{display:none}}
+.sky .mist{position:absolute;left:-25%;right:-25%;bottom:8vh;height:46vh;background:radial-gradient(ellipse at 30% 60%,rgba(160,120,220,.22),transparent 60%),radial-gradient(ellipse at 72% 50%,rgba(100,140,190,.18),transparent 60%);filter:blur(12px);animation:drift 40s ease-in-out infinite alternate}
+.sky .mist.m2{bottom:32vh;opacity:.6;animation-duration:56s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translateX(-7%)}to{transform:translateX(7%)}}
+.carc{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;font-size:17px;letter-spacing:.04em;color:var(--cream);border-bottom:1px solid rgba(227,179,65,.55);padding-bottom:4px;margin-bottom:6px}
+.deal{animation:deal .6s cubic-bezier(.2,.8,.3,1) backwards;animation-delay:calc(var(--i,0)*70ms)}
+@keyframes deal{from{opacity:0;transform:translateY(-22px) rotateY(85deg)}}
+.opt{aspect-ratio:3/4;border-radius:12px;box-shadow:inset 0 0 0 4px #FFFaEc,inset 0 0 0 5px rgba(184,145,58,.55),0 8px 16px -12px rgba(0,0,0,.6)}
+.opt .k,.wopt .k{left:50%;transform:translateX(-50%);top:3px;font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:15px;letter-spacing:.12em;color:#8C6A2A}
+.opt svg{width:80%;height:auto}
+.wopt{padding-top:20px;box-shadow:inset 0 0 0 4px #FFFaEc,inset 0 0 0 5px rgba(184,145,58,.55)}
+.kseq{display:flex;gap:clamp(6px,1.6vw,12px);justify-content:center;flex-wrap:wrap;perspective:800px}
+.pc{width:clamp(54px,13vw,96px);display:block;filter:drop-shadow(0 8px 10px rgba(60,40,10,.3))}
+.pc svg,.kopt svg{width:100%;height:auto;display:block}
+.kopts{display:grid;grid-template-columns:repeat(var(--oc),1fr);gap:clamp(6px,1.6vw,12px);width:min(100%,calc(var(--oc)*118px));margin:0 auto;perspective:800px}
+.kopt{padding:0;border:3px solid transparent;border-radius:13px;transition:transform .12s,border-color .12s;filter:drop-shadow(0 8px 10px rgba(60,40,10,.3))}
+.kopt:hover{transform:translateY(-5px);border-color:rgba(184,145,58,.8)}
+.kopt.good{border-color:var(--good);background:var(--goodbg)}
+.kopt.bad{border-color:var(--bad);background:var(--badbg)}
+.kopt.picked{border-color:var(--game)}
+.bigdigit{width:min(46vw,170px);aspect-ratio:2/3;border-radius:14px;background:var(--cardback) center/cover #1E1A3A;border:2px solid var(--gold);box-shadow:0 20px 34px -18px rgba(0,0,0,.85),0 0 30px -8px rgba(160,120,220,.6)}
+.bigdigit span{color:var(--cream);font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:22px;background:rgba(20,18,50,.75);padding:2px 12px;border-radius:8px}
+.bigdigit .pulse{background:var(--gold);box-shadow:0 0 30px 10px rgba(227,179,65,.55);padding:0}
+.bigdigit span:empty{display:none}
+.bigdigit.face{background:#FFFDF6;animation:flip .35s ease}
+.bigdigit.face .d{color:#2A1E12;background:none;font-style:normal;font-size:clamp(90px,20vw,140px);padding:0}
+@keyframes flip{from{transform:rotateY(90deg)}}
+
 /* uil */
 .owl{width:100%;height:100%;overflow:visible;display:block}
 .owl .lid{transform:scaleY(0);animation:blink 4.8s infinite}
@@ -433,6 +464,8 @@ h1{font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:.01em}
 <body>
 <div class="sky" aria-hidden="true">
   <div class="stars"></div><div class="stars b"></div><div class="moon"></div>
+  <svg class="constel" viewBox="0 0 360 160"><g stroke="#CFC6F0" stroke-width=".8" stroke-opacity=".5" fill="none"><path d="M20 120L70 90L120 104L170 60L230 70L280 30L340 44"/><path d="M170 60L190 130"/></g><g fill="#FFF6D8"><circle cx="20" cy="120" r="2"/><circle cx="70" cy="90" r="2.4"/><circle cx="120" cy="104" r="1.8"/><circle cx="170" cy="60" r="2.8"/><circle cx="230" cy="70" r="2"/><circle cx="280" cy="30" r="2.6"/><circle cx="340" cy="44" r="2"/><circle cx="190" cy="130" r="1.8"/></g></svg>
+  <div class="mist"></div><div class="mist m2"></div>
   <svg class="castle" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
     <path fill="#1B2E3C" opacity=".85" d="M0 300V168L70 128L120 150L210 70L262 112L300 96L380 150L450 104L520 142L610 58L668 106L720 88L800 146L880 96L940 120L1030 64L1090 118L1140 100L1200 128V300Z"/>
     <path fill="#DCE6EA" opacity=".28" d="M210 70L192 88L206 84L214 92L226 84ZM610 58L590 78L604 74L612 82L626 74ZM1030 64L1012 82L1026 78L1034 86L1046 78Z"/>
@@ -459,42 +492,27 @@ h1{font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:.01em}
   </header>
 
   <main id="home">
-    <div class="greet"><span class="gowl" id="greetOwl"></span><p class="bubble">Hoi Myrddin! Ik ben <b>Guus</b>, de uil van de toverschool. Kies een les, of doe het grote examen als je er klaar voor bent.</p></div>
+    <div class="greet"><span class="gowl" id="greetOwl"></span><p class="bubble">Hoi Myrddin! Ik ben <b>Guus</b>, de uil van de toverschool. Ik kan in de kaarten kijken... en ik zie dat jij een slimme tovenaar wordt! Kies een les, of doe het grote examen als je er klaar voor bent.</p></div>
     <button class="hero orn" id="heroBtn">
       <svg class="hicon" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.07)" stroke="#E3B341" stroke-width="2"/>
-        <path d="M24 80L64 40" stroke="#4A2E17" stroke-width="10" stroke-linecap="round"/>
-        <path d="M56 48l8-8" stroke="#F6E7B8" stroke-width="10" stroke-linecap="round"/>
-        <polygon points="72,14 75.5,24 86,24 77.5,30.5 80.5,41 72,34.5 63.5,41 66.5,30.5 58,24 68.5,24" fill="#E3B341" stroke="#F6E7B8" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M44 22v8M40 26h8M86 52v6M83 55h6M30 44v5M27.5 46.5h5" stroke="#F6E7B8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.05)" stroke="#E3B341" stroke-width="1.5"/>
+        <g stroke="#E3B341" stroke-width="1.4">
+          <g transform="rotate(-20 50 84)"><rect x="35" y="22" width="30" height="46" rx="4" fill="#2A2350"/><circle cx="50" cy="45" r="6" fill="#F6E7B8" stroke="none"/><path d="M50 34v-3M50 59v-3M39 45h-3M64 45h-3" stroke-linecap="round"/></g>
+          <g transform="rotate(20 50 84)"><rect x="35" y="22" width="30" height="46" rx="4" fill="#2A2350"/><path d="M54 36a9 9 0 1 0 0 18a7 7 0 1 1 0-18z" fill="#F6E7B8" stroke="none"/></g>
+          <rect x="35" y="18" width="30" height="46" rx="4" fill="#1E1A3A"/>
+          <polygon points="50,31 52.6,38 60,38.2 54.2,42.8 56.2,50 50,45.8 43.8,50 45.8,42.8 40,38.2 47.4,38" fill="#E3B341" stroke="none"/>
+        </g>
       </svg>
       <span class="htxt">
         <span class="tag">Examen</span>
         <h2>Het grote tovenaarsexamen</h2>
-        <p>Zeven vakken, net als bij een echte test: het wordt steeds moeilijker en stopt vanzelf als het te moeilijk wordt. Aan het eind een uitslag voor papa en mama.</p>
+        <p>Zeven vakken, net als bij een echte test: het wordt steeds moeilijker en stopt vanzelf als het te moeilijk wordt. Aan het eind krijg je je examenuitslag.</p>
       </span>
       <span class="go" id="heroGo">Begin</span>
     </button>
 
     <div class="secthead"><h2>Toverlessen</h2><p>Goed? Dan wordt de spreuk moeilijker. Fout? Dan iets makkelijker.</p></div>
     <section class="games" id="gameGrid" aria-label="Kies een spel"></section>
-
-    <details class="parents orn">
-      <summary>Voor papa en mama</summary>
-      <div class="body">
-        <p><b>Waarvoor is dit?</b> Om te wennen aan het s&#xf3;&#xf3;rt puzzels dat bij een intelligentieonderzoek (zoals de WISC-V) voorkomt, zodat de onderzoeksdag minder spannend en onbekend voelt.</p>
-        <ul>
-          <li><b>Eigen opgaven, geen echte testvragen.</b> Alle puzzels zijn zelf gemaakt of worden willekeurig gegenereerd.</li>
-          <li><b>Oefenen past zich aan.</b> Elk spel heeft niveaus. Goed antwoord: een niveau omhoog. Fout: een niveau omlaag. Het spel onthoudt ongeveer waar je bleef.</li>
-          <li><b>Het tovenaarsexamen</b> werkt zoals een echte test: startniveau op basis van de leeftijd, terugzakken als de eerste opgaven niet lukken, stoppen na drie fouten op rij. Het kind ziet tijdens de test niet of iets goed of fout is.</li>
-          <li><b>Het speel-IQ is een schatting, geen echte IQ-score.</b> De opgaven en de vergelijking met leeftijdgenoten zijn niet wetenschappelijk genormeerd. Zie het als een spelletje en vertel het getal liever niet aan je kind.</li>
-          <li><b>Niet stampen.</b> De echte test meet hoe een kind met nieuwe opgaven omgaat. Veel oefenen kan de uitslag vertekenen. Een paar korte rondes als spel is genoeg.</li>
-          <li><b>Ogen sparen.</b> Grote vormen, weinig tekst, voorlezen staat aan. Speel kort (zo'n 10 minuten) en neem pauze bij vermoeide ogen. De test mag je in stukjes doen.</li>
-          <li><b>Wat lijkt erop?</b> Jullie luisteren naar het antwoord en geven 2, 1 of 0 punten.</li>
-          <li>Sterren, niveaus en uitslagen worden alleen in deze browser bewaard.</li>
-        </ul>
-      </div>
-    </details>
 
     <details class="parents orn" id="basisHome">
       <summary>Waarop is de test gebaseerd?</summary>
@@ -546,6 +564,7 @@ const ICONS={
   rekenen:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 8v20M6 18h20M40 18h18M11 42l12 12M23 42L11 54M40 44h18M40 52h18" fill="none" ${W}/></svg>`,
   lijken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="24" cy="32" r="17" fill="none" ${W}/><circle cx="40" cy="32" r="17" fill="none" ${W}/><path d="M32 18a17 17 0 0 1 0 28a17 17 0 0 1 0-28z" fill="#fff"/></svg>`,
   zoeken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="27" cy="27" r="16" fill="none" ${W} stroke-width="5"/><path d="M39 39l16 16" ${W} stroke-width="7"/></svg>`,
+  kaarten:`<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="14" width="28" height="40" rx="4" transform="rotate(-14 22 34)" fill="none" ${W}/><rect x="26" y="10" width="28" height="42" rx="4" fill="#fff"/><path d="M40 40c-2-2-9-6-9-11 0-3 2-5 4.5-5 2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 2.5 0 4.5 2 4.5 5 0 5-7 9-9 11z" fill="#3A2E5C"/></svg>`,
   weegschaal:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10v44M20 56h24M8 20h48M8 20L3 38M8 20l5 18M56 20l-5 18M56 20l5 18" fill="none" ${W}/><path d="M1 38a7 5 0 0 0 14 0zM49 38a7 5 0 0 0 14 0z" fill="#fff"/><circle cx="32" cy="10" r="5" fill="#fff"/></svg>`
 };
 $('#starIconTop').innerHTML=STAR;
@@ -582,6 +601,7 @@ $('#greetOwl').innerHTML=owl();
   const r=document.documentElement.style;
   r.setProperty('--c-tl',corner(''));r.setProperty('--c-tr',corner('translate(48 0) scale(-1 1)'));
   r.setProperty('--c-bl',corner('translate(0 48) scale(1 -1)'));r.setProperty('--c-br',corner('translate(48 48) scale(-1 -1)'));
+  r.setProperty('--cardback',u(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><rect width="100" height="150" fill="#1E1A3A"/><rect x="6" y="6" width="88" height="138" rx="6" fill="none" stroke="#E3B341" stroke-width="1.2"/><rect x="10" y="10" width="80" height="130" rx="4" fill="none" stroke="#E3B341" stroke-width=".5"/><circle cx="50" cy="75" r="27" fill="none" stroke="#E3B341" stroke-width=".8"/><circle cx="50" cy="75" r="21" fill="none" stroke="#E3B341" stroke-width=".6" stroke-dasharray="1 2.5"/><path d="M56 59a17 17 0 1 0 0 32a13 13 0 1 1 0-32z" fill="#F6E7B8"/><g fill="#E3B341">${[[20,22],[80,22],[20,128],[80,128],[50,30],[50,120]].map(([x,y])=>`<path d="M${x} ${y-4}L${x+1.2} ${y-1.2}L${x+4} ${y}L${x+1.2} ${y+1.2}L${x} ${y+4}L${x-1.2} ${y+1.2}L${x-4} ${y}L${x-1.2} ${y-1.2}Z"/>`).join('')}</g></svg>`));
   r.setProperty('--vine',u(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 14"><g fill="none" stroke="#E3B341" stroke-width="1.2" stroke-linecap="round"><path d="M2 7H58M92 7H148"/><path d="M58 7q8-7 17 0q-9 7-17 0M92 7q-8-7-17 0"/><path d="M20 7q4-5 9-4M120 7q4 5 9 4"/></g><path d="M75 2l5 5-5 5-5-5z" fill="#E3B341"/></svg>`));
 })();
 
@@ -622,28 +642,31 @@ function updateStars(bump){
 function addStar(n=1){stars[G.def.id]=(stars[G.def.id]||0)+n;store.set('stars',stars);G.earned+=n;updateStars(true)}
 
 const GAMES=[
-  {id:'blokken',name:'Toverblokken',sub:'Tover het voorbeeld precies na',color:'var(--red)',kind:'ladder',
+  {id:'blokken',arc:'IV · De Keizer',name:'Toverblokken',sub:'Tover het voorbeeld precies na',color:'var(--red)',kind:'ladder',
    intro:'Tik op de blokjes om ze te draaien. Maak precies hetzelfde patroon als het voorbeeld.',
    item:itemBlok,start:[2,.6],norm:[4,.7,2]},
-  {id:'lijken',name:'Wat lijkt erop?',sub:'Wat hebben twee dingen samen?',color:'var(--pink)',kind:'ladder',full:2,
+  {id:'lijken',arc:'VI · De Geliefden',name:'Wat lijkt erop?',sub:'Wat hebben twee dingen samen?',color:'var(--pink)',kind:'ladder',full:2,
    intro:'Ik noem twee dingen. Bedenk hoe ze op elkaar lijken en zeg het hardop.',
    item:itemLijk,start:[2,.8],norm:[8,2.4,4]},
-  {id:'patronen',name:'Magische patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',kind:'ladder',
+  {id:'patronen',arc:'X · Het Rad',name:'Magische patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',kind:'ladder',
    intro:'Een van de magische plaatjes is verdwenen! Welk plaatje hoort op de lege plek?',
    item:itemPatroon,start:[2,.8],norm:[5,1.1,2.6]},
-  {id:'onthouden',name:'Toverformules',sub:'Onthoud de geheime cijfers',color:'var(--teal)',kind:'span',
+  {id:'onthouden',arc:'II · De Hogepriesteres',name:'Toverformules',sub:'Onthoud de geheime cijfers',color:'var(--teal)',kind:'span',
    intro:'Ik fluister een geheime toverformule van cijfers. Luister goed. Daarna tik jij hem in.',norm:[7,.75,1.8]},
-  {id:'weegschaal',name:'Toverweegschaal',sub:'Wat maakt het weer in evenwicht?',color:'var(--plum)',kind:'ladder',
+  {id:'weegschaal',arc:'XI · Gerechtigheid',name:'Toverweegschaal',sub:'Wat maakt het weer in evenwicht?',color:'var(--plum)',kind:'ladder',
    intro:'Deze weegschalen zijn in evenwicht: links is even zwaar als rechts. Welke vormen maken de laatste weegschaal ook recht?',
    item:itemWeeg,start:[2,.7],norm:[4,1,2.3]},
-  {id:'rekenen',name:'Toverrekenen',sub:'Sommen uit het toverboek',color:'var(--orange)',kind:'ladder',
+  {id:'rekenen',arc:'I · De Magiër',name:'Toverrekenen',sub:'Sommen uit het toverboek',color:'var(--orange)',kind:'ladder',
    intro:'Ik lees een som voor uit het toverboek. Reken het uit in je hoofd en tik het antwoord in.',
    item:itemReken,start:[3,.9],norm:[6,1.2,2.6]},
-  {id:'zoeken',name:'Zoek de rune',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',kind:'speed',
-   intro:'Kijk naar de rune links. Zit precies dezelfde rune in de rij? Tik op ja of nee. Zo snel als je kunt!',norm:[8,2.4,4]}
+  {id:'zoeken',arc:'IX · De Kluizenaar',name:'Zoek de rune',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',kind:'speed',
+   intro:'Kijk naar de rune links. Zit precies dezelfde rune in de rij? Tik op ja of nee. Zo snel als je kunt!',norm:[8,2.4,4]},
+  {id:'kaarten',arc:'XVIII · De Maan',name:'Kaartenreeks',sub:'Welke kaart komt hierna?',color:'var(--night)',kind:'ladder',extra:true,
+   intro:'De kaarten liggen in een geheime volgorde. Kijk goed naar de getallen en de tekens. Welke kaart komt er hierna?',
+   item:itemKaart}
 ];
 const GD=id=>GAMES.find(g=>g.id===id);
-const ORDER=GAMES.map(g=>g.id);
+const ORDER=GAMES.filter(g=>!g.extra).map(g=>g.id);
 const TESTNOTE='Dit is het examen. Je ziet niet of je antwoord goed is, net als bij de echte puzzeldag. Het wordt steeds moeilijker en stopt vanzelf. Gewoon je best doen!';
 
 function show(v){view=v;home.hidden=v!=='home';play.hidden=v==='home';window.scrollTo(0,0)}
@@ -652,8 +675,8 @@ function goHome(){clearTimers();G=null;show('home');renderHome()}
 function renderHome(){
   const grid=$('#gameGrid');
   grid.innerHTML=GAMES.map(g=>`<button class="card" style="--c:${g.color}" data-id="${g.id}">
-    <span class="cicon">${ICONS[g.id]}</span><span class="cname">${g.name}</span><span class="csub">${g.sub}</span>
-    <span class="cmeta"><span class="cstars">${STAR}${stars[g.id]||0}</span>${g.kind==='ladder'?`<span class="cstars">Niveau ${store.get('lvl:'+g.id,1)}</span>`:''}</span></button>`).join('');
+    <span class="carc">${g.arc}</span><span class="cicon">${ICONS[g.id]}</span><span class="cname">${g.name}</span><span class="csub">${g.sub}</span>
+    <span class="cmeta"><span class="cstars">${STAR}${stars[g.id]||0}</span>${g.kind==='ladder'?`<span class="cstars">Niveau ${store.get('lvl:'+g.id,1)}</span>`:''}${g.extra?'<span class="cstars">extra les</span>':''}</span></button>`).join('');
   grid.querySelectorAll('.card').forEach(b=>b.onclick=()=>openGame(b.dataset.id,false));
   const T=store.get('test',null),n=T?ORDER.filter(id=>T.res[id]).length:0;
   $('#heroGo').textContent=!T?'Begin':n<ORDER.length?`Verder (${n}/${ORDER.length})`:'Uitslag';
@@ -719,7 +742,7 @@ function showIntro(){
   if(G.test){
     box.insertAdjacentHTML('beforeend',`<button class="ghost" id="skipSub">Dit onderdeel overslaan</button>`);
     $('#skipSub').onclick=()=>{const T=store.get('test');T.res[d.id]={skipped:true};store.set('test',T);afterSubtest()};
-    if(d.id==='lijken')extra.innerHTML='<p class="note">Bij dit onderdeel geeft papa of mama de punten. Geen tijd? Sla het dan over; de uitslag wordt dan berekend zonder dit onderdeel.</p>';
+    if(d.id==='lijken')extra.innerHTML='<p class="note">Na je antwoord kies je zelf welk antwoord het meest lijkt op wat jij zei.</p>';
   }
   sayPrompt();
 }
@@ -843,22 +866,27 @@ document.addEventListener('keydown',e=>{
     if(s){e.preventDefault();kp.querySelector(s)?.click()}return}
   const yn=stage.querySelector('.yn');
   if(yn){if(e.key==='j'||e.key==='ArrowLeft'){e.preventDefault();$('#yes').click()}if(e.key==='n'||e.key==='ArrowRight'){e.preventDefault();$('#no').click()}return}
-  const op=stage.querySelectorAll('.opt,.wopt');
+  const op=stage.querySelectorAll('.opt,.wopt,.kopt');
   if(op.length&&/^[1-9]$/.test(e.key)){const b=op[+e.key-1];if(b){e.preventDefault();b.click()}}
 });
 
 /* ---------- vormen ---------- */
 const PC=['#E03A2E','#1F6FD1','#FFC83D','#1E9E5A'];
+// de vier kaartsymbolen, in eenheden rond (0,0): harten, schoppen, klaveren, ruiten
+const SUIT=[
+  'M0 .95C-.2 .72-1.05 .2-1.05-.34C-1.05-.8-.66-1.02-.34-1.02C-.13-1.02 0-.88 0-.72C0-.88.13-1.02.34-1.02C.66-1.02 1.05-.8 1.05-.34C1.05.2.2.72 0 .95Z',
+  'M0-1.02C.22-.76 1.02-.34 1.02.14C1.02.54.66.7.36.62C.22.58.11.5.06.42L.26.98H-.26L-.06.42C-.11.5-.22.58-.36.62C-.66.7-1.02.54-1.02.14C-1.02-.34-.22-.76 0-1.02Z',
+  'M-.353-.272A.4 .4 0 1 1 .353-.272A.4 .4 0 1 1 .26 .42Q.1 .5 .28 .98H-.28Q-.1 .5-.26 .42A.4 .4 0 1 1-.353-.272Z',
+  'M0-1.12L.82 0L0 1.12L-.82 0Z'
+];
+const SUITNAME=['harten','schoppen','klaveren','ruiten'];
 function shp(s,cx,cy,r,a){
-  if(s===0)return `<circle cx="${cx}" cy="${cy}" r="${r}" ${a}/>`;
-  if(s===1){const h=r*.88;return `<rect x="${cx-h}" y="${cy-h}" width="${2*h}" height="${2*h}" rx="3" ${a}/>`}
-  if(s===2){const h=r*1.1;return `<polygon points="${cx},${cy-h} ${cx+h*1.05},${cy+h*.8} ${cx-h*1.05},${cy+h*.8}" ${a}/>`}
-  const h=r*1.18;return `<polygon points="${cx},${cy-h} ${cx+h*.85},${cy} ${cx},${cy+h} ${cx-h*.85},${cy}" ${a}/>`;
+  return `<path d="${SUIT[s]}" transform="translate(${cx} ${cy}) scale(${r})" vector-effect="non-scaling-stroke" ${a}/>`;
 }
 function fig(s,col,f,cx,cy,r){
   const j='stroke-linejoin="round"';
   if(f===1)return shp(s,cx,cy,r,`fill="#fff" stroke="#1B2140" stroke-width="10" ${j}`)+shp(s,cx,cy,r,`fill="#fff" stroke="${col}" stroke-width="5.5" ${j}`);
-  if(f===2)return shp(s,cx,cy,r,`fill="#fff" stroke="#1B2140" stroke-width="3" ${j}`)+shp(s,cx,cy+(s===2?r*.12:0),r*.45,`fill="${col}" stroke="#1B2140" stroke-width="2" ${j}`);
+  if(f===2)return shp(s,cx,cy,r,`fill="#fff" stroke="#1B2140" stroke-width="3" ${j}`)+shp(s,cx,cy,r*.45,`fill="${col}" stroke="#1B2140" stroke-width="2" ${j}`);
   return shp(s,cx,cy,r,`fill="${col}" stroke="#1B2140" stroke-width="3" ${j}`);
 }
 
@@ -927,7 +955,7 @@ function itemPatroon(level,done){
   setPrompt('Welk plaatje hoort op de lege plek?');
   stage.innerHTML=`<div class="matrix" style="--n:${cfg.n}">${m.grid.map((c,k)=>k===m.miss?`<div class="cell miss" id="missCell"><span>?</span></div>`:`<div class="cell">${cellSVG(c)}</div>`).join('')}</div>
     <p class="ask">Welk plaatje hoort op de lege plek?</p>
-    <div class="opts" style="--oc:${cfg.o===6?3:4}">${m.opts.map((c,k)=>`<button class="opt" data-k="${k}" aria-label="Keuze ${k+1}"><span class="k">${k+1}</span>${cellSVG(c)}</button>`).join('')}</div>`;
+    <div class="opts" style="--oc:${cfg.o===6?3:4}">${m.opts.map((c,k)=>`<button class="opt deal" style="--i:${k}" data-k="${k}" aria-label="Keuze ${k+1}"><span class="k">${ROMAN[k]}</span>${cellSVG(c)}</button>`).join('')}</div>`;
   stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     if(G.locked)return;G.locked=true;
     const k=+b.dataset.k,ok=m.opts[k]===m.ans,mc=$('#missCell');
@@ -959,7 +987,7 @@ const WEEG=[
  {w:{A:5,B:3,C:2,D:1},g:['A=BC','B=CD','C=DD'],q:'AD',a:'BB'}
 ];
 GD('weegschaal').max=WEEG.length;
-const WLOOK=[[0,'#E03A2E','rode bol'],[1,'#1F6FD1','blauw blok'],[2,'#FFC83D','gele driehoek'],[3,'#1E9E5A','groene ruit']];
+const WLOOK=[[0,'#E03A2E','rood hart'],[1,'#1F6FD1','blauwe schoppen'],[2,'#FFC83D','gele klaver'],[3,'#1E9E5A','groene ruit']];
 const sortStr=s=>[...s].sort().join('');
 function pile(str,look,cx,baseY){
   const it=[...sortStr(str)];let s='';
@@ -995,7 +1023,7 @@ function itemWeeg(level,done){
     <div class="scales" style="margin-top:8px">${t.g.map(e=>{const [l,r]=e.split('=');return `<div class="scalebox">${scaleSVG(l,r,look)}</div>`}).join('')}</div>
     <p class="ask">Wat moet er op het vraagteken?</p>
     <div class="scales"><div class="scalebox q" id="qScale">${scaleSVG(t.q,null,look)}</div></div>
-    <div class="wopts" style="--oc:${list.length};margin-top:16px">${list.map((s,k)=>`<button class="wopt" data-k="${k}" aria-label="Keuze ${k+1}"><span class="k">${k+1}</span>${optSVG(s,look)}</button>`).join('')}</div>`;
+    <div class="wopts" style="--oc:${list.length};margin-top:16px">${list.map((s,k)=>`<button class="wopt deal" style="--i:${k}" data-k="${k}" aria-label="Keuze ${k+1}"><span class="k">${ROMAN[k]}</span>${optSVG(s,look)}</button>`).join('')}</div>`;
   const expl=`Tip: ${letters.map(L=>`een ${WLOOK[look[L]][2]} weegt ${t.w[L]}`).join(', ')}. Links weegt dus ${wt(t.q)}.`;
   stage.querySelectorAll('.wopt').forEach(b=>b.onclick=()=>{
     if(G.locked)return;G.locked=true;
@@ -1058,10 +1086,10 @@ async function spanTrial(len,fw,showDigits,cb){
   await wait(1200);
   for(const d of seq){
     if(tok!==G.token)return;
-    $('#bd').innerHTML=showDigits?`<span class="d">${d}</span>`:'<span class="pulse"></span>';
+    const bd=$('#bd');bd.classList.toggle('face',showDigits);bd.innerHTML=showDigits?`<span class="d">${d}</span>`:'<span class="pulse"></span>';
     speak(String(d),.85);
     await wait(800);if(tok!==G.token)return;
-    $('#bd').innerHTML='<span></span>';
+    $('#bd').classList.remove('face');$('#bd').innerHTML='<span></span>';
     await wait(250);
   }
   if(tok!==G.token)return;
@@ -1120,7 +1148,7 @@ const RK=[
  ()=>{const a=R(5,9),b=R(4,9);return{t:`Op de plank staan ${a} rode drankjes en ${b} blauwe drankjes. Hoeveel drankjes zijn het samen?`,a:a+b}},
  ()=>{const a=R(11,18),b=R(3,8);return{t:`In de zaal branden ${a} kaarsen. Er waaien er ${b} uit. Hoeveel kaarsen branden er nog?`,a:a-b}},
  ()=>{const a=R(3,9),p=pick(NAMES);return{t:`${p} heeft ${2*a} toverkaarten en geeft de helft weg. Hoeveel kaarten houdt ${p} zelf?`,a}},
- ()=>{const a=R(2,5),b=R(2,5);return{t:`Er liggen ${a} zakjes. In elk zakje zitten ${b} toversnoepjes. Hoeveel snoepjes zijn het samen?`,a:a*b}},
+ ()=>{const a=R(2,5),b=R(2,5);return{t:`Je legt ${a} rijtjes met elk ${b} kaarten. Hoeveel kaarten liggen er op tafel?`,a:a*b}},
  ()=>{const a=R(2,4);return{t:`Een reuzenspin heeft 8 poten. Hoeveel poten hebben ${a} reuzenspinnen samen?`,a:8*a}},
  ()=>{const k=R(3,5),e=R(3,6);return{t:`Je verdeelt ${k*e} toverbonen eerlijk over ${k} leerlingen. Hoeveel bonen krijgt elke leerling?`,a:e}},
  ()=>{const a=R(15,25),b=R(2,5),c=R(6,9);return{t:`Je hebt ${a} goudstukken. Je koopt een uilenveer van ${b} goudstukken en een spreukenboek van ${c} goudstukken. Hoeveel goudstukken houd je over?`,a:a-b-c,u:'goudstukken'}},
@@ -1128,13 +1156,68 @@ const RK=[
  ()=>{const r=R(2,4),k=R(3,6),g=R(1,3);return{t:`Een nest heeft ${r} rijen van ${k} drakeneieren. Er zijn er ${g} uitgekomen. Hoeveel eieren zijn er nog niet uitgekomen?`,a:r*k-g}},
  ()=>{const b=R(5,9),d=R(2,4),y=R(2,5),[p,q]=two();return{t:`${p} is ${d} jaar ouder dan ${q}. ${q} is ${b} jaar. Hoe oud is ${p} over ${y} jaar?`,a:b+d+y,u:'jaar'}},
  ()=>{const s=pick([8,12,16]);return{t:`Een pompoentaart heeft ${s} stukken. Jullie eten een kwart van de taart op. Hoeveel stukken blijven er over?`,a:s*3/4}},
- ()=>{const p=pick([8,10,12,14,16]),n=R(2,4);return{t:`Een toverboek kost ${p} goudstukken. In de uitverkoop is het de helft goedkoper. Hoeveel betaal je voor ${n} boeken?`,a:p/2*n,u:'goudstukken'}},
+ ()=>{const p=pick([8,10,12,14,16]),n=R(2,4);return{t:`Een spel tarotkaarten kost ${p} goudstukken. Op de markt is het de helft goedkoper. Hoeveel betaal je voor ${n} spellen?`,a:p/2*n,u:'goudstukken'}},
  ()=>{const u=R(2,4),a=R(2,3),b=R(5,9);return{t:`${a} ganzenveren kosten samen ${a*u} goudstukken. Hoeveel kosten ${b} ganzenveren?`,a:u*b,u:'goudstukken'}},
  ()=>{const v=pick([8,10,12,14,16,20]),h=pick([1.5,2.5]);return{t:`Een vliegende bezem gaat ${v} kilometer per uur. Hoeveel kilometer vliegt de bezem in ${h===1.5?'anderhalf uur':'tweeënhalf uur'}?`,a:v*h,u:'kilometer'}},
  ()=>{const s=R(4,12),[p,q]=two();return{t:`${p} heeft twee keer zoveel toverstenen als ${q}. Samen hebben ze ${3*s} toverstenen. Hoeveel toverstenen heeft ${p}?`,a:2*s}},
  ()=>{const w=pick([2,4,6,8]),x=R(2,4);return{t:`Een ketel toverdrank is in ${w} minuten klaar. Hoeveel minuten duurt het om ${x} en een halve ketel te maken?`,a:w*x+w/2,u:'minuten'}}
 ];
 GD('rekenen').max=RK.length;
+
+/* ---------- 8. Kaartenreeks (extra les) ---------- */
+const VAL=['','A','2','3','4','5','6','7','8','9','10','B','V','H'];
+const VNAME=['','aas','twee','drie','vier','vijf','zes','zeven','acht','negen','tien','boer','vrouw','heer'];
+const SCOL=['#B3261E','#1B1B2A','#1B1B2A','#B3261E'];
+const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX'];
+function playCard(v,s,q=false){
+  if(q)return `<svg viewBox="0 0 100 140" aria-hidden="true"><rect x="2" y="2" width="96" height="136" rx="10" fill="#FFFaEc" stroke="#B8913A" stroke-width="2" stroke-dasharray="6 5"/><text x="50" y="90" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="66" style="fill:var(--game)">?</text></svg>`;
+  const c=SCOL[s],t=(x,y,fs,anchor='start')=>`<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="Cormorant Garamond, serif" font-weight="700" font-size="${fs}" fill="${c}" style="font-variant-numeric:lining-nums">${VAL[v]}</text>`;
+  const corner=`${t(12,30,24)}${shp(s,20,42,6.5,`fill="${c}"`)}`;
+  return `<svg viewBox="0 0 100 140" role="img" aria-label="${VNAME[v]} ${SUITNAME[s]}">
+    <rect x="2" y="2" width="96" height="136" rx="10" fill="#FFFDF6" stroke="#8C6A2A" stroke-width="2"/>
+    <rect x="8" y="8" width="84" height="124" rx="6" fill="none" stroke="#D9C59A" stroke-width="1"/>
+    ${corner}<g transform="rotate(180 50 70)">${corner}</g>
+    ${t(50,84,v===10?40:46,'middle')}${shp(s,50,104,11,`fill="${c}"`)}
+  </svg>`;
+}
+const rs=()=>rnd(4);
+// elke regel geeft de getoonde kaarten [waarde, teken], het antwoord en een tip
+const KR=[
+ ()=>{const s=rs(),v=R(1,6);return{seq:[0,1,2].map(i=>[v+i,s]),ans:[v+3,s],hint:'Elke kaart is één hoger.'}},
+ ()=>{const s=rs(),v=R(6,12);return{seq:[0,1,2].map(i=>[v-i,s]),ans:[v-3,s],hint:'Elke kaart is één lager.'}},
+ ()=>{const v=R(2,9),ss=shuffle([0,1,2,3]);return{seq:[0,1,2,3,4].map(i=>[v,ss[i%4]]),ans:[v,ss[1]],hint:'Het getal blijft hetzelfde; de tekens komen steeds in dezelfde volgorde terug.'}},
+ ()=>{const s=rs(),v=R(1,5);return{seq:[0,1,2].map(i=>[v+2*i,s]),ans:[v+6,s],hint:'Elke kaart is twee hoger.'}},
+ ()=>{const [a,b]=shuffle([0,1,2,3]),v=R(1,7);return{seq:[0,1,2,3].map(i=>[v+i,i%2?b:a]),ans:[v+4,a],hint:'Steeds één hoger, en de twee tekens wisselen elkaar af.'}},
+ ()=>{const s=rs(),v=R(1,3);return{seq:[0,1,2].map(i=>[v+3*i,s]),ans:[v+9,s],hint:'Elke kaart is drie hoger.'}},
+ ()=>{const s=rs(),v=R(1,5);return{seq:[v,v+2,v+1,v+3,v+2].map(x=>[x,s]),ans:[v+4,s],hint:'Om en om: twee omhoog, één omlaag.'}},
+ ()=>{const s=rs();return{seq:[1,2,4].map(x=>[x,s]),ans:[8,s],hint:'Elke kaart is het dubbele van de vorige.'}},
+ ()=>{const s=rs(),v=R(1,2);return{seq:[v,v+1,v+3,v+6].map(x=>[x,s]),ans:[v+10,s],hint:'Er komt steeds één meer bij: +1, +2, +3, +4.'}},
+ ()=>{const [a,b]=shuffle([0,1,2,3]),u=R(1,4),d=R(10,13);return{seq:[[u,a],[d,b],[u+1,a],[d-1,b],[u+2,a]],ans:[d-2,b],hint:'Twee reeksen door elkaar: de ene gaat omhoog, de andere omlaag.'}},
+ ()=>{const ss=shuffle([0,1,2,3]).slice(0,3),v=R(1,4);return{seq:[0,1,2,3].map(i=>[v+2*i,ss[i%3]]),ans:[v+8,ss[1]],hint:'Twee hoger, en drie tekens komen steeds in dezelfde volgorde terug.'}},
+ ()=>{const s=rs();return{seq:[1,1,2,3,5].map(x=>[x,s]),ans:[8,s],hint:'Tel de twee kaarten ervoor bij elkaar op.'}},
+ ()=>{const [a,b]=pick([[0,1],[3,2],[0,2],[3,1]]);return{seq:[13,10,7].map((x,i)=>[x,i%2?b:a]),ans:[4,b],hint:'Steeds drie lager (de heer is 13), en rood en zwart wisselen elkaar af.'}}
+];
+GD('kaarten').max=KR.length;
+function itemKaart(level,done){
+  const q=KR[level-1](),A=q.ans,nOpt=level<=5?4:5,key=c=>c[0]+'-'+c[1];
+  const near=[];for(const dv of [-2,-1,1,2])near.push([A[0]+dv,A[1]]);
+  for(let t=0;t<4;t++)if(t!==A[1]){near.push([A[0],t]);near.push([A[0]+pick([-1,1]),t])}
+  const seen=new Set([key(A)]),opts=[A];
+  for(const c of shuffle(near)){if(opts.length>=nOpt)break;if(c[0]<1||c[0]>13||seen.has(key(c)))continue;seen.add(key(c));opts.push(c)}
+  const list=shuffle(opts),reveal=!G.test,n=q.seq.length;
+  setPrompt('Welke kaart komt er hierna?');
+  stage.innerHTML=`<div class="kseq">${q.seq.map((c,i)=>`<span class="pc deal" style="--i:${i}">${playCard(...c)}</span>`).join('')}<span class="pc deal" id="kq" style="--i:${n}">${playCard(0,0,true)}</span></div>
+    <p class="ask">Welke kaart komt er hierna?</p>
+    <div class="kopts" style="--oc:${list.length}">${list.map((c,k)=>`<button class="kopt deal" data-k="${k}" style="--i:${k+n+1}" aria-label="Keuze ${k+1}: ${VNAME[c[0]]} ${SUITNAME[c[1]]}">${playCard(...c)}</button>`).join('')}</div>`;
+  stage.querySelectorAll('.kopt').forEach(b=>b.onclick=()=>{
+    if(G.locked)return;G.locked=true;
+    const c=list[+b.dataset.k],ok=c===A;
+    $('#kq').innerHTML=playCard(...c);
+    if(reveal){b.classList.add(ok?'good':'bad',ok?'pop':'shake');if(!ok)stage.querySelector(`.kopt[data-k="${list.indexOf(A)}"]`).classList.add('good')}
+    else b.classList.add('picked');
+    done(ok?1:0,`Het was ${VNAME[A[0]]} ${SUITNAME[A[1]]}. Tip: ${q.hint}`);
+  });
+}
 function itemReken(level,done){
   const q=RK[level-1](),tok=G.token;setPrompt(q.t);
   const pics=q.pic?`<div class="pics">${STAR.repeat(q.pic)}</div>`:'';
@@ -1187,7 +1270,7 @@ function itemLijk(level,done){
   $('#reveal').onclick=()=>{
     $('#revealRow').remove();
     $('#ansBox').innerHTML=`<div class="answers"><div class="ans"><h4>2 punten: de groep of het idee</h4><p>${best}</p></div><div class="ans"><h4>1 punt: iets wat ze allebei hebben of doen</h4><p>${ok}</p></div>
-      <p class="lbl">Papa of mama kiest</p><div class="grade"><button class="g2" data-p="2"><b>2</b>noemt de groep</button><button class="g1" data-p="1"><b>1</b>noemt een eigenschap</button><button data-p="0"><b>0</b>klopt niet of weet het niet</button></div></div>`;
+      <p class="lbl">Wat lijkt het meest op jouw antwoord?</p><div class="grade"><button class="g2" data-p="2"><b>2</b>ik noemde de groep</button><button class="g1" data-p="1"><b>1</b>ik noemde iets wat ze allebei hebben</button><button data-p="0"><b>0</b>ik wist het niet</button></div></div>`;
     stage.querySelectorAll('.grade button').forEach(g=>g.onclick=()=>{if(G.locked)return;G.locked=true;const p=+g.dataset.p;
       done(p,p===1?'Voor 2 punten noem je de groep waar ze allebei bij horen.':'Denk aan de groep waar ze allebei bij horen.')});
     $('#ansBox').scrollIntoView({block:'nearest',behavior:'smooth'});
@@ -1257,7 +1340,7 @@ function openHub(){
     <ol class="hub">${ORDER.map((id,i)=>{const g=GD(id),r=T.res[id];
       return `<li class="hrow ${id===next?'next':''}" style="--c:${g.color}"><span class="ic">${ICONS[id]}</span><span class="nm"><small>Onderdeel ${i+1}</small>${g.name}</span>${
         r?`<span class="st ${r.skipped?'':'ok'}">${r.skipped?'overgeslagen':'✓ klaar'}</span>`:id===next?`<button class="go" data-id="${id}">Start</button>`:'<span class="st">nog doen</span>'}</li>`}).join('')}</ol>
-    <div class="btns">${next?`<button class="big" id="hubGo">${n?'Verder':'Start'}: ${GD(next).name}</button>`:''}${ORDER.filter(id=>T.res[id]&&!T.res[id].skipped).length>=3?`<button class="big alt" id="hubRep">Uitslag voor ouders</button>`:''}</div>
+    <div class="btns">${next?`<button class="big" id="hubGo">${n?'Verder':'Start'}: ${GD(next).name}</button>`:''}${ORDER.filter(id=>T.res[id]&&!T.res[id].skipped).length>=3?`<button class="big alt" id="hubRep">Examenuitslag</button>`:''}</div>
     <p class="hint">Pauze nemen mag altijd. De test onthoudt wat al klaar is.</p>
     <div class="row center"><button class="ghost" id="hubReset">Test opnieuw beginnen</button></div>`;
   const go=()=>openGame(next,true);
@@ -1273,11 +1356,11 @@ function renderSetup(){
     <ul>
       <li>Elk onderdeel begint op een niveau dat past bij de leeftijd en wordt steeds moeilijker.</li>
       <li>Lukken de eerste opgaven niet, dan gaat het terug naar makkelijker. Na drie fouten op rij stopt het onderdeel.</li>
-      <li>Het kind ziet niet of een antwoord goed is. Blokken en rekenen hebben een tijdslimiet.</li>
+      <li>Je ziet niet of een antwoord goed is. Toverblokken en toverrekenen hebben een tijdslimiet.</li>
       <li>Duurt ongeveer 30 tot 40 minuten. Pauzeren tussen de onderdelen mag.</li>
-      <li>Aan het eind: een geschat speel-IQ met uitleg, voor de ouders.</li>
+      <li>Aan het eind krijg je je examenuitslag.</li>
     </ul>
-    <p class="lbl">Wanneer is je kind geboren?</p>
+    <p class="lbl">Wanneer ben je geboren?</p>
     <div class="bday"><select id="bm" aria-label="Geboortemaand"><option value="">maand</option>${MONTHS.map((m,i)=>`<option value="${i+1}" ${b&&b.m===i+1?'selected':''}>${m}</option>`).join('')}</select>
       <select id="by" aria-label="Geboortejaar"><option value="">jaar</option>${Array.from({length:14},(_,i)=>nowY-3-i).map(y=>`<option ${b&&b.y===y?'selected':''}>${y}</option>`).join('')}</select></div>
     <p class="note" id="ageOut">&nbsp;</p>
@@ -1347,14 +1430,14 @@ function renderReport(){
       <p class="iqband">waarschijnlijk ergens tussen ${iq-band} en ${iq+band} · ${sc.length} van de ${ORDER.length} onderdelen · leeftijd ${ageText(T.age)}</p></div>
     <div class="bell">${bellSVG(iq,band)}</div>
     <div class="warn"><b>Dit is geen echte IQ-score.</b>
-      <span>De opgaven zijn zelfgemaakt en de vergelijking met leeftijdgenoten is een ruwe schatting, niet getest bij een groep kinderen. Het getal kan er flink naast zitten, en wordt hoger naarmate er meer geoefend is. Een echt IQ wordt alleen bepaald door een psycholoog met een genormeerde test zoals de WISC-V. Zie het als een spelletje en vertel het getal liever niet aan je kind.</span></div>
+      <span>De opgaven zijn zelfgemaakt en de vergelijking met leeftijdgenoten is een ruwe schatting, niet getest bij een groep kinderen. Het getal kan er flink naast zitten, en wordt hoger naarmate er meer geoefend is. Een echt IQ wordt alleen bepaald door een psycholoog met een genormeerde test zoals de WISC-V. Zie het als een spelletje.</span></div>
     <div class="box"><h4>Per onderdeel</h4>
       <p class="note">Schaalscore van 1 tot 19. Gemiddeld voor de leeftijd is 10; tussen 7 en 13 valt ongeveer tweederde van de kinderen.</p>
       <div class="scale-legend"><span></span><span><i>1</i><i>10</i><i>19</i></span><span></span></div>
       <div class="subs">${rows.map(x=>x.skip?`<div class="subrow skip"><span class="sn">${x.g.name}<small>${x.r?'overgeslagen':'niet gedaan'}</small></span><div class="strack"><span class="mid"></span></div><span class="sv">–</span></div>`
         :`<div class="subrow" style="--c:${x.g.color}"><span class="sn">${x.g.name}<small>${rawText(x.g,x.r)}</small></span><div class="strack"><span class="mid"></span><span class="pt" style="left:${(x.sc-1)/18*100}%"></span></div><span class="sv">${x.sc}</span></div>`).join('')}</div></div>
     ${hist.length?`<div class="box"><h4>Eerdere uitslagen</h4><table class="hist"><thead><tr><th>Datum</th><th>Leeftijd</th><th>Speel-IQ</th><th>Onderdelen</th></tr></thead><tbody>${hist.map(h=>`<tr><td>${new Date(h.date).toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})}</td><td>${ageText(h.age)}</td><td class="n">${h.iq}</td><td>${h.k} van ${ORDER.length}</td></tr>`).join('')}</tbody></table>
-      <p class="note">Gaat de score omhoog bij een volgende keer? Dat komt vaak vooral door het oefenen, niet doordat het kind slimmer is geworden.</p></div>`:''}
+      <p class="note">Gaat de score omhoog bij een volgende keer? Dat komt vaak vooral door het oefenen, niet doordat je slimmer bent geworden.</p></div>`:''}
     <div class="box"><details><summary>Waarop is de test gebaseerd?</summary><div class="basis">${BASIS}</div></details></div>
     <div class="btns"><button class="big alt" id="toHub">Terug naar het overzicht</button><button class="ghost" id="newTest">Nieuwe test beginnen</button></div>
   </div>`;
@@ -1392,6 +1475,7 @@ const BASIS=`
       <tr><td>Toverrekenen</td><td>Rekenen</td><td>Werkgeheugen (aanvullend)</td><td>Hoofdrekenen met een verhaaltje</td></tr>
       <tr><td>Zoek de rune</td><td>Symbool Zoeken</td><td>Verwerkingssnelheid</td><td>Snel en nauwkeurig vergelijken</td></tr>
     </tbody></table></div>
+  <p><b>Kaartenreeks</b> is een extra les (reeksen voortzetten, ook een vorm van redeneren) en telt niet mee in het examen.</p>
   <p>Niet nagemaakt zijn onder andere Woordkennis, Visuele Puzzels, Plaatjesreeks en Substitutie. Een echte WISC-V heeft er dus meer onderdelen en een andere samenstelling.</p>
 
   <h4>2. Afnameregels</h4>
@@ -1401,7 +1485,7 @@ const BASIS=`
     <li><b>Stopregel.</b> Na drie keer 0 punten op rij stopt het onderdeel. (Bij de echte WISC-V verschilt het aantal per onderdeel.)</li>
     <li><b>Cijfers onthouden:</b> twee pogingen per lengte, stoppen als ze allebei fout zijn. Eerst vooruit, daarna achteruit.</li>
     <li><b>Tijdslimiet</b> bij blokken (60 of 150 seconden) en rekenen (60 seconden). Zoek het teken duurt 45 seconden.</li>
-    <li><b>Geen feedback.</b> Tijdens de test hoort het kind niet of een antwoord goed was, net als bij een psycholoog.</li>
+    <li><b>Geen feedback.</b> Tijdens het examen hoor je niet of een antwoord goed was, net als bij een psycholoog.</li>
   </ol>
 
   <h4>3. Van ruwe score naar speel-IQ</h4>
