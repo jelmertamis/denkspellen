@@ -7,4 +7,4 @@ Thema: een mysterieuze tovenaarsschool met tarotkaarten, kaartsymbolen (harten, 
 - **Oefenen**: elk spel heeft niveaus; goed = niveau omhoog, fout = niveau omlaag.
 - **Het tovenaarsexamen**: zeven onderdelen achter elkaar, zoals bij een echte test (startniveau op leeftijd, terugzakken, stoppen na drie fouten op rij, geen feedback). Eindigt met een geschat "speel-IQ". Dat is een schatting met verzonnen normen, geen echte IQ-score. De kaartenreeks is een extra les en telt niet mee.
 
-Speelkaarten (`kaarten/atlas/`): het [Atlasnye-kaartspel](https://commons.wikimedia.org/wiki/File:Atlasnye_playing_cards_deck.svg) van Dmitry Fomin, naar schetsen van A.I. Charlemagne, publiek domein (CC0). De 52 losse kaarten komen ongewijzigd van Wikimedia Commons.
+Speelkaarten (`kaarten/nl/`): 19e-eeuwse scans van het Nederlandse kaartpatroon (aas, boer, vrouw, heer), publiek domein via Wikimedia Commons; zie `kaarten/nl/BRONNEN.md`. De getallenkaarten 2–10 zijn in dezelfde stijl nagetekend.
