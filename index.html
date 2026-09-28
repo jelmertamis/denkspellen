@@ -430,6 +430,14 @@ h1{font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:.01em}
 .bigdigit.face .d{color:#2A1E12;background:none;font-style:normal;font-size:clamp(90px,20vw,140px);padding:0}
 @keyframes flip{from{transform:rotateY(90deg)}}
 
+.opt,.wopt{background:linear-gradient(180deg,#FFFDF4 0%,#F4E5BF 100%)}
+.opt::after,.wopt::after{content:"\2726";position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:12px;line-height:1;color:#B8913A}
+.opt .k::before,.opt .k::after,.wopt .k::before,.wopt .k::after{content:"\00B7";margin:0 4px;color:#C9A961}
+.opt.good,.wopt.good{background:var(--goodbg)}
+.opt.bad,.wopt.bad{background:var(--badbg)}
+.opt.picked,.wopt.picked{background:color-mix(in srgb,var(--game) 12%,#fff)}
+.pc,.kopt{filter:drop-shadow(0 10px 12px rgba(40,25,5,.35)) drop-shadow(0 1px 1px rgba(40,25,5,.3))}
+
 /* uil */
 .owl{width:100%;height:100%;overflow:visible;display:block}
 .owl .lid{transform:scaleY(0);animation:blink 4.8s infinite}
@@ -1167,17 +1175,65 @@ GD('rekenen').max=RK.length;
 /* ---------- 8. Kaartenreeks (extra les) ---------- */
 const VAL=['','A','2','3','4','5','6','7','8','9','10','B','V','H'];
 const VNAME=['','aas','twee','drie','vier','vijf','zes','zeven','acht','negen','tien','boer','vrouw','heer'];
-const SCOL=['#B3261E','#1B1B2A','#1B1B2A','#B3261E'];
+const SCOL=['#A61E22','#1A1A2E','#1A1A2E','#A61E22'];
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX'];
+// gedeelde kleurverlopen voor alle speelkaarten (één keer in de pagina)
+document.body.insertAdjacentHTML('afterbegin',`<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="pcPaper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFEF8"/><stop offset="1" stop-color="#F3E7CA"/></linearGradient>
+  <linearGradient id="pcGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5DC8E"/><stop offset=".5" stop-color="#B8913A"/><stop offset="1" stop-color="#EBCB6C"/></linearGradient>
+  <linearGradient id="pcFace0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEDE2"/><stop offset="1" stop-color="#EFCFBE"/></linearGradient>
+  <linearGradient id="pcFace1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEEDF6"/><stop offset="1" stop-color="#D2CFE4"/></linearGradient>
+  <radialGradient id="pcBack" cx=".5" cy=".45" r=".75"><stop offset="0" stop-color="#43357A"/><stop offset="1" stop-color="#15122E"/></radialGradient>
+</defs></svg>`);
+const PL=33,PR=67,PC2=50;
+const PIPS={
+  2:[[PC2,30],[PC2,110,1]],
+  3:[[PC2,30],[PC2,70],[PC2,110,1]],
+  4:[[PL,30],[PR,30],[PL,110,1],[PR,110,1]],
+  5:[[PL,30],[PR,30],[PC2,70],[PL,110,1],[PR,110,1]],
+  6:[[PL,30],[PR,30],[PL,70],[PR,70],[PL,110,1],[PR,110,1]],
+  7:[[PL,30],[PR,30],[PC2,50],[PL,70],[PR,70],[PL,110,1],[PR,110,1]],
+  8:[[PL,30],[PR,30],[PC2,50],[PL,70],[PR,70],[PC2,90,1],[PL,110,1],[PR,110,1]],
+  9:[[PL,30],[PR,30],[PL,56.7],[PR,56.7],[PC2,70],[PL,83.3,1],[PR,83.3,1],[PL,110,1],[PR,110,1]],
+  10:[[PL,30],[PR,30],[PC2,43.3],[PL,56.7],[PR,56.7],[PL,83.3,1],[PR,83.3,1],[PC2,96.7,1],[PL,110,1],[PR,110,1]]
+};
+const FACE={11:'Boer',12:'Vrouw',13:'Heer'};
+function cardFrame(fill='url(#pcPaper)'){
+  return `<rect x="1.5" y="1.5" width="97" height="137" rx="9" fill="${fill}" stroke="url(#pcGold)" stroke-width="2.5"/>
+    <rect x="6" y="6" width="88" height="128" rx="6" fill="none" stroke="#C9A961" stroke-width=".9"/>
+    <rect x="8.5" y="8.5" width="83" height="123" rx="4.5" fill="none" stroke="#C9A961" stroke-width=".4"/>`;
+}
+function cardBack(){
+  const star=(x,y,r)=>`<path d="M${x} ${y-r}L${x+r*.28} ${y-r*.28}L${x+r} ${y}L${x+r*.28} ${y+r*.28}L${x} ${y+r}L${x-r*.28} ${y+r*.28}L${x-r} ${y}L${x-r*.28} ${y-r*.28}Z" fill="#E3B341"/>`;
+  return `<svg viewBox="0 0 100 140" aria-hidden="true">${cardFrame('url(#pcBack)')}
+    <circle cx="50" cy="70" r="27" fill="none" stroke="#E3B341" stroke-width=".9"/>
+    <circle cx="50" cy="70" r="22" fill="none" stroke="#E3B341" stroke-width=".6" stroke-dasharray="1 2.4"/>
+    ${star(20,20,4)}${star(80,20,4)}${star(20,120,4)}${star(80,120,4)}${star(50,28,3)}${star(50,112,3)}
+    <text x="50" y="86" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="48" fill="#F6E7B8">?</text>
+  </svg>`;
+}
 function playCard(v,s,q=false){
-  if(q)return `<svg viewBox="0 0 100 140" aria-hidden="true"><rect x="2" y="2" width="96" height="136" rx="10" fill="#FFFaEc" stroke="#B8913A" stroke-width="2" stroke-dasharray="6 5"/><text x="50" y="90" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="66" style="fill:var(--game)">?</text></svg>`;
-  const c=SCOL[s],t=(x,y,fs,anchor='start')=>`<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="Cormorant Garamond, serif" font-weight="700" font-size="${fs}" fill="${c}" style="font-variant-numeric:lining-nums">${VAL[v]}</text>`;
-  const corner=`${t(12,30,24)}${shp(s,20,42,6.5,`fill="${c}"`)}`;
-  return `<svg viewBox="0 0 100 140" role="img" aria-label="${VNAME[v]} ${SUITNAME[s]}">
-    <rect x="2" y="2" width="96" height="136" rx="10" fill="#FFFDF6" stroke="#8C6A2A" stroke-width="2"/>
-    <rect x="8" y="8" width="84" height="124" rx="6" fill="none" stroke="#D9C59A" stroke-width="1"/>
-    ${corner}<g transform="rotate(180 50 70)">${corner}</g>
-    ${t(50,84,v===10?40:46,'middle')}${shp(s,50,104,11,`fill="${c}"`)}
+  if(q)return cardBack();
+  const c=SCOL[s],red=s===0||s===3;
+  const pip=(x,y,r,flip)=>flip?`<g transform="rotate(180 ${x} ${y})">${shp(s,x,y,r,`fill="${c}"`)}</g>`:shp(s,x,y,r,`fill="${c}"`);
+  const idx=`<text x="15" y="27" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="${v===10?19:24}" fill="${c}" style="font-variant-numeric:lining-nums" ${v===10?'letter-spacing="-1"':''}>${VAL[v]}</text>${shp(s,15,37,5,`fill="${c}"`)}`;
+  let mid='';
+  if(v===1){
+    mid=`<circle cx="50" cy="70" r="27" fill="none" stroke="#C9A961" stroke-width="1"/><circle cx="50" cy="70" r="23" fill="none" stroke="#C9A961" stroke-width=".6" stroke-dasharray="1 2.4"/>
+      <path d="M50 40v-6M50 100v6M20 70h6M74 70h6" stroke="#C9A961" stroke-width="1" stroke-linecap="round"/>${pip(50,70,17)}`;
+  }else if(FACE[v]){
+    const emb=v===13
+      ?`<path d="M37 57L35 41L43 48L50 37L57 48L65 41L63 57Z" fill="url(#pcGold)" stroke="#5A4520" stroke-width=".8" stroke-linejoin="round"/><circle cx="35" cy="41" r="1.8" fill="${c}"/><circle cx="50" cy="37" r="2" fill="${c}"/><circle cx="65" cy="41" r="1.8" fill="${c}"/><rect x="37" y="54" width="26" height="4" rx="1" fill="url(#pcGold)" stroke="#5A4520" stroke-width=".6"/>`
+      :v===12
+      ?`<path d="M36 57C38 47 44 45 50 36C56 45 62 47 64 57Z" fill="url(#pcGold)" stroke="#5A4520" stroke-width=".8" stroke-linejoin="round"/><circle cx="50" cy="48" r="3" fill="${c}"/><circle cx="41" cy="52" r="1.6" fill="${c}"/><circle cx="59" cy="52" r="1.6" fill="${c}"/>`
+      :`<path d="M40 37H60V48C60 55 55 59 50 61C45 59 40 55 40 48Z" fill="url(#pcGold)" stroke="#5A4520" stroke-width=".8"/>${shp(s,50,48,5,`fill="${c}"`)}`;
+    mid=`<rect x="23" y="20" width="54" height="100" rx="5" fill="url(#pcFace${red?0:1})" stroke="#C9A961" stroke-width=".9"/>
+      <rect x="26" y="23" width="48" height="94" rx="3.5" fill="none" stroke="#C9A961" stroke-width=".4"/>
+      ${emb}${pip(50,84,13)}
+      <text x="50" y="110" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="700" font-size="12" fill="${c}">${FACE[v]}</text>`;
+  }else mid=PIPS[v].map(([x,y,f])=>pip(x,y,7.6,f)).join('');
+  return `<svg viewBox="0 0 100 140" role="img" aria-label="${VNAME[v]} ${SUITNAME[s]}">${cardFrame()}
+    ${idx}<g transform="rotate(180 50 70)">${idx}</g>${mid}
   </svg>`;
 }
 const rs=()=>rnd(4);
