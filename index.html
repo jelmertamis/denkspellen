@@ -11,19 +11,21 @@
 <style>
 :root{
   --bg:#EAF1FF; --ink:#1B2140; --ink2:#4A5373; --paper:#FFFFFF; --soft:#F3F6FF; --line:#C9D5F0;
-  --violet:#6A4CE0; --red:#E03A2E; --teal:#0B8F88; --orange:#D9730D; --pink:#C93584; --blue:#1F6FD1;
+  --violet:#6A4CE0; --red:#E03A2E; --teal:#0B8F88; --orange:#D9730D; --pink:#C93584; --blue:#1F6FD1; --plum:#8E3FB8;
   --good:#1E9E5A; --goodbg:#E4F6EB; --goodink:#0F5C33; --bad:#E03A2E; --badbg:#FDECEA;
   --warnbg:#FFF3DC; --warnink:#6B3D00; --sun:#FFC83D;
   --game:var(--violet);
   color-scheme:light;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.5;padding:0 16px 56px}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg) radial-gradient(circle at 12% 0,#fff 0,transparent 38%) no-repeat;color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.5;padding:0 16px 56px;min-height:100vh}
 .wrap{max-width:980px;margin:0 auto}
 h1,h2,h3,h4,.display{font-family:"Baloo 2","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-button:focus-visible,summary:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+button:focus-visible,summary:focus-visible,select:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+button[disabled]{opacity:.4;cursor:not-allowed}
 svg{display:block}
 
 /* header */
@@ -35,11 +37,25 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .starchip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border-radius:999px;padding:6px 18px 6px 12px;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:26px;font-variant-numeric:tabular-nums}
 .starchip svg{width:30px;height:30px}
+.starchip.bump{animation:pop .4s}
 .pill{background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:9px 16px;font-size:16px;font-weight:700;display:inline-flex;gap:8px;align-items:center}
 .pill svg{width:20px;height:20px}
 .pill[aria-pressed="false"]{color:var(--ink2)}
 
 /* home */
+.hero{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;text-align:left;color:#fff;border-radius:28px;padding:24px 28px;margin-bottom:30px;background:linear-gradient(120deg,#6A4CE0 0%,#1F6FD1 100%);box-shadow:0 8px 0 rgba(27,33,64,.28);position:relative;overflow:hidden;transition:transform .12s ease,box-shadow .12s ease}
+.hero:hover{transform:translateY(-3px);box-shadow:0 11px 0 rgba(27,33,64,.28)}
+.hero:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(27,33,64,.28)}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.1)}
+.hero .hicon{width:100px;height:100px;flex:none}
+.hero .htxt{display:grid;gap:6px}
+.hero .tag{justify-self:start;background:var(--sun);color:var(--ink);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 12px}
+.hero h2{font-size:clamp(30px,4.6vw,42px);font-weight:800}
+.hero p{font-size:17px;opacity:.96;max-width:54ch}
+.hero .go{background:#fff;color:var(--violet);font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:24px;padding:10px 28px;border-radius:999px;white-space:nowrap;position:relative;z-index:1}
+.secthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.secthead h2{font-size:30px;font-weight:800}
+.secthead p{color:var(--ink2);font-size:16px}
 .games{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
 .card{--c:var(--violet);background:var(--c);color:#fff;border-radius:24px;padding:22px 22px 18px;text-align:left;display:grid;gap:6px;align-content:start;box-shadow:0 7px 0 rgba(27,33,64,.28);transition:transform .12s ease,box-shadow .12s ease}
 .card:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(27,33,64,.28)}
@@ -48,12 +64,13 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .cicon svg{width:100%;height:100%}
 .cname{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:30px;line-height:1.05}
 .csub{font-size:17px;opacity:.95}
-.cstars{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-weight:700;font-size:17px;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px 3px 8px;justify-self:start;font-variant-numeric:tabular-nums}
+.cmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.cstars{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:16px;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 12px 3px 8px;font-variant-numeric:tabular-nums}
 .cstars svg{width:20px;height:20px}
 
 .parents{margin-top:28px;background:var(--paper);border-radius:20px;padding:6px 22px}
 .parents summary{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer;padding-block:12px}
-.parents .body{display:grid;gap:12px;padding-bottom:18px;max-width:68ch;color:var(--ink2);font-size:17px}
+.parents .body{display:grid;gap:12px;padding-bottom:18px;max-width:70ch;color:var(--ink2);font-size:17px}
 .parents ul{margin:0;padding-left:20px;display:grid;gap:6px}
 .parents b{color:var(--ink)}
 
@@ -70,14 +87,29 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .dot.ok{background:var(--good);border-color:var(--good)}
 .dot.miss{background:#F4C2BC;border-color:#F4C2BC}
 .dot.cur{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--game)}
-.stage{background:var(--paper);border-radius:28px;padding:clamp(18px,4vw,36px);border-top:10px solid var(--game)}
+.steps{display:flex;gap:5px;align-items:center}
+.steps i{width:24px;height:10px;border-radius:5px;background:var(--line)}
+.steps i.ok{background:var(--good)}
+.steps i.cur{background:var(--game);width:36px}
+.lvl{display:inline-flex;align-items:center;gap:10px;background:var(--paper);border-radius:999px;padding:6px 16px;font-weight:700;font-size:16px;color:var(--ink2)}
+.lvl b{font-family:"Baloo 2",system-ui,sans-serif;font-size:24px;color:var(--game);line-height:1}
+.ladder{display:flex;gap:2px;align-items:flex-end;height:22px}
+.ladder i{width:5px;border-radius:2px;background:var(--line)}
+.ladder i.on{background:var(--game)}
+.lvl.up{animation:bump .7s ease}
+.lvl.down{animation:dip .7s ease}
+@keyframes bump{30%{transform:translateY(-8px) scale(1.08)}}
+@keyframes dip{30%{transform:translateY(6px) scale(.95)}}
+.stage{background:var(--paper);border-radius:28px;padding:clamp(18px,4vw,36px);border-top:10px solid var(--game);box-shadow:0 10px 30px -18px rgba(27,33,64,.35)}
+.stage>*{animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}}
 
 .intro,.done{display:grid;justify-items:center;text-align:center;gap:16px;padding-block:10px}
-.bigicon{width:128px;height:128px;border-radius:50%;background:var(--game);display:grid;place-items:center}
+.bigicon{width:128px;height:128px;border-radius:50%;background:var(--game);display:grid;place-items:center;box-shadow:0 6px 0 rgba(27,33,64,.2)}
 .bigicon svg{width:76px;height:76px}
 .intro h3,.done h3{font-size:clamp(34px,6vw,48px);font-weight:800}
-.lead{font-size:clamp(20px,2.6vw,24px);max-width:34ch}
-.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.lead{font-size:clamp(20px,2.6vw,24px);max-width:36ch}
+.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center}
 .big{background:var(--game);color:#fff;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:28px;padding:10px 38px;border-radius:999px;box-shadow:0 5px 0 rgba(27,33,64,.28)}
 .big:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(27,33,64,.28)}
 .big.alt{background:var(--paper);color:var(--game);border:3px solid var(--game)}
@@ -85,35 +117,59 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .ghost{border:2px solid var(--line);border-radius:999px;padding:9px 20px;font-weight:700;color:var(--ink2);background:var(--paper)}
 .check{display:flex;gap:10px;align-items:center;font-size:17px;color:var(--ink2)}
 .check input{width:22px;height:22px;accent-color:var(--game)}
-.note{font-size:15px;color:var(--ink2);max-width:44ch}
+.note{font-size:16px;color:var(--ink2);max-width:48ch}
+.testnote{background:var(--soft);border:2px dashed var(--line);border-radius:16px;padding:10px 16px;font-size:17px;color:var(--ink2);max-width:52ch}
 .row{display:flex;gap:12px;flex-wrap:wrap}
 .center{justify-content:center}
 .ask{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(22px,3vw,28px);text-align:center;margin-block:18px 14px}
 .lbl{text-transform:uppercase;letter-spacing:.08em;font-size:14px;font-weight:700;color:var(--ink2);text-align:center}
 .hint{text-align:center;color:var(--ink2);margin-block:14px 10px}
 
+/* item timer */
+.ibar{width:min(100%,560px);height:12px;margin:0 auto 18px;border-radius:99px;background:var(--soft);border:2px solid var(--line);overflow:hidden}
+.ibar i{display:block;height:100%;width:100%;background:var(--game);border-radius:99px}
+
 /* feedback */
 .fb{margin:20px auto 0;max-width:640px;border-radius:18px;padding:14px 20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .fb.good{background:var(--goodbg);color:var(--goodink)}
+.fb.half{background:#E8F0FF;color:#1D3F7A}
 .fb.bad{background:var(--warnbg);color:var(--warnink)}
+.fb.neutral{background:var(--soft);color:var(--ink2);justify-content:center}
 .fb .msg{display:grid;gap:2px}
 .fb strong{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:28px;line-height:1.1}
 .fb .next{background:var(--game);color:#fff;font-weight:700;padding:10px 24px;border-radius:999px;font-size:19px}
+.pop{animation:pop .4s ease}
+@keyframes pop{50%{transform:scale(1.07)}}
+.shake{animation:shake .45s ease}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 
 /* patronen */
-.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(100%,400px);margin:0 auto}
+.matrix{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:8px;width:min(100%,calc(var(--n,3)*134px));margin:0 auto}
 .cell{aspect-ratio:1;background:var(--soft);border:2px solid var(--line);border-radius:14px;display:grid;place-items:center;max-width:100%}
 .cell svg{width:88%;height:88%}
 .cell.miss{border:3px dashed var(--game);background:var(--paper)}
 .cell.miss span{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(40px,9vw,64px);color:var(--game)}
 .cell.good{border:4px solid var(--good);background:var(--goodbg)}
 .cell.bad{border:4px solid var(--bad);background:var(--badbg)}
-.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:min(100%,560px);margin:0 auto}
-.opt{aspect-ratio:1;background:var(--paper);border:3px solid var(--line);border-radius:16px;display:grid;place-items:center;max-width:100%;transition:transform .1s}
+.opts{display:grid;grid-template-columns:repeat(var(--oc,4),1fr);gap:12px;width:min(100%,calc(var(--oc,4)*140px));margin:0 auto}
+.opt{aspect-ratio:1;background:var(--paper);border:3px solid var(--line);border-radius:16px;display:grid;place-items:center;max-width:100%;transition:transform .1s,border-color .1s;position:relative}
 .opt:hover{border-color:var(--game);transform:translateY(-2px)}
 .opt svg{width:84%;height:84%}
-.opt.good{border:5px solid var(--good);background:var(--goodbg)}
-.opt.bad{border:5px solid var(--bad);background:var(--badbg)}
+.opt .k{position:absolute;left:6px;top:2px;font-size:13px;font-weight:700;color:var(--ink2)}
+.opt.good,.wopt.good{border:5px solid var(--good);background:var(--goodbg)}
+.opt.bad,.wopt.bad{border:5px solid var(--bad);background:var(--badbg)}
+.opt.picked,.wopt.picked{border:5px solid var(--game);background:color-mix(in srgb,var(--game) 12%,#fff)}
+
+/* weegschaal */
+.scales{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.scalebox{background:var(--soft);border:2px solid var(--line);border-radius:18px;padding:8px 8px 4px;width:min(100%,300px)}
+.scalebox.q{border:3px dashed var(--game);background:var(--paper)}
+.scalebox svg{width:100%;height:auto}
+.wopts{display:grid;grid-template-columns:repeat(var(--oc,4),1fr);gap:10px;width:min(100%,680px);margin:0 auto}
+.wopt{background:var(--paper);border:3px solid var(--line);border-radius:16px;padding:8px 4px;display:grid;place-items:center;min-height:80px;transition:transform .1s,border-color .1s;position:relative}
+.wopt:hover{border-color:var(--game);transform:translateY(-2px)}
+.wopt svg{width:100%;height:auto;max-height:90px}
+.wopt .k{position:absolute;left:8px;top:2px;font-size:13px;font-weight:700;color:var(--ink2)}
 
 /* blokken */
 .blocks{display:flex;gap:clamp(14px,4vw,40px);justify-content:center;flex-wrap:wrap}
@@ -122,6 +178,7 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .myboard{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:3px;background:var(--ink);border:4px solid var(--ink);border-radius:4px}
 .tile{padding:0;aspect-ratio:1;display:block;background:#fff}
 .tile svg{width:100%;height:100%}
+.myboard.solved{box-shadow:0 0 0 6px var(--good)}
 
 /* keypad */
 .kpShow{min-height:72px;display:flex;gap:8px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
@@ -140,23 +197,31 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .bigdigit .d{font-size:clamp(90px,20vw,150px);line-height:1}
 .bigdigit .pulse{width:48px;height:48px;border-radius:50%;background:#fff;animation:pulse .9s ease-out}
 @keyframes pulse{from{transform:scale(.4);opacity:.3}to{transform:scale(1);opacity:1}}
+.example{display:flex;gap:18px;align-items:center;justify-content:center;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:36px}
+.example span{background:var(--soft);border-radius:14px;padding:2px 16px}
+.example svg{width:36px;height:36px;color:var(--game)}
 
 /* rekenen */
 .story{width:100%;max-width:720px;margin:0 auto 20px;display:flex;gap:16px;align-items:flex-start;text-align:left;background:var(--soft);border:2px solid var(--line);border-radius:20px;padding:18px 20px;font-size:clamp(20px,2.6vw,25px);line-height:1.4}
-.story svg{width:40px;height:40px;flex:none;color:var(--game)}
+.story>svg{width:40px;height:40px;flex:none;color:var(--game)}
+.pics{display:flex;flex-wrap:wrap;gap:6px;max-width:420px;justify-content:center;margin:0 auto 18px}
+.pics svg{width:52px;height:52px}
 
 /* lijken */
 .pair{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin-block:8px 6px}
 .word{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(36px,7vw,58px);padding:6px 26px;border-radius:20px;background:color-mix(in srgb,var(--game) 12%,#fff);color:var(--game)}
 .amp{font-family:"Baloo 2",system-ui,sans-serif;font-size:36px;color:var(--ink2)}
-.answers{max-width:640px;margin:18px auto 0;display:grid;gap:10px}
+.answers{max-width:660px;margin:18px auto 0;display:grid;gap:10px}
 .ans{background:var(--soft);border-radius:16px;padding:12px 18px}
 .ans h4{font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);font-family:"Atkinson Hyperlegible",system-ui,sans-serif}
 .ans p{font-size:21px}
-.grade{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:6px}
-.grade .yes{background:var(--good);color:#fff}
-.grade button{padding:12px 24px;border-radius:999px;font-weight:700;font-size:19px}
-.grade .no{background:var(--paper);border:2px solid var(--line);color:var(--ink2)}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.grade button{padding:10px 12px;border-radius:18px;font-weight:700;font-size:17px;line-height:1.25;border:2px solid var(--line);background:var(--paper);color:var(--ink2)}
+.grade button b{display:block;font-family:"Baloo 2",system-ui,sans-serif;font-size:26px;color:var(--ink)}
+.grade .g2{background:var(--good);border-color:var(--good);color:#fff}
+.grade .g2 b{color:#fff}
+.grade .g1{background:#E8F0FF;border-color:#B9CDF5}
+@media (max-width:520px){.grade{grid-template-columns:1fr}}
 
 /* zoeken */
 .search{display:grid;gap:18px;justify-items:center}
@@ -164,26 +229,96 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
 .track{flex:1;height:16px;border-radius:999px;background:var(--soft);border:2px solid var(--line);overflow:hidden}
 .bar{height:100%;background:var(--game);transition:width 1s linear}
 .timer b{font-family:"Baloo 2",system-ui,sans-serif;font-size:30px;min-width:2.2ch;text-align:right;font-variant-numeric:tabular-nums}
-.srow{display:flex;align-items:center;gap:12px;justify-content:center;padding:12px;border-radius:20px;transition:background .15s}
+.srow{display:flex;align-items:center;gap:10px;justify-content:center;padding:12px;border-radius:20px;transition:background .15s;flex-wrap:nowrap;max-width:100%}
 .srow.ok{background:var(--goodbg)}
 .srow.no{background:var(--badbg)}
-.target,.g{display:grid;place-items:center;background:var(--paper);border-radius:16px}
-.target{width:clamp(66px,21vw,116px);aspect-ratio:1;border:5px solid var(--game)}
-.g{width:clamp(58px,18vw,100px);aspect-ratio:1;border:2px solid var(--line)}
+.srow.tap{background:var(--soft)}
+.target,.g{display:grid;place-items:center;background:var(--paper);border-radius:16px;flex:none}
+.target{width:clamp(48px,14vw,108px);aspect-ratio:1;border:5px solid var(--game)}
+.g{width:clamp(36px,10vw,92px);aspect-ratio:1;border:2px solid var(--line)}
+@media (max-width:440px){.srow{gap:6px;padding:8px}}
 .target svg,.g svg{width:78%;height:78%}
-.sep{width:4px;align-self:stretch;background:var(--line);border-radius:2px}
+.sep{width:4px;align-self:stretch;background:var(--line);border-radius:2px;flex:none}
 .yn{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(100%,520px)}
 .yn button{height:84px;border-radius:22px;color:#fff;font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:36px;box-shadow:0 5px 0 rgba(27,33,64,.25)}
 .yn button:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(27,33,64,.25)}
 .yn .yes{background:var(--good)}
 .yn .no{background:var(--bad)}
 
+/* test: opzet, overzicht, uitslag */
+.setup{display:grid;gap:18px;justify-items:center;text-align:center}
+.setup ul{text-align:left;max-width:60ch;margin:0;padding-left:22px;display:grid;gap:6px;color:var(--ink2)}
+.bday{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+.bday select{font:inherit;font-size:20px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--soft);color:var(--ink)}
+.hubhead{text-align:center;display:grid;gap:6px;margin-bottom:18px}
+.hubhead h3{font-size:clamp(30px,5vw,42px);font-weight:800}
+.hubhead p{color:var(--ink2)}
+.hub{list-style:none;margin:0 auto 20px;padding:0;display:grid;gap:10px;max-width:640px}
+.hrow{display:flex;align-items:center;gap:14px;background:var(--soft);border-radius:18px;padding:10px 14px;border:2px solid transparent}
+.hrow.next{border-color:var(--c);background:var(--paper);box-shadow:0 4px 0 rgba(27,33,64,.12)}
+.hrow .ic{width:52px;height:52px;border-radius:14px;background:var(--c);display:grid;place-items:center;flex:none}
+.hrow .ic svg{width:34px;height:34px}
+.hrow .nm{flex:1;font-weight:700;font-size:20px;line-height:1.2}
+.hrow .nm small{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.hrow .st{font-weight:700;font-size:15px;color:var(--ink2);border-radius:999px;padding:4px 12px;background:var(--paper)}
+.hrow .st.ok{background:var(--goodbg);color:var(--goodink)}
+.hrow .go{background:var(--c);color:#fff;font-weight:700;border-radius:999px;padding:8px 20px}
+
+.report{display:grid;gap:22px}
+.iqcard{display:grid;justify-items:center;text-align:center;gap:6px}
+.iqcard .lbl{margin-bottom:2px}
+.iqbig{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:clamp(76px,15vw,128px);line-height:.95;color:var(--violet);font-variant-numeric:tabular-nums}
+.iqcls{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:26px}
+.iqband{color:var(--ink2)}
+.bell{width:min(100%,640px);margin:0 auto}
+.bell svg{width:100%;height:auto}
+.warn{background:var(--warnbg);color:var(--warnink);border-radius:18px;padding:14px 20px;display:grid;gap:6px;font-size:16px}
+.warn b{font-size:18px}
+.subs{display:grid;gap:8px}
+.subrow{display:grid;grid-template-columns:minmax(120px,190px) 1fr 70px;gap:12px;align-items:center}
+.subrow .sn{font-weight:700}
+.subrow .sn small{display:block;font-weight:400;color:var(--ink2);font-size:14px}
+.strack{position:relative;height:26px;border-radius:13px;background:linear-gradient(90deg,#FDECEA 0%,#F3F6FF 28%,#F3F6FF 72%,#E4F6EB 100%);border:2px solid var(--line)}
+.strack .mid{position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:var(--ink2);opacity:.5}
+.strack .pt{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--c);border:3px solid #fff;box-shadow:0 0 0 2px var(--ink);transform:translate(-50%,-50%)}
+.subrow .sv{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:24px;text-align:right;font-variant-numeric:tabular-nums}
+.subrow.skip{opacity:.5}
+.scale-legend{display:grid;grid-template-columns:minmax(120px,190px) 1fr 70px;gap:12px;font-size:13px;color:var(--ink2)}
+.scale-legend span:nth-child(2){display:flex;justify-content:space-between}
+.basis h4{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:20px;color:var(--ink);margin-top:6px}
+.basis ol{margin:0;padding-left:22px;display:grid;gap:6px}
+.twrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.btable{width:100%;border-collapse:collapse;font-size:15px;min-width:520px}
+.btable th,.btable td{padding:8px 10px;border-bottom:2px solid var(--soft);text-align:left;vertical-align:top}
+.btable th{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.btable td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+.formula{font-family:ui-monospace,Consolas,monospace;font-size:15px;background:var(--soft);border-radius:10px;padding:8px 12px;color:var(--ink)}
+.box details summary{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px;cursor:pointer}
+.box details .basis{display:grid;gap:12px;margin-top:10px;color:var(--ink2);font-size:16px}
+.hist{width:100%;border-collapse:collapse;font-size:16px}
+.hist th,.hist td{padding:8px 10px;border-bottom:2px solid var(--soft);text-align:left}
+.hist th{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.hist td.n{font-family:"Baloo 2",system-ui,sans-serif;font-weight:800;font-size:22px}
+.box{background:var(--soft);border-radius:18px;padding:16px 20px;display:grid;gap:10px}
+.box h4{font-size:22px}
+@media (max-width:560px){
+  .subrow,.scale-legend{grid-template-columns:1fr 56px}
+  .subrow .strack{grid-column:1/-1;grid-row:2}
+  .scale-legend span:first-child,.scale-legend span:last-child{display:none}
+  .scale-legend{grid-template-columns:1fr}
+}
+
 .done svg.bigstar{width:130px;height:130px}
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 
+@media (max-width:640px){
+  .hero{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .hero .tag{justify-self:center}
+}
 @media (max-width:440px){
-  .opts{grid-template-columns:repeat(2,1fr);width:min(100%,300px)}
+  .opts{gap:8px}
   .board,.myboard{width:min(42vw,250px)}
+  .wopts{grid-template-columns:repeat(2,1fr)}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -206,33 +341,58 @@ h1{font-size:clamp(34px,6vw,56px);font-weight:800}
       </div>
     </div>
     <div class="tools">
-      <span class="starchip" title="Sterren verdiend"><span id="starIconTop"></span><span id="starTotal">0</span></span>
+      <span class="starchip" id="starChip" title="Sterren verdiend"><span id="starIconTop"></span><span id="starTotal">0</span></span>
       <button class="pill" id="voiceBtn" aria-pressed="true"></button>
     </div>
   </header>
 
   <main id="home">
+    <button class="hero" id="heroBtn">
+      <svg class="hicon" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.16)"/>
+        <path d="M50 18c-15 0-26 10-26 24 0 8 4 14 9 18v12h34V60c5-4 9-10 9-18 0-14-11-24-26-24z" fill="#fff" stroke="#1B2140" stroke-width="3.5" stroke-linejoin="round"/>
+        <rect x="36" y="74" width="28" height="9" rx="4" fill="#FFC83D" stroke="#1B2140" stroke-width="3.5"/>
+        <path d="M42 50l6 6 12-14" fill="none" stroke="#6A4CE0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="htxt">
+        <span class="tag">Nieuw</span>
+        <h2>De grote denktest</h2>
+        <p>Zeven onderdelen, net als bij een echte test: het wordt steeds moeilijker en stopt vanzelf als het te moeilijk wordt. Aan het eind een uitslag voor papa en mama.</p>
+      </span>
+      <span class="go" id="heroGo">Begin</span>
+    </button>
+
+    <div class="secthead"><h2>Oefenen</h2><p>Goed? Dan wordt het moeilijker. Fout? Dan iets makkelijker.</p></div>
     <section class="games" id="gameGrid" aria-label="Kies een spel"></section>
 
     <details class="parents">
       <summary>Voor papa en mama</summary>
       <div class="body">
-        <p><b>Waarvoor is dit?</b> Om te wennen aan de s&#xf3;&#xf3;rt puzzels die bij een intelligentieonderzoek (zoals de WISC-V) voorkomen, zodat de onderzoeksdag minder spannend en onbekend voelt.</p>
+        <p><b>Waarvoor is dit?</b> Om te wennen aan het s&#xf3;&#xf3;rt puzzels dat bij een intelligentieonderzoek (zoals de WISC-V) voorkomt, zodat de onderzoeksdag minder spannend en onbekend voelt.</p>
         <ul>
           <li><b>Eigen opgaven, geen echte testvragen.</b> Alle puzzels zijn zelf gemaakt of worden willekeurig gegenereerd.</li>
-          <li><b>Niet stampen.</b> De test meet hoe een kind met nieuwe opgaven omgaat. Veel oefenen met hetzelfde soort opgaven kan de uitslag vertekenen. Een paar korte rondes als spel is genoeg.</li>
-          <li><b>Ogen sparen.</b> Grote vormen, weinig tekst, voorlezen staat aan. Speel kort (zo'n 10 minuten) en neem pauze bij vermoeide ogen.</li>
-          <li><b>Wat lijkt erop?</b> Myrddin zegt het antwoord hardop; jullie kijken mee en geven de ster.</li>
-          <li>Sterren worden alleen in deze browser bewaard.</li>
+          <li><b>Oefenen past zich aan.</b> Elk spel heeft niveaus. Goed antwoord: een niveau omhoog. Fout: een niveau omlaag. Het spel onthoudt ongeveer waar je bleef.</li>
+          <li><b>De grote denktest</b> werkt zoals een echte test: startniveau op basis van de leeftijd, terugzakken als de eerste opgaven niet lukken, stoppen na drie fouten op rij. Het kind ziet tijdens de test niet of iets goed of fout is.</li>
+          <li><b>Het speel-IQ is een schatting, geen echte IQ-score.</b> De opgaven en de vergelijking met leeftijdgenoten zijn niet wetenschappelijk genormeerd. Zie het als een spelletje en vertel het getal liever niet aan je kind.</li>
+          <li><b>Niet stampen.</b> De echte test meet hoe een kind met nieuwe opgaven omgaat. Veel oefenen kan de uitslag vertekenen. Een paar korte rondes als spel is genoeg.</li>
+          <li><b>Ogen sparen.</b> Grote vormen, weinig tekst, voorlezen staat aan. Speel kort (zo'n 10 minuten) en neem pauze bij vermoeide ogen. De test mag je in stukjes doen.</li>
+          <li><b>Wat lijkt erop?</b> Jullie luisteren naar het antwoord en geven 2, 1 of 0 punten.</li>
+          <li>Sterren, niveaus en uitslagen worden alleen in deze browser bewaard.</li>
         </ul>
       </div>
+    </details>
+
+    <details class="parents" id="basisHome">
+      <summary>Waarop is de test gebaseerd?</summary>
+      <div class="body basis"></div>
     </details>
   </main>
 
   <main id="play" hidden>
     <div class="playbar">
-      <button class="back" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Menu</button>
+      <button class="back" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span id="backLbl">Menu</span></button>
       <h2 id="playTitle"></h2>
+      <span class="lvl" id="lvl" hidden></span>
       <div class="dots" id="dots" aria-hidden="true"></div>
       <button class="say" id="sayBtn" aria-label="Lees de vraag voor"></button>
     </div>
@@ -245,13 +405,17 @@ const $=s=>document.querySelector(s);
 const rnd=n=>Math.floor(Math.random()*n);
 const R=(a,b)=>a+rnd(b-a+1);
 const pick=a=>a[rnd(a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
 const stage=$('#stage'), home=$('#home'), play=$('#play');
 
 /* ---------- opslag ---------- */
+// geheugen als reserve als localStorage niet mag (bv. privévenster)
+const mem={};
 const store={
-  get(k,d){try{const v=localStorage.getItem('denkspel:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
-  set(k,v){try{localStorage.setItem('denkspel:'+k,JSON.stringify(v))}catch(e){}}
+  get(k,d){let v=null;try{v=localStorage.getItem('denkspel:'+k)}catch(e){}if(v==null)v=mem[k]??null;try{return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){const s=JSON.stringify(v);mem[k]=s;try{localStorage.setItem('denkspel:'+k,s)}catch(e){}},
+  del(k){delete mem[k];try{localStorage.removeItem('denkspel:'+k)}catch(e){}}
 };
 let stars=store.get('stars',{});
 let voiceOn=store.get('voice',true);
@@ -259,6 +423,7 @@ let voiceOn=store.get('voice',true);
 /* ---------- iconen ---------- */
 const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 14.9,8.6 22,9.3 16.6,14 18.2,21 12,17.3 5.8,21 7.4,14 2,9.3 9.1,8.6" fill="#FFC83D" stroke="#B07A00" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 const SPEAKER='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
 const W='stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"';
 const ICONS={
   patronen:`<svg viewBox="0 0 64 64" aria-hidden="true">${[0,1,2].map(r=>[0,1,2].map(c=>r===2&&c===2?`<rect x="${6+c*19}" y="${6+r*19}" width="14" height="14" rx="3" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 3"/>`:`<rect x="${6+c*19}" y="${6+r*19}" width="14" height="14" rx="3" fill="#fff"/>`).join('')).join('')}</svg>`,
@@ -266,7 +431,8 @@ const ICONS={
   onthouden:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="13" cy="32" r="10" fill="#fff"/><circle cx="32" cy="32" r="10" fill="#fff"/><circle cx="51" cy="32" r="10" fill="#fff"/><text x="13" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">4</text><text x="32" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">7</text><text x="51" y="37.5" font-size="15" font-weight="800" text-anchor="middle" fill="#0B8F88" font-family="Baloo 2, sans-serif">2</text></svg>`,
   rekenen:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 8v20M6 18h20M40 18h18M11 42l12 12M23 42L11 54M40 44h18M40 52h18" fill="none" ${W}/></svg>`,
   lijken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="24" cy="32" r="17" fill="none" ${W}/><circle cx="40" cy="32" r="17" fill="none" ${W}/><path d="M32 18a17 17 0 0 1 0 28a17 17 0 0 1 0-28z" fill="#fff"/></svg>`,
-  zoeken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="27" cy="27" r="16" fill="none" ${W} stroke-width="5"/><path d="M39 39l16 16" ${W} stroke-width="7"/></svg>`
+  zoeken:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="27" cy="27" r="16" fill="none" ${W} stroke-width="5"/><path d="M39 39l16 16" ${W} stroke-width="7"/></svg>`,
+  weegschaal:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10v44M20 56h24M8 20h48M8 20L3 38M8 20l5 18M56 20l-5 18M56 20l5 18" fill="none" ${W}/><path d="M1 38a7 5 0 0 0 14 0zM49 38a7 5 0 0 0 14 0z" fill="#fff"/><circle cx="32" cy="10" r="5" fill="#fff"/></svg>`
 };
 $('#starIconTop').innerHTML=STAR;
 $('#sayBtn').innerHTML=SPEAKER;
@@ -293,7 +459,7 @@ $('#voiceBtn').onclick=()=>{voiceOn=!voiceOn;store.set('voice',voiceOn);if(!voic
 if('speechSynthesis' in window)loadVoices();else drawVoiceBtn();
 
 /* ---------- spelmotor ---------- */
-let G=null, timers=[];
+let G=null, timers=[], view='home';
 const later=(fn,ms)=>{const t=setTimeout(fn,ms);timers.push(t);return t};
 const wait=ms=>new Promise(r=>later(r,ms));
 function clearTimers(){timers.forEach(clearTimeout);timers=[];if(G&&G.interval)clearInterval(G.interval);try{speechSynthesis.cancel()}catch(e){}}
@@ -301,99 +467,211 @@ function setPrompt(t){if(G)G.prompt=t}
 function sayPrompt(){if(G&&G.prompt)speak(G.prompt)}
 $('#sayBtn').onclick=sayPrompt;
 
-function updateStars(){$('#starTotal').textContent=Object.values(stars).reduce((a,b)=>a+b,0)}
-function addStar(){stars[G.def.id]=(stars[G.def.id]||0)+1;store.set('stars',stars);G.earned++;updateStars()}
+function updateStars(bump){
+  $('#starTotal').textContent=Object.values(stars).reduce((a,b)=>a+b,0);
+  if(bump){const c=$('#starChip');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump')}
+}
+function addStar(n=1){stars[G.def.id]=(stars[G.def.id]||0)+n;store.set('stars',stars);G.earned+=n;updateStars(true)}
 
 const GAMES=[
-  {id:'patronen',name:'Patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',rounds:8,
-   intro:'Kijk goed naar de plaatjes. Er mist er \u00e9\u00e9n. Welk plaatje hoort op de lege plek?',round:roundPatroon},
-  {id:'blokken',name:'Blokken',sub:'Maak het voorbeeld precies na',color:'var(--red)',rounds:6,
-   intro:'Tik op de blokjes om ze te draaien. Maak precies hetzelfde patroon als het voorbeeld.',round:roundBlok},
-  {id:'onthouden',name:'Cijfers onthouden',sub:'Luister goed en tik ze na',color:'var(--teal)',rounds:null,
-   intro:'Ik zeg een paar cijfers. Luister goed. Daarna tik jij ze in.'},
-  {id:'rekenen',name:'Rekenen',sub:'Sommen in een verhaaltje',color:'var(--orange)',rounds:8,
-   intro:'Ik vertel een kort verhaaltje met een som. Reken het uit in je hoofd en tik het antwoord in.',round:roundReken},
-  {id:'lijken',name:'Wat lijkt erop?',sub:'Wat hebben twee dingen samen?',color:'var(--pink)',rounds:8,
-   intro:'Ik noem twee dingen. Bedenk hoe ze op elkaar lijken en zeg het hardop.',round:roundLijk},
-  {id:'zoeken',name:'Zoek het teken',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',rounds:null,
-   intro:'Kijk naar het teken links. Zit precies hetzelfde teken in de rij? Tik op ja of nee. Zo snel als je kunt!'}
+  {id:'blokken',name:'Blokken',sub:'Maak het voorbeeld precies na',color:'var(--red)',kind:'ladder',
+   intro:'Tik op de blokjes om ze te draaien. Maak precies hetzelfde patroon als het voorbeeld.',
+   item:itemBlok,start:[2,.6],norm:[4,.7,2]},
+  {id:'lijken',name:'Wat lijkt erop?',sub:'Wat hebben twee dingen samen?',color:'var(--pink)',kind:'ladder',full:2,
+   intro:'Ik noem twee dingen. Bedenk hoe ze op elkaar lijken en zeg het hardop.',
+   item:itemLijk,start:[2,.8],norm:[8,2.4,4]},
+  {id:'patronen',name:'Patronen',sub:'Welk plaatje past op de lege plek?',color:'var(--violet)',kind:'ladder',
+   intro:'Kijk goed naar de plaatjes. Er mist er één. Welk plaatje hoort op de lege plek?',
+   item:itemPatroon,start:[2,.8],norm:[5,1.1,2.6]},
+  {id:'onthouden',name:'Cijfers onthouden',sub:'Luister goed en tik ze na',color:'var(--teal)',kind:'span',
+   intro:'Ik zeg een paar cijfers. Luister goed. Daarna tik jij ze in.',norm:[7,.75,1.8]},
+  {id:'weegschaal',name:'Weegschaal',sub:'Wat maakt het weer in evenwicht?',color:'var(--plum)',kind:'ladder',
+   intro:'Deze weegschalen zijn in evenwicht: links is even zwaar als rechts. Welke vormen maken de laatste weegschaal ook recht?',
+   item:itemWeeg,start:[2,.7],norm:[4,1,2.3]},
+  {id:'rekenen',name:'Rekenen',sub:'Sommen in een verhaaltje',color:'var(--orange)',kind:'ladder',
+   intro:'Ik vertel een kort verhaaltje met een som. Reken het uit in je hoofd en tik het antwoord in.',
+   item:itemReken,start:[3,.9],norm:[6,1.2,2.6]},
+  {id:'zoeken',name:'Zoek het teken',sub:'Snel kijken: zit hij erbij?',color:'var(--blue)',kind:'speed',
+   intro:'Kijk naar het teken links. Zit precies hetzelfde teken in de rij? Tik op ja of nee. Zo snel als je kunt!',norm:[8,2.4,4]}
 ];
+const GD=id=>GAMES.find(g=>g.id===id);
+const ORDER=GAMES.map(g=>g.id);
+const TESTNOTE='Dit is de test. Je ziet niet of je antwoord goed is, net als bij de echte puzzeldag. Het wordt steeds moeilijker en stopt vanzelf. Gewoon je best doen!';
+
+function show(v){view=v;home.hidden=v!=='home';play.hidden=v==='home';window.scrollTo(0,0)}
+function goHome(){clearTimers();G=null;show('home');renderHome()}
 
 function renderHome(){
   const grid=$('#gameGrid');
   grid.innerHTML=GAMES.map(g=>`<button class="card" style="--c:${g.color}" data-id="${g.id}">
     <span class="cicon">${ICONS[g.id]}</span><span class="cname">${g.name}</span><span class="csub">${g.sub}</span>
-    <span class="cstars">${STAR}${stars[g.id]||0}</span></button>`).join('');
-  grid.querySelectorAll('.card').forEach(b=>b.onclick=()=>openGame(b.dataset.id));
+    <span class="cmeta"><span class="cstars">${STAR}${stars[g.id]||0}</span>${g.kind==='ladder'?`<span class="cstars">Niveau ${store.get('lvl:'+g.id,1)}</span>`:''}</span></button>`).join('');
+  grid.querySelectorAll('.card').forEach(b=>b.onclick=()=>openGame(b.dataset.id,false));
+  const T=store.get('test',null),n=T?ORDER.filter(id=>T.res[id]).length:0;
+  $('#heroGo').textContent=!T?'Begin':n<ORDER.length?`Verder (${n}/${ORDER.length})`:'Uitslag';
   updateStars();
 }
+$('#heroBtn').onclick=openHub;
 
-function openGame(id){
+function openGame(id,test){
   clearTimers();
-  const def=GAMES.find(g=>g.id===id);
-  G={def,round:0,total:def.rounds,results:[],earned:0,locked:false,token:0};
+  const def=GD(id);
+  G={def,test,round:0,total:null,results:[],earned:0,locked:false,token:0,used:new Set(),best:0};
   play.style.setProperty('--game',def.color);
   $('#playTitle').textContent=def.name;
-  home.hidden=true;play.hidden=false;window.scrollTo(0,0);
-  renderDots();showIntro();
+  $('#backLbl').textContent=test?'Overzicht':'Menu';
+  show('play');renderBar();showIntro();
 }
-$('#backBtn').onclick=()=>{clearTimers();G=null;play.hidden=true;home.hidden=false;renderHome();window.scrollTo(0,0)};
+$('#backBtn').onclick=()=>{
+  if((view==='play'&&G&&G.test)||view==='report')openHub();else goHome();
+};
 
-function renderDots(){
-  const d=$('#dots');
-  if(!G.total||!G.started){d.innerHTML='';return}
-  d.innerHTML=Array.from({length:G.total},(_,i)=>{
-    const r=G.results[i];return `<span class="dot ${r===true?'ok':r===false?'miss':''} ${i===G.round&&r==null?'cur':''}"></span>`}).join('');
+function renderBar(dir=0){
+  const d=$('#dots'),lv=$('#lvl');
+  if(!G){d.innerHTML='';lv.hidden=true;return}
+  if(G.test){
+    const T=store.get('test',{res:{}});
+    d.innerHTML=`<span class="steps" title="Onderdelen van de test">${ORDER.map(id=>`<i class="${T.res[id]?'ok':''} ${id===G.def.id?'cur':''}"></i>`).join('')}</span>`;
+    lv.hidden=true;return;
+  }
+  d.innerHTML=G.total&&G.started?Array.from({length:G.total},(_,i)=>{
+    const r=G.results[i];return `<span class="dot ${r===true?'ok':r===false?'miss':''} ${i===G.round&&r==null?'cur':''}"></span>`}).join(''):'';
+  if(G.started&&G.def.kind==='ladder'){
+    const max=G.def.max;
+    lv.innerHTML=`Niveau <b>${G.level}</b><span class="ladder" aria-hidden="true">${Array.from({length:max},(_,i)=>`<i class="${i<G.level?'on':''}" style="height:${6+i*16/max}px"></i>`).join('')}</span>`;
+    lv.hidden=false;
+  }else if(G.started&&G.def.kind==='span'){
+    lv.innerHTML=`<b>${G.len}</b> cijfers`;lv.hidden=false;
+  }else lv.hidden=true;
+  if(dir){lv.classList.remove('up','down');void lv.offsetWidth;lv.classList.add(dir>0?'up':'down')}
 }
 
 function showIntro(){
   const d=G.def;setPrompt(d.intro);
-  stage.innerHTML=`<div class="intro"><div class="bigicon">${ICONS[d.id]}</div><h3>${d.name}</h3><p class="lead">${d.intro}</p><div class="btns" id="introBtns"></div><div id="introExtra"></div></div>`;
-  const box=$('#introBtns');
-  if(d.id==='onthouden'){
-    box.innerHTML=`<button class="big" id="fw"><small>zeg ze na zoals ik ze zeg</small>Vooruit</button><button class="big alt" id="bw"><small>zeg ze andersom</small>Achteruit</button>`;
+  stage.innerHTML=`<div class="intro"><div class="bigicon">${ICONS[d.id]}</div><h3>${d.name}</h3><p class="lead">${d.intro}</p>${G.test?`<p class="testnote">${TESTNOTE}</p>`:''}<div class="btns" id="introBtns"></div><div id="introExtra"></div></div>`;
+  const box=$('#introBtns'),extra=$('#introExtra');
+  if(d.kind==='span'){
     const forced=!canSpeak();
-    $('#introExtra').innerHTML=`<label class="check"><input type="checkbox" id="showDigits" ${forced||store.get('showDigits',false)?'checked':''} ${forced?'disabled':''}> Cijfers ook op het scherm laten zien</label>${forced?'<p class="note">Voorlezen staat uit of er is geen Nederlandse stem, dus de cijfers verschijnen op het scherm.</p>':''}`;
-    const go=mode=>{G.showDigits=$('#showDigits').checked;if(!forced)store.set('showDigits',G.showDigits);startSpan(mode)};
-    $('#fw').onclick=()=>go('vooruit');$('#bw').onclick=()=>go('achteruit');
-  }else if(d.id==='zoeken'){
+    if(G.test){
+      box.innerHTML=`<button class="big" id="go">Start</button>`;
+      $('#go').onclick=()=>startSpanTest(forced);
+      if(forced)extra.innerHTML='<p class="note">Voorlezen staat uit of er is geen Nederlandse stem, dus de cijfers verschijnen op het scherm. Bij de echte test worden ze alleen uitgesproken.</p>';
+    }else{
+      box.innerHTML=`<button class="big" id="fw"><small>zeg ze na zoals ik ze zeg</small>Vooruit</button><button class="big alt" id="bw"><small>zeg ze andersom</small>Achteruit</button>`;
+      extra.innerHTML=`<label class="check"><input type="checkbox" id="showDigits" ${forced||store.get('showDigits',false)?'checked':''} ${forced?'disabled':''}> Cijfers ook op het scherm laten zien</label>${forced?'<p class="note">Voorlezen staat uit of er is geen Nederlandse stem, dus de cijfers verschijnen op het scherm.</p>':''}`;
+      const go=mode=>{G.showDigits=$('#showDigits').checked;if(!forced)store.set('showDigits',G.showDigits);startSpan(mode)};
+      $('#fw').onclick=()=>go('vooruit');$('#bw').onclick=()=>go('achteruit');
+    }
+  }else if(d.kind==='speed'){
     box.innerHTML=`<button class="big" id="go">Start! (45 seconden)</button>`;$('#go').onclick=startZoeken;
   }else{
-    box.innerHTML=`<button class="big" id="go">Start</button>`;
-    $('#go').onclick=()=>{G.started=true;G.round=0;G.results=[];G.locked=false;renderDots();d.round(0)};
+    box.innerHTML=`<button class="big" id="go">Start</button>`;$('#go').onclick=startLadder;
+    if(!G.test)extra.innerHTML=`<p class="note">Je begint op niveau ${clamp(store.get('lvl:'+d.id,1),1,d.max)} van de ${d.max}.</p>`;
+  }
+  if(G.test){
+    box.insertAdjacentHTML('beforeend',`<button class="ghost" id="skipSub">Dit onderdeel overslaan</button>`);
+    $('#skipSub').onclick=()=>{const T=store.get('test');T.res[d.id]={skipped:true};store.set('test',T);afterSubtest()};
+    if(d.id==='lijken')extra.innerHTML='<p class="note">Bij dit onderdeel geeft papa of mama de punten. Geen tijd? Sla het dan over; de uitslag wordt dan berekend zonder dit onderdeel.</p>';
   }
   sayPrompt();
 }
 
 const PRAISE=['Goed zo!','Super!','Knap gedaan!','Helemaal goed!','Yes!','Top!'];
-function showFeedback(ok,msg,onNext){
+function showFeedback(kind,msg,onNext){
   const fb=document.createElement('div');
-  fb.className='fb '+(ok?'good':'bad');
-  fb.innerHTML=`<div class="msg"><strong>${ok?pick(PRAISE):'Bijna!'}</strong>${msg?`<span>${msg}</span>`:''}</div>${ok?'':'<button class="next">Verder</button>'}`;
+  fb.className='fb '+kind;
+  const head=kind==='good'?pick(PRAISE):kind==='half'?'Goed!':'Bijna!';
+  fb.innerHTML=`<div class="msg"><strong>${head}</strong>${msg?`<span>${msg}</span>`:''}</div>${kind==='good'?'':'<button class="next">Verder</button>'}`;
   stage.appendChild(fb);
-  if(ok){speak(fb.querySelector('strong').textContent);later(onNext,1400)}
+  if(kind==='good'){speak(head);later(onNext,1500)}
   else{const b=fb.querySelector('.next');b.onclick=onNext;b.focus({preventScroll:true});fb.scrollIntoView({block:'nearest',behavior:'smooth'})}
 }
-function roundDone(ok,badMsg,goodMsg){
-  G.results[G.round]=ok;if(ok)addStar();renderDots();
-  showFeedback(ok,ok?goodMsg:badMsg,advance);
-}
-function advance(){
-  G.round++;G.locked=false;
-  if(G.total&&G.round>=G.total){finish();return}
-  renderDots();G.def.round(G.round);
+function neutral(fn){
+  const fb=document.createElement('div');fb.className='fb neutral';
+  fb.innerHTML=`<div class="msg"><strong>${pick(['Oké!','Dankjewel!','Op naar de volgende!'])}</strong></div>`;
+  stage.appendChild(fb);later(fn,750);
 }
 function finish(line){
   clearTimers();
   const n=G.earned;
-  G.started=false;renderDots();
+  G.started=false;renderBar();
   stage.innerHTML=`<div class="done">${STAR.replace('<svg','<svg class="bigstar"')}<h3>Klaar!</h3><p class="lead">${line||`Je hebt ${n} ${n===1?'ster':'sterren'} verdiend.`}</p>
     <div class="btns"><button class="big" id="again">Nog een keer</button><button class="big alt" id="menu">Ander spel</button></div></div>`;
-  $('#again').onclick=()=>openGame(G.def.id);
-  $('#menu').onclick=()=>$('#backBtn').click();
+  $('#again').onclick=()=>openGame(G.def.id,false);
+  $('#menu').onclick=goHome;
   speak('Klaar! Goed gedaan.');
   confetti();
 }
+
+/* ---------- niveau-ladder: oefenen en test ---------- */
+function startLadder(){
+  const d=G.def;G.started=true;G.locked=false;
+  if(G.test){
+    const T=store.get('test'),s=clamp(Math.round(d.start[0]+d.start[1]*(clamp(T.age,5,16)-6)),1,d.max-2);
+    G.T={start:s,res:{},dir:'fwd',fwdN:0,fails:0,maxFwd:s-1,revOk:0,revFails:0,reversed:false,revDone:false,n:0};
+    G.level=s;
+  }else{
+    G.total=10;G.round=0;G.results=[];G.level=clamp(store.get('lvl:'+d.id,1),1,d.max);
+  }
+  ladderItem();
+}
+function ladderItem(){
+  G.locked=false;G.token++;renderBar();
+  G.def.item(G.level,ladderDone);
+}
+function ladderDone(score,bad,good){
+  const d=G.def,full=d.full||1;
+  if(G.test){testStep(score);return}
+  const ok=score>=full,old=G.level;
+  G.results[G.round]=ok;if(score>0)addStar();
+  let dir=0;
+  if(ok){G.best=Math.max(G.best,old);if(old<d.max){G.level++;dir=1}}
+  else if(score===0&&old>1){G.level--;dir=-1}
+  renderBar(dir);
+  const msg=ok?[good,dir>0?'Nu een niveau moeilijker!':'Dit was al het moeilijkste niveau!'].filter(Boolean).join(' '):bad;
+  showFeedback(ok?'good':score>0?'half':'bad',msg,()=>{
+    G.round++;
+    if(G.round>=G.total){
+      store.set('lvl:'+d.id,Math.max(1,G.level-1));
+      finish(`Je hebt ${G.earned} ${G.earned===1?'ster':'sterren'} verdiend.${G.best?` Hoogste niveau: ${G.best} van de ${d.max}.`:''}`);
+    }else ladderItem();
+  });
+}
+/* Zoals een echte test: startpunt op leeftijd, terug als de eerste twee niet lukken (tot twee goed op rij), stoppen na drie keer 0 op rij. */
+function testStep(score){
+  const T=G.T,L=G.level,d=G.def,full=d.full||1,ok=score>=full;
+  T.res[L]=score;T.n++;
+  let done=T.n>=45;
+  if(T.dir==='fwd'){
+    T.fwdN++;T.maxFwd=Math.max(T.maxFwd,L);
+    T.fails=score===0?T.fails+1:0;
+    if(!ok&&T.fwdN<=2&&!T.reversed&&T.start>1){T.reversed=true;T.dir='rev';G.level=T.start-1}
+    else if(T.fails>=3||L>=d.max)done=true;
+    else G.level=L+1;
+  }else{
+    T.revOk=ok?T.revOk+1:0;T.revFails=score===0?T.revFails+1:0;
+    if(T.revOk>=2||L<=1){
+      T.revDone=T.revOk>=2;T.dir='fwd';
+      if(T.fails>=3||T.maxFwd>=d.max)done=true;else G.level=T.maxFwd+1;
+    }else if(T.revFails>=3)done=true;
+    else G.level=L-1;
+  }
+  if(done){
+    const lv=Object.keys(T.res).map(Number),min=Math.min(...lv);
+    let raw=Object.values(T.res).reduce((a,b)=>a+b,0);
+    if(!T.reversed||T.revDone)raw+=(min-1)*full;
+    neutral(()=>subtestDone(raw,{items:T.n,start:T.start}));
+  }else neutral(ladderItem);
+}
+
+/* ---------- tijdbalk per opgave ---------- */
+const timerBar=()=>'<div class="ibar" aria-hidden="true"><i id="ibar"></i></div>';
+function startTimerBar(sec,onEnd){
+  const b=$('#ibar');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{if(b){b.style.transition=`width ${sec}s linear`;b.style.width='0%'}}));
+  later(onEnd,sec*1000);
+}
+function stopTimerBar(){const b=$('#ibar');if(b){const w=getComputedStyle(b).width;b.style.transition='none';b.style.width=w}}
 
 /* ---------- toetsenblok ---------- */
 function keypad(host,{max=3,onSubmit}){
@@ -410,65 +688,183 @@ function keypad(host,{max=3,onSubmit}){
   });
 }
 document.addEventListener('keydown',e=>{
-  if(play.hidden)return;
+  if(play.hidden||e.ctrlKey||e.metaKey||e.altKey)return;
   const kp=stage.querySelector('.kp');
   if(kp){let s=null;
     if(/^[0-9]$/.test(e.key))s=`[data-d="${e.key}"]`;else if(e.key==='Backspace')s='[data-x="del"]';else if(e.key==='Enter')s='[data-x="ok"]';
-    if(s){e.preventDefault();kp.querySelector(s)?.click()}}
+    if(s){e.preventDefault();kp.querySelector(s)?.click()}return}
   const yn=stage.querySelector('.yn');
-  if(yn){if(e.key==='j'||e.key==='ArrowLeft'){e.preventDefault();$('#yes').click()}if(e.key==='n'||e.key==='ArrowRight'){e.preventDefault();$('#no').click()}}
+  if(yn){if(e.key==='j'||e.key==='ArrowLeft'){e.preventDefault();$('#yes').click()}if(e.key==='n'||e.key==='ArrowRight'){e.preventDefault();$('#no').click()}return}
+  const op=stage.querySelectorAll('.opt,.wopt');
+  if(op.length&&/^[1-9]$/.test(e.key)){const b=op[+e.key-1];if(b){e.preventDefault();b.click()}}
 });
 
-/* ---------- 1. Patronen ---------- */
-const COLORS=['#E03A2E','#1F6FD1','#1E9E5A'];
-const SHAPES=['circle','square','triangle'];
-function shapeSVG(s,col,cx,cy,r){
-  const st=`fill="${col}" stroke="#1B2140" stroke-width="3" stroke-linejoin="round"`;
-  if(s==='circle')return `<circle cx="${cx}" cy="${cy}" r="${r}" ${st}/>`;
-  if(s==='square')return `<rect x="${cx-r*.88}" y="${cy-r*.88}" width="${r*1.76}" height="${r*1.76}" rx="3" ${st}/>`;
-  const h=r*1.1;return `<polygon points="${cx},${cy-h} ${cx+h*1.05},${cy+h*.8} ${cx-h*1.05},${cy+h*.8}" ${st}/>`;
+/* ---------- vormen ---------- */
+const PC=['#E03A2E','#1F6FD1','#FFC83D','#1E9E5A'];
+function shp(s,cx,cy,r,a){
+  if(s===0)return `<circle cx="${cx}" cy="${cy}" r="${r}" ${a}/>`;
+  if(s===1){const h=r*.88;return `<rect x="${cx-h}" y="${cy-h}" width="${2*h}" height="${2*h}" rx="3" ${a}/>`}
+  if(s===2){const h=r*1.1;return `<polygon points="${cx},${cy-h} ${cx+h*1.05},${cy+h*.8} ${cx-h*1.05},${cy+h*.8}" ${a}/>`}
+  const h=r*1.18;return `<polygon points="${cx},${cy-h} ${cx+h*.85},${cy} ${cx},${cy+h} ${cx-h*.85},${cy}" ${a}/>`;
 }
+function fig(s,col,f,cx,cy,r){
+  const j='stroke-linejoin="round"';
+  if(f===1)return shp(s,cx,cy,r,`fill="#fff" stroke="#1B2140" stroke-width="10" ${j}`)+shp(s,cx,cy,r,`fill="#fff" stroke="${col}" stroke-width="5.5" ${j}`);
+  if(f===2)return shp(s,cx,cy,r,`fill="#fff" stroke="#1B2140" stroke-width="3" ${j}`)+shp(s,cx,cy+(s===2?r*.12:0),r*.45,`fill="${col}" stroke="#1B2140" stroke-width="2" ${j}`);
+  return shp(s,cx,cy,r,`fill="${col}" stroke="#1B2140" stroke-width="3" ${j}`);
+}
+
+/* ---------- 1. Patronen ---------- */
+// n: 2x2 of 3x3; r: welke eigenschap volgens welke regel verandert; o: aantal keuzes; m: lege plek willekeurig; h: lastige afleiders
+const PAT=[
+ {n:2,r:{s:'col'},o:4},
+ {n:2,r:{c:'row'},o:4},
+ {n:2,r:{s:'row',c:'col'},o:4},
+ {n:3,r:{s:'row'},o:4},
+ {n:3,r:{s:'col',c:'row'},o:4},
+ {n:3,r:{s:'row',n:'prog'},o:4},
+ {n:3,r:{s:'diag',c:'col'},o:6},
+ {n:3,r:{s:'row',c:'col',n:'prog'},o:6,m:1},
+ {n:3,r:{s:'diag',c:'anti'},o:6},
+ {n:3,r:{s:'diag',c:'row',n:'col'},o:6},
+ {n:3,r:{s:'row',c:'col',f:'diag'},o:6,m:1},
+ {n:3,r:{s:'diag',c:'anti',n:'row'},o:6,m:1,h:1},
+ {n:3,r:{s:'anti',c:'diag',f:'col'},o:6,h:1},
+ {n:3,r:{s:'diag',c:'anti',n:'col',f:'row'},o:6,h:1},
+ {n:3,r:{s:'anti',c:'row',n:'diag',f:'col'},o:8,h:1,m:1},
+ {n:3,r:{s:'col',c:'anti',n:'diag',f:'row'},o:8,h:1,m:1}
+];
+GD('patronen').max=PAT.length;
+const DOM={s:[0,1,2,3],c:[0,1,2,3],n:[1,2,3],f:[0,1,2]};
+const ANAME={s:'vorm',c:'kleur',n:'aantal',f:'vulling'};
+const AK=['s','c','n','f'];
 function cellSVG(c){
   const pos={1:[[50,52]],2:[[29,52],[71,52]],3:[[50,29],[28,71],[72,71]]}[c.n];
   const r=c.n===1?27:c.n===2?17:15;
-  return `<svg viewBox="0 0 100 100" aria-hidden="true">${pos.map(([x,y])=>shapeSVG(SHAPES[c.s],COLORS[c.c],x,y,r)).join('')}</svg>`;
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${pos.map(([x,y])=>fig(c.s,PC[c.c],c.f,x,y,r)).join('')}</svg>`;
 }
-function genMatrix(level){
-  const sp=shuffle([0,1,2]),cp=shuffle([0,1,2]),np=shuffle([1,2,3]);
+function genMatrix(cfg){
+  const n=cfg.n,vals={},rules={};
+  for(const a of AK){
+    const rule=cfg.r[a]||'const';rules[a]=rule;
+    if(rule==='const')vals[a]=[a==='n'?1:a==='f'?0:pick(DOM[a])];
+    else if(rule==='prog')vals[a]=Math.random()<.5?[1,2,3]:[3,2,1];
+    else vals[a]=shuffle(DOM[a]).slice(0,n);
+  }
+  const idx=(rule,r,c)=>rule==='const'?0:rule==='row'?r:(rule==='col'||rule==='prog')?c:rule==='diag'?(r+c)%n:(r+2*c)%n;
   const grid=[];
-  for(let r=0;r<3;r++)for(let c=0;c<3;c++){
-    let s,col,n=1;
-    if(level===1){s=sp[r];col=cp[c]}
-    else if(level===2){s=sp[(r+c)%3];col=cp[c]}
-    else{s=sp[(r+c)%3];col=cp[(r+2*c)%3];n=np[r]}
-    grid.push({s,c:col,n});
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++){const cell={};for(const a of AK)cell[a]=vals[a][idx(rules[a],r,c)];grid.push(cell)}
+  const miss=cfg.m?rnd(n*n):n*n-1,ans=grid[miss];
+  const seen={};for(const a of AK)seen[a]=new Set(grid.filter((_,k)=>k!==miss).map(x=>x[a]));
+  const cands=[];
+  for(const s of DOM.s)for(const c of DOM.c)for(const nn of DOM.n)for(const f of DOM.f){
+    const x={s,c,n:nn,f},diff=AK.filter(a=>x[a]!==ans[a]).length;
+    if(diff)cands.push({...x,diff,pl:AK.every(a=>seen[a].has(x[a]))});
   }
-  const miss=level===3?rnd(9):8, ans=grid[miss];
-  const ns=level===3?[1,2,3]:[1], cands=[];
-  for(const s of [0,1,2])for(const c of [0,1,2])for(const n of ns){
-    const diff=(s!==ans.s)+(c!==ans.c)+(n!==ans.n);if(diff)cands.push({s,c,n,diff});
-  }
-  const one=shuffle(cands.filter(x=>x.diff===1)),more=shuffle(cands.filter(x=>x.diff>1));
-  const d=level===1?one.slice(0,3):[...one.slice(0,2),...more.slice(0,1)];
-  return {grid,miss,ans,opts:shuffle([ans,...d])};
+  const A=shuffle(cands.filter(x=>x.pl&&x.diff===1)),B=shuffle(cands.filter(x=>x.pl&&x.diff===2)),
+        C=shuffle(cands.filter(x=>!x.pl&&x.diff===1)),D=shuffle(cands.filter(x=>x.diff>1&&!(x.pl&&x.diff===2)));
+  const order=cfg.h?[...A,...B,...C,...D]:[...A.slice(0,2),...C.slice(0,1),...B.slice(0,1),...A.slice(2),...C.slice(1),...B.slice(1),...D];
+  const opts=shuffle([ans,...order.slice(0,cfg.o-1)]);
+  const tips=AK.filter(a=>rules[a]!=='const').map(a=>{
+    const w=ANAME[a],r=rules[a];
+    if(r==='row')return `In elke rij is de ${w} hetzelfde.`;
+    if(r==='col')return `In elke kolom is de ${w} hetzelfde.`;
+    if(r==='prog')return 'Het aantal loopt per kolom steeds één op of af.';
+    return `Elke ${w} komt in elke rij en kolom precies één keer voor.`;
+  });
+  return {grid,miss,ans,opts,hint:tips.join(' ')};
 }
-function roundPatroon(i){
-  const m=genMatrix(i<3?1:i<6?2:3);
+function itemPatroon(level,done){
+  const cfg=PAT[level-1],m=genMatrix(cfg),reveal=!G.test;
   setPrompt('Welk plaatje hoort op de lege plek?');
-  stage.innerHTML=`<div class="matrix">${m.grid.map((c,k)=>k===m.miss?`<div class="cell miss" id="missCell"><span>?</span></div>`:`<div class="cell">${cellSVG(c)}</div>`).join('')}</div>
+  stage.innerHTML=`<div class="matrix" style="--n:${cfg.n}">${m.grid.map((c,k)=>k===m.miss?`<div class="cell miss" id="missCell"><span>?</span></div>`:`<div class="cell">${cellSVG(c)}</div>`).join('')}</div>
     <p class="ask">Welk plaatje hoort op de lege plek?</p>
-    <div class="opts">${m.opts.map((c,k)=>`<button class="opt" data-k="${k}" aria-label="Keuze ${k+1}">${cellSVG(c)}</button>`).join('')}</div>`;
+    <div class="opts" style="--oc:${cfg.o===6?3:4}">${m.opts.map((c,k)=>`<button class="opt" data-k="${k}" aria-label="Keuze ${k+1}"><span class="k">${k+1}</span>${cellSVG(c)}</button>`).join('')}</div>`;
   stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     if(G.locked)return;G.locked=true;
     const k=+b.dataset.k,ok=m.opts[k]===m.ans,mc=$('#missCell');
-    mc.innerHTML=cellSVG(m.opts[k]);mc.classList.add(ok?'good':'bad');b.classList.add(ok?'good':'bad');
-    if(!ok)stage.querySelector(`.opt[data-k="${m.opts.indexOf(m.ans)}"]`).classList.add('good');
-    roundDone(ok,'Het groene plaatje was goed. Kijk wat er in elke rij en kolom hetzelfde blijft.');
+    mc.innerHTML=cellSVG(m.opts[k]);
+    if(reveal){
+      mc.classList.add(ok?'good':'bad');b.classList.add(ok?'good':'bad',ok?'pop':'shake');
+      if(!ok)stage.querySelector(`.opt[data-k="${m.opts.indexOf(m.ans)}"]`).classList.add('good');
+    }else b.classList.add('picked');
+    done(ok?1:0,`Het groene plaatje was goed. ${m.hint}`);
   });
 }
 
-/* ---------- 2. Blokken ---------- */
+/* ---------- 2. Weegschaal ---------- */
+const WEEG=[
+ {w:{A:1,B:1},g:['A=B'],q:'A',a:'B'},
+ {w:{A:1,B:1},g:['A=B'],q:'AA',a:'BB'},
+ {w:{A:2,B:1},g:['A=BB'],q:'A',a:'BB'},
+ {w:{A:2,B:1},g:['A=BB'],q:'AA',a:'BBBB'},
+ {w:{A:3,B:1},g:['A=BBB'],q:'A',a:'BBB'},
+ {w:{A:2,B:1},g:['A=BB'],q:'BBBB',a:'AA'},
+ {w:{A:2,B:1},g:['A=BB'],q:'AB',a:'BBB'},
+ {w:{A:4,B:2,C:1},g:['A=BB','B=CC'],q:'A',a:'CCCC'},
+ {w:{A:3,B:2,C:1},g:['A=BC','B=CC'],q:'A',a:'CCC'},
+ {w:{A:4,B:2,C:1},g:['A=BB','B=CC'],q:'AC',a:'CCCCC'},
+ {w:{A:2,B:1,C:1},g:['A=BB','AB=CCC'],q:'AC',a:'BBB'},
+ {w:{A:3,B:2,C:1},g:['AA=BBB','B=CC'],q:'A',a:'CCC'},
+ {w:{A:4,B:3,C:1},g:['A=BC','B=CCC'],q:'AB',a:'BBC'},
+ {w:{A:6,B:3,C:2,D:1},g:['A=BB','B=CD','C=DD'],q:'A',a:'DDDDDD'},
+ {w:{A:5,B:3,C:2,D:1},g:['A=BC','B=CD','C=DD'],q:'AD',a:'BB'}
+];
+GD('weegschaal').max=WEEG.length;
+const WLOOK=[[0,'#E03A2E','rode bol'],[1,'#1F6FD1','blauw blok'],[2,'#FFC83D','gele driehoek'],[3,'#1E9E5A','groene ruit']];
+const sortStr=s=>[...s].sort().join('');
+function pile(str,look,cx,baseY){
+  const it=[...sortStr(str)];let s='';
+  it.forEach((L,i)=>{const row=Math.floor(i/4),inRow=Math.min(4,it.length-row*4),col=i%4;
+    const [sh,co]=WLOOK[look[L]];s+=fig(sh,co,0,cx+(col-(inRow-1)/2)*31,baseY-16-row*31,13)});
+  return s;
+}
+function scaleSVG(l,r,look){
+  const rows=Math.max(Math.ceil(l.length/4),Math.ceil((r||'').length/4),2),top=(rows-2)*31,H=150+top,by=100+top;
+  return `<svg viewBox="0 0 320 ${H}" aria-hidden="true">
+    <path d="M160 ${by+8}L140 ${H-6}H180Z" fill="#C9D5F0" stroke="#1B2140" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="14" y="${by}" width="292" height="9" rx="4.5" fill="#1B2140"/>
+    <circle cx="160" cy="${by+4.5}" r="7" fill="#FFC83D" stroke="#1B2140" stroke-width="3"/>
+    ${pile(l,look,85,by)}
+    ${r==null?`<text x="235" y="${by-16}" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="60" style="fill:var(--game)">?</text>`:pile(r,look,235,by)}
+  </svg>`;
+}
+function optSVG(s,look){const rows=Math.ceil(s.length/4);return `<svg viewBox="0 0 140 ${rows*31+10}" aria-hidden="true">${pile(s,look,70,rows*31+6)}</svg>`}
+function itemWeeg(level,done){
+  const t=WEEG[level-1],letters=Object.keys(t.w),ids=shuffle([0,1,2,3]),look={};
+  letters.forEach((L,i)=>look[L]=ids[i]);
+  const wt=s=>[...s].reduce((a,L)=>a+t.w[L],0),aw=wt(t.a),nOpt=level<=4?4:5;
+  const opts=[t.a];let tries=0;
+  while(opts.length<nOpt&&tries++<800){
+    const len=clamp(t.a.length+R(-1,1),1,8),s=sortStr(Array.from({length:len},()=>pick(letters)).join(''));
+    if(wt(s)===aw||opts.some(o=>sortStr(o)===s))continue;
+    if(Math.abs(wt(s)-aw)>2&&tries<500)continue;
+    opts.push(s);
+  }
+  const list=shuffle(opts),reveal=!G.test;
+  setPrompt('Welke vormen maken de laatste weegschaal weer recht?');
+  stage.innerHTML=`<p class="lbl">Deze ${t.g.length===1?'weegschaal is':'weegschalen zijn'} in evenwicht</p>
+    <div class="scales" style="margin-top:8px">${t.g.map(e=>{const [l,r]=e.split('=');return `<div class="scalebox">${scaleSVG(l,r,look)}</div>`}).join('')}</div>
+    <p class="ask">Wat moet er op het vraagteken?</p>
+    <div class="scales"><div class="scalebox q" id="qScale">${scaleSVG(t.q,null,look)}</div></div>
+    <div class="wopts" style="--oc:${list.length};margin-top:16px">${list.map((s,k)=>`<button class="wopt" data-k="${k}" aria-label="Keuze ${k+1}"><span class="k">${k+1}</span>${optSVG(s,look)}</button>`).join('')}</div>`;
+  const expl=`Tip: ${letters.map(L=>`een ${WLOOK[look[L]][2]} weegt ${t.w[L]}`).join(', ')}. Links weegt dus ${wt(t.q)}.`;
+  stage.querySelectorAll('.wopt').forEach(b=>b.onclick=()=>{
+    if(G.locked)return;G.locked=true;
+    const s=list[+b.dataset.k],ok=s===t.a;
+    $('#qScale').innerHTML=scaleSVG(t.q,s,look);
+    if(reveal){
+      b.classList.add(ok?'good':'bad',ok?'pop':'shake');
+      if(!ok)stage.querySelector(`.wopt[data-k="${list.indexOf(t.a)}"]`).classList.add('good');
+    }else b.classList.add('picked');
+    done(ok?1:0,expl);
+  });
+}
+
+/* ---------- 3. Blokken ---------- */
 const RED='#E03A2E', CYCLE=[0,2,3,4,5,1];
+const BL=[{n:2,d:0},{n:2,d:1},{n:2,d:2},{n:2,d:3},{n:2,d:4},{n:3,d:0},{n:3,d:2},{n:3,d:3},{n:3,d:4},{n:3,d:5},{n:3,d:7},{n:3,d:9}];
+GD('blokken').max=BL.length;
 function tileInner(st){
   const p={2:'0,0 100,0 0,100',3:'0,0 100,0 100,100',4:'100,0 100,100 0,100',5:'0,0 100,100 0,100'}[st];
   return `<rect width="100" height="100" fill="${st===1?RED:'#FFFFFF'}"/>${p?`<polygon points="${p}" fill="${RED}"/>`:''}`;
@@ -479,43 +875,42 @@ function boardSVG(arr,n){
   for(let i=1;i<n;i++)s+=`<path d="M${i*100} 0V${n*100}M0 ${i*100}H${n*100}" stroke="#1B2140" stroke-opacity=".35" stroke-width="2"/>`;
   return s+`<rect width="${n*100}" height="${n*100}" fill="none" stroke="#1B2140" stroke-width="6"/></svg>`;
 }
-function genBlocks(n){
+function genBlocks(n,d){
   let a;
-  do{a=Array.from({length:n*n},()=>pick([0,1,2,3,4,5,2,3,4,5]))}while(!a.some(s=>s>=2)||a.every(s=>s===a[0]));
+  do{const pos=shuffle([...Array(n*n).keys()]).slice(0,d);a=Array.from({length:n*n},(_,k)=>pos.includes(k)?R(2,5):rnd(2))}
+  while(a.every(s=>s===a[0])||(d===0&&a.filter(s=>s===1).length<2));
   return a;
 }
-function roundBlok(i){
-  const n=i<3?2:3,target=genBlocks(n),mine=Array(n*n).fill(0),t0=Date.now();
+function itemBlok(level,done){
+  const {n,d}=BL[level-1],target=genBlocks(n,d),mine=Array(n*n).fill(0),t0=Date.now(),tok=G.token,limit=n===2?60:150;
   setPrompt('Tik op de blokjes tot ze er precies zo uitzien als het voorbeeld.');
-  stage.innerHTML=`<div class="blocks"><div class="bcol"><p class="lbl">Voorbeeld</p>${boardSVG(target,n)}</div>
-    <div class="bcol"><p class="lbl">Jouw blokken</p><div class="myboard" style="--n:${n}">${mine.map((s,k)=>`<button class="tile" data-k="${k}" aria-label="Blokje ${k+1}"><svg viewBox="0 0 100 100">${tileInner(0)}</svg></button>`).join('')}</div></div></div>
-    <p class="hint">Tik op een blokje om het te draaien.</p><div class="row center"><button class="ghost" id="skipB">Overslaan</button></div>`;
+  stage.innerHTML=`${G.test?timerBar():''}<div class="blocks"><div class="bcol"><p class="lbl">Voorbeeld</p>${boardSVG(target,n)}</div>
+    <div class="bcol"><p class="lbl">Jouw blokken</p><div class="myboard" id="myboard" style="--n:${n}">${mine.map((s,k)=>`<button class="tile" data-k="${k}" aria-label="Blokje ${k+1}"><svg viewBox="0 0 100 100">${tileInner(0)}</svg></button>`).join('')}</div></div></div>
+    <p class="hint">Tik op een blokje om het te draaien.</p>${G.test?'':'<div class="row center"><button class="ghost" id="skipB">Overslaan</button></div>'}`;
+  if(G.test)startTimerBar(limit,()=>{if(tok!==G.token||G.locked)return;G.locked=true;done(0)});
   stage.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{
     if(G.locked)return;
     const k=+b.dataset.k;mine[k]=CYCLE[(CYCLE.indexOf(mine[k])+1)%6];
     b.querySelector('svg').innerHTML=tileInner(mine[k]);
-    if(mine.every((s,j)=>s===target[j])){G.locked=true;roundDone(true,null,`Gelukt in ${Math.round((Date.now()-t0)/1000)} seconden.`)}
+    if(mine.every((s,j)=>s===target[j])){
+      G.locked=true;stopTimerBar();
+      const mb=$('#myboard');if(!G.test)mb.classList.add('solved','pop');
+      done(1,null,`Gelukt in ${Math.round((Date.now()-t0)/1000)} seconden.`);
+    }
   });
-  $('#skipB').onclick=()=>{if(G.locked)return;G.locked=true;roundDone(false,'Geen probleem, het volgende patroon is weer nieuw.')};
+  const sk=$('#skipB');if(sk)sk.onclick=()=>{if(G.locked)return;G.locked=true;done(0,'Geen probleem, dit patroon was iets makkelijker.')};
 }
 
-/* ---------- 3. Cijfers onthouden ---------- */
-function startSpan(mode){
-  Object.assign(G,{mode,len:2,fails:0,best:0,started:true,total:null,locked:false});
-  renderDots();spanRound();
-}
-async function spanRound(){
+/* ---------- 4. Cijfers onthouden ---------- */
+async function spanTrial(len,fw,showDigits,cb){
   G.locked=false;const tok=++G.token;
-  const seq=[];while(seq.length<G.len){const d=rnd(10);if(d!==seq[seq.length-1])seq.push(d)}
-  const show=G.showDigits||!canSpeak();
-  const fw=G.mode==='vooruit';
+  const seq=shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,len);
   setPrompt(fw?'Luister goed en tik de cijfers daarna in.':'Luister goed. Tik de cijfers daarna andersom in.');
-  stage.innerHTML=`<div class="span"><p class="lbl">${G.len} cijfers \u00b7 ${G.mode}</p><div class="bigdigit" id="bd"><span>Luister\u2026</span></div></div>`;
+  stage.innerHTML=`<div class="span"><p class="lbl">${len} cijfers · ${fw?'vooruit':'achteruit'}</p><div class="bigdigit" id="bd"><span>Luister…</span></div></div>`;
   await wait(1200);
   for(const d of seq){
     if(tok!==G.token)return;
-    const bd=$('#bd');
-    bd.innerHTML=show?`<span class="d">${d}</span>`:'<span class="pulse"></span>';
+    $('#bd').innerHTML=showDigits?`<span class="d">${d}</span>`:'<span class="pulse"></span>';
     speak(String(d),.85);
     await wait(800);if(tok!==G.token)return;
     $('#bd').innerHTML='<span></span>';
@@ -524,113 +919,299 @@ async function spanRound(){
   if(tok!==G.token)return;
   const want=fw?seq:[...seq].reverse();
   stage.innerHTML=`<div class="span"><p class="ask">${fw?'Tik de cijfers in dezelfde volgorde.':'Tik de cijfers andersom in.'}</p><div id="kp"></div></div>`;
-  keypad($('#kp'),{max:G.len,onSubmit(val){
-    const ok=val.join('')===want.join('');
-    if(ok){addStar();G.best=G.len;G.len++;G.fails=0}else G.fails++;
+  keypad($('#kp'),{max:len,onSubmit(val){cb(val.join('')===want.join(''),want,val)}});
+}
+function startSpan(mode){
+  Object.assign(G,{mode,len:2,fails:0,best:0,started:true,locked:false});
+  spanPractice();
+}
+function spanPractice(){
+  const fw=G.mode==='vooruit';renderBar();
+  spanTrial(G.len,fw,G.showDigits||!canSpeak(),(ok,want,val)=>{
+    if(ok){addStar();G.best=G.len;G.len++;G.fails=0;renderBar(1)}else G.fails++;
     const end=(!ok&&G.fails>=2)||G.len>9;
-    const next=()=>{if(end){finish(G.best?`Je kon ${G.best} cijfers ${fw?'onthouden':'andersom onthouden'}. Knap!`:'Dat was lastig. Probeer het straks nog eens!')}else spanRound()};
-    showFeedback(ok,ok?null:`Het was ${want.join(' ')}. Jij tikte ${val.join(' ')}.${G.fails===1?' Nog een keer met evenveel cijfers.':''}`,next);
-  }});
+    showFeedback(ok?'good':'bad',ok?(end?null:`Nu ${G.len} cijfers!`):`Het was ${want.join(' ')}. Jij tikte ${val.join(' ')}.${G.fails===1?' Nog een keer met evenveel cijfers.':''}`,
+      ()=>end?finish(G.best?`Je kon ${G.best} cijfers ${fw?'onthouden':'andersom onthouden'}. Knap!`:'Dat was lastig. Probeer het straks nog eens!'):spanPractice());
+  });
+}
+// test: twee pogingen per lengte, stoppen als allebei fout
+function startSpanTest(showDigits){
+  Object.assign(G,{started:true,phase:'vooruit',len:2,trial:1,lenOk:false,best:{vooruit:0,achteruit:0},showDigits});
+  spanTestTrial();
+}
+function spanTestTrial(){
+  const fw=G.phase==='vooruit';
+  spanTrial(G.len,fw,G.showDigits,ok=>{
+    if(ok){G.lenOk=true;G.best[G.phase]=G.len}
+    let end=false;
+    if(G.trial===1)G.trial=2;
+    else if(G.lenOk&&G.len<(fw?9:8)){G.len++;G.trial=1;G.lenOk=false}
+    else end=true;
+    neutral(()=>{
+      if(!end)return spanTestTrial();
+      if(fw){Object.assign(G,{phase:'achteruit',len:2,trial:1,lenOk:false});backwardIntro()}
+      else subtestDone(G.best.vooruit+G.best.achteruit,{vooruit:G.best.vooruit,achteruit:G.best.achteruit});
+    });
+  });
+}
+function backwardIntro(){
+  setPrompt('Nu gaan we andersom. Als ik drie, acht zeg, tik jij acht, drie.');
+  stage.innerHTML=`<div class="intro"><h3>Nu andersom!</h3><p class="lead">Ik zeg weer cijfers. Jij tikt ze van achter naar voren.</p>
+    <div class="example"><span>3 8</span>${ARROW}<span>8 3</span></div><div class="btns"><button class="big" id="go">Start</button></div></div>`;
+  $('#go').onclick=spanTestTrial;sayPrompt();
 }
 
-/* ---------- 4. Rekenen ---------- */
-const REKEN=[
- [()=>{const a=R(3,9),b=R(2,9);return{t:`Myrddin heeft ${a} knikkers. Hij krijgt er ${b} bij. Hoeveel knikkers heeft hij nu?`,a:a+b}},
-  ()=>{const a=R(9,15),b=R(2,7);return{t:`Er zitten ${a} vogels in een boom. Er vliegen er ${b} weg. Hoeveel vogels zitten er nog in de boom?`,a:a-b}},
-  ()=>{const a=R(6,12),b=R(2,5);return{t:`In de trommel zitten ${a} koekjes. Je eet er ${b} op. Hoeveel koekjes zitten er nog in de trommel?`,a:a-b}},
-  ()=>{const a=R(4,9),b=R(4,9);return{t:`Op tafel liggen ${a} rode blokken en ${b} blauwe blokken. Hoeveel blokken liggen er samen?`,a:a+b}},
-  ()=>{const a=R(7,12),b=R(2,5);return{t:`Je hebt ${a} ballonnen. Er knappen er ${b}. Hoeveel ballonnen heb je nog?`,a:a-b}}],
- [()=>{const a=R(2,5),b=R(2,5);return{t:`Er liggen ${a} zakjes. In elk zakje zitten ${b} snoepjes. Hoeveel snoepjes zijn het samen?`,a:a*b}},
-  ()=>{const a=R(2,4);return{t:`Een spin heeft 8 poten. Hoeveel poten hebben ${a} spinnen samen?`,a:8*a}},
-  ()=>{const a=R(3,9);return{t:`Myrddin heeft ${2*a} stickers. Hij geeft de helft aan een vriend. Hoeveel stickers houdt hij zelf?`,a}},
-  ()=>{const k=R(2,4),e=R(2,5);return{t:`Je hebt ${k*e} appels en verdeelt ze eerlijk over ${k} kinderen. Hoeveel appels krijgt elk kind?`,a:e}},
-  ()=>{const a=R(20,40),b=R(5,15);return{t:`In de klas staan ${a} stoelen. Er gaan er ${b} naar de gymzaal. Hoeveel stoelen staan er nog in de klas?`,a:a-b}}],
- [()=>{const a=R(15,25),b=R(2,5),c=R(6,9);return{t:`Je hebt ${a} euro. Je koopt een ijsje van ${b} euro en een boek van ${c} euro. Hoeveel euro heb je nog over?`,a:a-b-c,u:'euro'}},
-  ()=>{const a=R(10,20),b=R(2,6),c=R(2,6);return{t:`In de bus zitten ${a} mensen. Bij de halte stappen er ${b} uit en ${c} in. Hoeveel mensen zitten er nu in de bus?`,a:a-b+c}},
-  ()=>{const r=R(2,4),k=R(3,6),g=R(1,3);return{t:`Een doos heeft ${r} rijen met ${k} eieren. Er zijn ${g} eieren gebroken. Hoeveel eieren zijn er nog heel?`,a:r*k-g}},
-  ()=>{const w=R(3,6),p=pick([5,10]);return{t:`Een trein heeft ${w} wagons. In elke wagon zitten ${p} mensen. Hoeveel mensen zitten er in de hele trein?`,a:w*p}},
-  ()=>{const p=R(3,6),x=R(2,4);return{t:`Myrddin zwemt elke dag ${p} baantjes. Hoeveel baantjes zwemt hij in ${x} dagen?`,a:p*x}}]
+/* ---------- 5. Rekenen ---------- */
+const NAMES=['Myrddin','Sam','Noor','Lotte','Daan','Fien','Ties','Mila'];
+const two=()=>{const p=pick(NAMES);return[p,pick(NAMES.filter(x=>x!==p))]};
+const RK=[
+ ()=>{const n=R(3,5);return{t:'Hoeveel sterren zie je?',a:n,pic:n}},
+ ()=>{const n=R(6,10);return{t:'Tel goed: hoeveel sterren zie je?',a:n,pic:n}},
+ ()=>{const a=R(2,5),b=R(1,3),p=pick(NAMES);return{t:`${p} heeft ${a} knikkers en krijgt er ${b} bij. Hoeveel knikkers zijn het nu?`,a:a+b}},
+ ()=>{const a=R(6,9),b=R(2,4);return{t:`Er zitten ${a} vogels in een boom. Er vliegen er ${b} weg. Hoeveel vogels zitten er nog?`,a:a-b}},
+ ()=>{const a=R(5,9),b=R(4,9);return{t:`Op tafel liggen ${a} rode blokken en ${b} blauwe blokken. Hoeveel blokken zijn het samen?`,a:a+b}},
+ ()=>{const a=R(11,18),b=R(3,8);return{t:`Je hebt ${a} ballonnen. Er knappen er ${b}. Hoeveel ballonnen heb je nog?`,a:a-b}},
+ ()=>{const a=R(3,9),p=pick(NAMES);return{t:`${p} heeft ${2*a} stickers en geeft de helft weg. Hoeveel stickers houdt ${p} zelf?`,a}},
+ ()=>{const a=R(2,5),b=R(2,5);return{t:`Er liggen ${a} zakjes. In elk zakje zitten ${b} snoepjes. Hoeveel snoepjes zijn het samen?`,a:a*b}},
+ ()=>{const a=R(2,4);return{t:`Een spin heeft 8 poten. Hoeveel poten hebben ${a} spinnen samen?`,a:8*a}},
+ ()=>{const k=R(3,5),e=R(3,6);return{t:`Je verdeelt ${k*e} appels eerlijk over ${k} kinderen. Hoeveel appels krijgt elk kind?`,a:e}},
+ ()=>{const a=R(15,25),b=R(2,5),c=R(6,9);return{t:`Je hebt ${a} euro. Je koopt een ijsje van ${b} euro en een boek van ${c} euro. Hoeveel euro houd je over?`,a:a-b-c,u:'euro'}},
+ ()=>{const a=R(10,20),b=R(2,6),c=R(2,6);return{t:`In de bus zitten ${a} mensen. Bij de halte stappen er ${b} uit en ${c} in. Hoeveel mensen zitten er nu in de bus?`,a:a-b+c}},
+ ()=>{const r=R(2,4),k=R(3,6),g=R(1,3);return{t:`Een doos heeft ${r} rijen van ${k} eieren. Er zijn ${g} eieren gebroken. Hoeveel eieren zijn er nog heel?`,a:r*k-g}},
+ ()=>{const b=R(5,9),d=R(2,4),y=R(2,5),[p,q]=two();return{t:`${p} is ${d} jaar ouder dan ${q}. ${q} is ${b} jaar. Hoe oud is ${p} over ${y} jaar?`,a:b+d+y,u:'jaar'}},
+ ()=>{const s=pick([8,12,16]);return{t:`Een pizza heeft ${s} stukken. Jullie eten een kwart van de pizza op. Hoeveel stukken blijven er over?`,a:s*3/4}},
+ ()=>{const p=pick([8,10,12,14,16]),n=R(2,4);return{t:`Een spel kost ${p} euro. In de uitverkoop is het de helft goedkoper. Hoeveel betaal je voor ${n} spellen?`,a:p/2*n,u:'euro'}},
+ ()=>{const u=R(2,4),a=R(2,3),b=R(5,9);return{t:`${a} schriften kosten samen ${a*u} euro. Hoeveel kosten ${b} schriften?`,a:u*b,u:'euro'}},
+ ()=>{const v=pick([8,10,12,14,16,20]),h=pick([1.5,2.5]);return{t:`Een fietser rijdt ${v} kilometer per uur. Hoeveel kilometer rijdt ze in ${h===1.5?'anderhalf uur':'tweeënhalf uur'}?`,a:v*h,u:'kilometer'}},
+ ()=>{const s=R(4,12),[p,q]=two();return{t:`${p} heeft twee keer zoveel knikkers als ${q}. Samen hebben ze ${3*s} knikkers. Hoeveel knikkers heeft ${p}?`,a:2*s}},
+ ()=>{const w=pick([2,4,6,8]),x=R(2,4);return{t:`Een kraan vult een emmer in ${w} minuten. Hoeveel minuten duurt het om ${x} en een halve emmer te vullen?`,a:w*x+w/2,u:'minuten'}}
 ];
-function roundReken(i){
-  const lvl=REKEN[i<3?0:i<6?1:2];
-  let f;do{f=pick(lvl)}while(f===G.lastF&&lvl.length>1);G.lastF=f;
-  const q=f();setPrompt(q.t);
-  stage.innerHTML=`<button class="story" id="story" aria-label="Lees de som nog een keer voor">${SPEAKER}<span>${q.t}</span></button><div id="kp"></div>`;
+GD('rekenen').max=RK.length;
+function itemReken(level,done){
+  const q=RK[level-1](),tok=G.token;setPrompt(q.t);
+  const pics=q.pic?`<div class="pics">${STAR.repeat(q.pic)}</div>`:'';
+  stage.innerHTML=`${G.test?timerBar():''}<button class="story" id="story" aria-label="Lees de som nog een keer voor">${SPEAKER}<span>${q.t}</span></button>${pics}<div id="kp"></div>`;
   $('#story').onclick=sayPrompt;
-  keypad($('#kp'),{max:3,onSubmit(v){const ok=+v.join('')===q.a;roundDone(ok,`Het antwoord was ${q.a}${q.u?' '+q.u:''}.`)}});
+  const expl=`Het antwoord was ${q.a}${q.u?' '+q.u:''}.`;
+  if(G.test)startTimerBar(60,()=>{if(tok!==G.token||G.locked)return;G.locked=true;done(0)});
+  keypad($('#kp'),{max:3,onSubmit(v){stopTimerBar();done(+v.join('')===q.a?1:0,expl)}});
   sayPrompt();
 }
 
-/* ---------- 5. Wat lijkt erop? ---------- */
+/* ---------- 6. Wat lijkt erop? ---------- */
+// [ding 1, ding 2, 2-punten-antwoord (de groep), 1-punt-antwoord (een eigenschap)]
 const PAIRS=[
- ['een appel','een peer','Het is allebei fruit.','Je kunt ze allebei eten. Ze groeien aan een boom.'],
- ['een fiets','een auto','Het zijn allebei vervoermiddelen.','Ze hebben allebei wielen. Je kunt ermee rijden.'],
- ['een trommel','een gitaar','Het zijn allebei muziekinstrumenten.','Je kunt er allebei muziek mee maken.'],
+ ['een appel','een peer','Het is allebei fruit.','Je kunt ze allebei eten.'],
+ ['een hond','een kat','Het zijn allebei dieren (huisdieren).','Ze hebben allebei vier poten en een staart.'],
+ ['rood','blauw','Het zijn allebei kleuren.','Je kunt er allebei mee kleuren.'],
+ ['een broek','een trui','Het is allebei kleding.','Je trekt ze allebei aan.'],
+ ['een fiets','een auto','Het zijn allebei vervoermiddelen.','Ze hebben allebei wielen.'],
+ ['melk','sap','Het is allebei drinken.','Het is allebei nat.'],
+ ['een trommel','een gitaar','Het zijn allebei muziekinstrumenten.','Ze maken allebei geluid.'],
  ['een hamer','een zaag','Het is allebei gereedschap.','Je kunt er allebei mee klussen.'],
- ['rood','blauw','Het zijn allebei kleuren.','Je kunt er allebei mee verven of kleuren.'],
- ['de zon','een lamp','Ze geven allebei licht.','Ze worden allebei warm.'],
- ['een vis','een walvis','Ze leven allebei in het water.','Het zijn dieren. Ze kunnen allebei zwemmen.'],
- ['regen','sneeuw','Het is allebei water dat uit de lucht valt.','Het is allebei weer.'],
- ['een stoel','een bank','Het zijn allebei meubels om op te zitten.','Ze staan allebei in huis.'],
+ ['een stoel','een bank','Het zijn allebei meubels.','Je kunt er allebei op zitten.'],
+ ['een vis','een walvis','Het zijn allebei dieren die in het water leven.','Ze kunnen allebei zwemmen.'],
+ ['regen','sneeuw','Het is allebei neerslag: water dat uit de lucht valt.','Het is allebei koud en nat.'],
  ['je oog','je oor','Het zijn allebei zintuigen.','Ze zitten allebei aan je hoofd.'],
  ['de winter','de zomer','Het zijn allebei seizoenen.','Het zijn allebei tijden van het jaar.'],
- ['een kaart','een kompas','Ze helpen je allebei de weg te vinden.','Je neemt ze allebei mee op tocht.'],
- ['een berg','een heuvel','Het zijn allebei hoge stukken land.','Je kunt ze allebei op klimmen.'],
  ['boos','blij','Het zijn allebei gevoelens.','Je kunt ze allebei zien aan iemands gezicht.'],
- ['een ei','een zaadje','Er kan allebei nieuw leven uit groeien.','Ze zijn allebei klein en rond.'],
- ['een klok','een kalender','Ze laten allebei zien hoe laat of welke dag het is.','Ze hangen vaak aan de muur.']
+ ['een kaart','een kompas','Ze helpen je allebei de weg te vinden.','Je neemt ze allebei mee op tocht.'],
+ ['een klok','een kalender','Ze meten allebei de tijd.','Ze hangen allebei aan de muur.'],
+ ['een brief','een telefoon','Het zijn allebei manieren om iemand iets te vertellen.','Je hebt er allebei een adres of nummer voor nodig.'],
+ ['een ei','een zaadje','Uit allebei kan nieuw leven groeien.','Ze zijn allebei klein en rond.'],
+ ['een schilderij','een lied','Het is allebei kunst: iets wat iemand maakt om van te genieten.','Iemand heeft ze allebei gemaakt.'],
+ ['een kilo','een meter','Het zijn allebei maten om iets mee te meten.','Het zijn allebei getallen.'],
+ ['een wet','een spelregel','Het zijn allebei regels die zeggen wat wel en niet mag.','Ze staan allebei op papier.'],
+ ['eerst','laatst','Ze zeggen allebei iets over de volgorde.','Het gaat allebei over tijd.'],
+ ['vriendschap','liefde','Het zijn allebei banden tussen mensen die om elkaar geven.','Het is allebei fijn.'],
+ ['vrijheid','eerlijkheid','Het zijn allebei idealen: dingen die mensen belangrijk vinden.','Je kunt ze allebei niet vastpakken.']
 ];
+GD('lijken').max=PAIRS.length;
 const bare=s=>s.replace(/^(een|de|het|je) /,'');
-function roundLijk(i){
-  if(i===0)G.deck=shuffle(PAIRS);
-  const [a,b,best,ok]=G.deck[i];
+function itemLijk(level,done){
+  let idx=level-1;
+  if(!G.test){for(let d=0;d<PAIRS.length;d++){const k=[idx+d,idx-d].find(k=>k>=0&&k<PAIRS.length&&!G.used.has(k));if(k!=null){idx=k;break}}G.used.add(idx)}
+  const [a,b,best,ok]=PAIRS[idx];
   const q=`Hoe lijken ${a} en ${b} op elkaar?`;setPrompt(q);
   stage.innerHTML=`<div class="pair"><span class="word">${bare(a)}</span><span class="amp">&amp;</span><span class="word">${bare(b)}</span></div>
     <p class="ask">${q}</p><p class="hint">Zeg je antwoord hardop.</p>
-    <div class="row center" id="revealRow"><button class="big" id="reveal">Laat het antwoord zien</button></div><div id="ansBox"></div>`;
+    <div class="row center" id="revealRow"><button class="big" id="reveal">Antwoord gegeven</button></div><div id="ansBox"></div>`;
   $('#reveal').onclick=()=>{
     $('#revealRow').remove();
-    $('#ansBox').innerHTML=`<div class="answers"><div class="ans"><h4>Heel goed antwoord</h4><p>${best}</p></div><div class="ans"><h4>Ook goed</h4><p>${ok}</p></div>
-      <p class="lbl">Papa of mama kiest</p><div class="grade"><button class="yes" id="gY">Goed antwoord</button><button class="no" id="gN">Nog even oefenen</button></div></div>`;
-    $('#gY').onclick=()=>{if(G.locked)return;G.locked=true;roundDone(true)};
-    $('#gN').onclick=()=>{if(G.locked)return;G.locked=true;roundDone(false,'Denk aan de groep waar ze allebei bij horen.')};
+    $('#ansBox').innerHTML=`<div class="answers"><div class="ans"><h4>2 punten: de groep of het idee</h4><p>${best}</p></div><div class="ans"><h4>1 punt: iets wat ze allebei hebben of doen</h4><p>${ok}</p></div>
+      <p class="lbl">Papa of mama kiest</p><div class="grade"><button class="g2" data-p="2"><b>2</b>noemt de groep</button><button class="g1" data-p="1"><b>1</b>noemt een eigenschap</button><button data-p="0"><b>0</b>klopt niet of weet het niet</button></div></div>`;
+    stage.querySelectorAll('.grade button').forEach(g=>g.onclick=()=>{if(G.locked)return;G.locked=true;const p=+g.dataset.p;
+      done(p,p===1?'Voor 2 punten noem je de groep waar ze allebei bij horen.':'Denk aan de groep waar ze allebei bij horen.')});
+    $('#ansBox').scrollIntoView({block:'nearest',behavior:'smooth'});
   };
   sayPrompt();
 }
 
-/* ---------- 6. Zoek het teken ---------- */
-const GLYPHS=['M10 32 L10 10 L30 10','M6 20 L32 20 M22 10 L32 20 L22 30','M8 10 L32 10 M20 10 L20 32','M12 34 L12 6 L32 13 L12 20','M8 24 A12 12 0 0 1 32 24 M20 24 L20 34'];
+/* ---------- 7. Zoek het teken ---------- */
+const GLYPHS=['M10 32 L10 10 L30 10','M6 20 L32 20 M22 10 L32 20 L22 30','M8 10 L32 10 M20 10 L20 32','M12 34 L12 6 L32 13 L12 20','M8 24 A12 12 0 0 1 32 24 M20 24 L20 34','M8 32 L20 8 L32 32','M10 30 L10 10 L30 30','M8 20 A12 12 0 0 1 32 20'];
 const glyph=g=>`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="${GLYPHS[g.b]}" transform="rotate(${g.r*90} 20 20)" fill="none" stroke="#1B2140" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-function genSearch(){
-  const t={b:rnd(5),r:rnd(4)},has=Math.random()<.5,same=(x,y)=>x.b===y.b&&x.r===y.r;
+function genSearch(len){
+  const NB=GLYPHS.length,t={b:rnd(NB),r:rnd(4)},has=Math.random()<.5,same=(x,y)=>x.b===y.b&&x.r===y.r;
   const row=[];
-  if(Math.random()<.55)row.push({b:t.b,r:(t.r+1+rnd(3))%4});
-  const pool=[];for(let b=0;b<5;b++)for(let r=0;r<4;r++)pool.push({b,r});
-  for(const g of shuffle(pool)){if(row.length>=3)break;if(!same(g,t)&&!row.some(x=>same(x,g)))row.push(g)}
-  if(has)row[rnd(3)]=t;
+  if(Math.random()<.6)row.push({b:t.b,r:(t.r+1+rnd(3))%4});
+  const pool=[];for(let b=0;b<NB;b++)for(let r=0;r<4;r++)pool.push({b,r});
+  for(const g of shuffle(pool)){if(row.length>=len)break;if(!same(g,t)&&!row.some(x=>same(x,g)))row.push(g)}
+  if(has)row[rnd(len)]=t;
   return{t,row:shuffle(row),has};
 }
 function startZoeken(){
   const TOTAL=45;
-  Object.assign(G,{left:TOTAL,good:0,bad:0,started:true,locked:false});renderDots();
+  Object.assign(G,{left:TOTAL,good:0,bad:0,started:true,locked:false});renderBar();
   setPrompt('Zit het teken erbij? Tik op ja of nee.');
   stage.innerHTML=`<div class="search"><div class="timer"><div class="track"><div class="bar" id="tbar" style="width:100%"></div></div><b id="tleft">${TOTAL}</b></div>
-    <div class="srow" id="srow"></div><div class="yn"><button class="yes" id="yes">Ja</button><button class="no" id="no">Nee</button></div><p class="lbl" id="scount">0 goed</p></div>`;
+    <div class="srow" id="srow"></div><div class="yn"><button class="yes" id="yes">Ja</button><button class="no" id="no">Nee</button></div><p class="lbl" id="scount">${G.test?'':'0 goed'}</p></div>`;
   let cur;
-  const draw=()=>{cur=genSearch();$('#srow').innerHTML=`<div class="target">${glyph(cur.t)}</div><div class="sep"></div>${cur.row.map(g=>`<div class="g">${glyph(g)}</div>`).join('')}`};
+  const draw=()=>{cur=genSearch(Math.min(5,3+Math.floor(G.good/6)));$('#srow').innerHTML=`<div class="target">${glyph(cur.t)}</div><div class="sep"></div>${cur.row.map(g=>`<div class="g">${glyph(g)}</div>`).join('')}`};
   const answer=yes=>{
     if(G.left<=0)return;
-    const ok=yes===cur.has,sr=$('#srow');
-    if(ok){G.good++;if(G.good%2===0)addStar()}else G.bad++;
-    sr.classList.remove('ok','no');void sr.offsetWidth;sr.classList.add(ok?'ok':'no');later(()=>sr.classList.remove('ok','no'),220);
-    $('#scount').textContent=`${G.good} goed`;draw();
+    const ok=yes===cur.has,sr=$('#srow'),cls=G.test?'tap':ok?'ok':'no';
+    if(ok){G.good++;if(!G.test&&G.good%2===0)addStar()}else G.bad++;
+    sr.classList.remove('ok','no','tap');void sr.offsetWidth;sr.classList.add(cls);later(()=>sr.classList.remove(cls),200);
+    if(!G.test)$('#scount').textContent=`${G.good} goed`;
+    draw();
   };
   $('#yes').onclick=()=>answer(true);$('#no').onclick=()=>answer(false);
   draw();
   G.interval=setInterval(()=>{
     G.left--;$('#tleft').textContent=G.left;$('#tbar').style.width=(G.left/TOTAL*100)+'%';
-    if(G.left<=0)finish(`Je had er ${G.good} goed in ${TOTAL} seconden${G.bad?` (en ${G.bad} fout)`:''}. Daarmee verdiende je ${G.earned} ${G.earned===1?'ster':'sterren'}.`);
+    if(G.left>0)return;
+    if(G.test){clearInterval(G.interval);subtestDone(Math.max(0,G.good-G.bad),{goed:G.good,fout:G.bad})}
+    else finish(`Je had er ${G.good} goed in ${TOTAL} seconden${G.bad?` (en ${G.bad} fout)`:''}. Daarmee verdiende je ${G.earned} ${G.earned===1?'ster':'sterren'}.`);
   },1000);
+}
+
+/* ---------- de grote denktest ---------- */
+const MONTHS=['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+function ageAt(b,d=new Date()){return((d.getFullYear()*12+d.getMonth()+1)-(b.y*12+b.m))/12}
+function ageText(a){const t=Math.round(a*12),y=Math.floor(t/12),m=t%12;return `${y} jaar${m?` en ${m} ${m===1?'maand':'maanden'}`:''}`}
+function scaled(g,raw,age){const [m0,m1,sd]=g.norm,mean=m0+m1*(clamp(age,5,16)-6);return clamp(Math.round(10+3*(raw-mean)/sd),1,19)}
+function iqFrom(sc){const k=sc.length,sum=sc.reduce((a,b)=>a+b,0);return clamp(Math.round(100+15*(sum-10*k)/(3*Math.sqrt(k+k*(k-1)*.45))),40,160)}
+function iqClass(iq){return iq>=130?'zeer hoog':iq>=120?'hoog':iq>=110?'bovengemiddeld':iq>=90?'gemiddeld':iq>=80?'benedengemiddeld':iq>=70?'laag':'zeer laag'}
+
+function testChrome(back){
+  clearTimers();G=null;
+  play.style.setProperty('--game','var(--violet)');
+  $('#playTitle').textContent='Grote denktest';$('#backLbl').textContent=back;
+  renderBar();
+}
+function openHub(){
+  testChrome('Menu');show('play');
+  const T=store.get('test',null);
+  if(!T){renderSetup();return}
+  const n=ORDER.filter(id=>T.res[id]).length,next=ORDER.find(id=>!T.res[id]);
+  stage.innerHTML=`<div class="hubhead"><h3>${next?(n?'Goed bezig!':'Klaar voor de start?'):'Alles gedaan!'}</h3>
+      <p>${n} van de ${ORDER.length} onderdelen klaar · leeftijd bij de test: ${ageText(T.age)}</p></div>
+    <ol class="hub">${ORDER.map((id,i)=>{const g=GD(id),r=T.res[id];
+      return `<li class="hrow ${id===next?'next':''}" style="--c:${g.color}"><span class="ic">${ICONS[id]}</span><span class="nm"><small>Onderdeel ${i+1}</small>${g.name}</span>${
+        r?`<span class="st ${r.skipped?'':'ok'}">${r.skipped?'overgeslagen':'✓ klaar'}</span>`:id===next?`<button class="go" data-id="${id}">Start</button>`:'<span class="st">nog doen</span>'}</li>`}).join('')}</ol>
+    <div class="btns">${next?`<button class="big" id="hubGo">${n?'Verder':'Start'}: ${GD(next).name}</button>`:''}${ORDER.filter(id=>T.res[id]&&!T.res[id].skipped).length>=3?`<button class="big alt" id="hubRep">Uitslag voor ouders</button>`:''}</div>
+    <p class="hint">Pauze nemen mag altijd. De test onthoudt wat al klaar is.</p>
+    <div class="row center"><button class="ghost" id="hubReset">Test opnieuw beginnen</button></div>`;
+  const go=()=>openGame(next,true);
+  stage.querySelectorAll('.hrow .go').forEach(b=>b.onclick=go);
+  if(next)$('#hubGo').onclick=go;
+  const rep=$('#hubRep');if(rep)rep.onclick=renderReport;
+  $('#hubReset').onclick=()=>{if(confirm('Weet je het zeker? De antwoorden van deze test worden gewist (eerdere uitslagen blijven bewaard).')){store.del('test');openHub()}};
+}
+function renderSetup(){
+  const b=store.get('birth',null),nowY=new Date().getFullYear();
+  stage.innerHTML=`<div class="setup"><div class="bigicon">${ICONS.patronen}</div><h3 class="display" style="font-size:clamp(32px,5vw,44px)">De grote denktest</h3>
+    <p class="lead">Zeven onderdelen achter elkaar, net als bij een echte test.</p>
+    <ul>
+      <li>Elk onderdeel begint op een niveau dat past bij de leeftijd en wordt steeds moeilijker.</li>
+      <li>Lukken de eerste opgaven niet, dan gaat het terug naar makkelijker. Na drie fouten op rij stopt het onderdeel.</li>
+      <li>Het kind ziet niet of een antwoord goed is. Blokken en rekenen hebben een tijdslimiet.</li>
+      <li>Duurt ongeveer 30 tot 40 minuten. Pauzeren tussen de onderdelen mag.</li>
+      <li>Aan het eind: een geschat speel-IQ met uitleg, voor de ouders.</li>
+    </ul>
+    <p class="lbl">Wanneer is je kind geboren?</p>
+    <div class="bday"><select id="bm" aria-label="Geboortemaand"><option value="">maand</option>${MONTHS.map((m,i)=>`<option value="${i+1}" ${b&&b.m===i+1?'selected':''}>${m}</option>`).join('')}</select>
+      <select id="by" aria-label="Geboortejaar"><option value="">jaar</option>${Array.from({length:14},(_,i)=>nowY-3-i).map(y=>`<option ${b&&b.y===y?'selected':''}>${y}</option>`).join('')}</select></div>
+    <p class="note" id="ageOut">&nbsp;</p>
+    <button class="big" id="startTest" disabled>Begin de test</button></div>`;
+  const upd=()=>{const m=+$('#bm').value,y=+$('#by').value,btn=$('#startTest'),out=$('#ageOut');
+    if(!m||!y){btn.disabled=true;out.innerHTML='&nbsp;';return}
+    const a=ageAt({y,m});btn.disabled=a<4.5;
+    out.textContent=a<4.5?'De test is gemaakt voor kinderen vanaf 5 jaar.':`Leeftijd: ${ageText(a)}${a<5||a>16?' (de test is bedoeld voor 5 tot 16 jaar, de uitslag is dan nog minder zeker)':''}`};
+  $('#bm').onchange=upd;$('#by').onchange=upd;upd();
+  $('#startTest').onclick=()=>{const bb={m:+$('#bm').value,y:+$('#by').value};store.set('birth',bb);
+    store.set('test',{birth:bb,age:ageAt(bb),date:Date.now(),res:{}});openHub()};
+}
+function subtestDone(raw,extra){
+  clearTimers();
+  const T=store.get('test');T.res[G.def.id]={raw,...extra};store.set('test',T);
+  addStar(3);afterSubtest(true);
+}
+function afterSubtest(celebrate){
+  clearTimers();
+  const T=store.get('test'),left=ORDER.filter(id=>!T.res[id]),next=left[0];
+  if(!left.length&&!T.saved){
+    const r=computeReport(T);
+    if(r.sc.length){const h=store.get('history',[]);h.unshift({date:Date.now(),age:T.age,iq:r.iq,k:r.sc.length});store.set('history',h.slice(0,20))}
+    T.saved=true;store.set('test',T);
+  }
+  G.started=false;renderBar();
+  stage.innerHTML=`<div class="done">${STAR.replace('<svg','<svg class="bigstar"')}<h3>${celebrate?'Onderdeel klaar!':'Overgeslagen'}</h3>
+    <p class="lead">${left.length?`${celebrate?'Goed je best gedaan! ':''}Nog ${left.length} ${left.length===1?'onderdeel':'onderdelen'} te gaan.`:'Dat was het laatste onderdeel. Super gedaan!'}</p>
+    <div class="btns">${next?`<button class="big" id="nx">Volgende: ${GD(next).name}</button><button class="big alt" id="pz">Even pauze</button>`:'<button class="big" id="pz">Naar de uitslag</button>'}</div></div>`;
+  if(next)$('#nx').onclick=()=>openGame(next,true);
+  $('#pz').onclick=next?openHub:renderReport;
+  if(celebrate){speak(left.length?'Onderdeel klaar! Goed gedaan.':'Helemaal klaar! Super gedaan.');confetti()}
+}
+function computeReport(T){
+  const rows=ORDER.map(id=>{const g=GD(id),r=T.res[id];if(!r||r.skipped)return{g,skip:true,r};return{g,r,sc:scaled(g,r.raw,T.age)}});
+  const sc=rows.filter(x=>!x.skip).map(x=>x.sc);
+  return{rows,sc,iq:sc.length?iqFrom(sc):null};
+}
+function rawText(g,r){
+  if(g.id==='onthouden')return `vooruit ${r.vooruit}, achteruit ${r.achteruit} cijfers`;
+  if(g.id==='zoeken')return `${r.goed} goed, ${r.fout} fout`;
+  if(g.id==='lijken')return `${r.raw} punten`;
+  return `${r.raw} van de ${g.max} opgaven`;
+}
+function bellSVG(iq,band){
+  const X=v=>20+(v-40)/120*600,Y=v=>170-140*Math.exp(-((v-100)**2)/(2*225));
+  let d=`M${X(40)} 170`;for(let v=40;v<=160;v+=2)d+=` L${X(v).toFixed(1)} ${Y(v).toFixed(1)}`;d+=` L${X(160)} 170Z`;
+  let bd=`M${X(iq-band)} 170`;for(let v=iq-band;v<=iq+band;v+=1)bd+=` L${X(v).toFixed(1)} ${Y(v).toFixed(1)}`;bd+=` L${X(iq+band)} 170Z`;
+  return `<svg viewBox="0 0 640 210" role="img" aria-label="Normaalverdeling met het speel-IQ ${iq}">
+    <path d="${d}" fill="#F3F6FF" stroke="#C9D5F0" stroke-width="2"/>
+    <path d="${bd}" fill="#6A4CE0" fill-opacity=".22"/>
+    ${[70,85,100,115,130].map(v=>`<line x1="${X(v)}" x2="${X(v)}" y1="30" y2="170" stroke="#4A5373" stroke-opacity="${v===100?.45:.18}" stroke-dasharray="4 4"/>`).join('')}
+    <line x1="${X(iq)}" x2="${X(iq)}" y1="${Y(iq)-18}" y2="170" stroke="#6A4CE0" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="${X(iq)}" cy="${Y(iq)-18}" r="8" fill="#6A4CE0" stroke="#fff" stroke-width="3"/>
+    <line x1="20" x2="620" y1="170" y2="170" stroke="#1B2140" stroke-width="2"/>
+    ${[55,70,85,100,115,130,145].map(v=>`<text x="${X(v)}" y="194" text-anchor="middle" font-size="15" fill="#4A5373" font-family="Atkinson Hyperlegible, sans-serif">${v}</text>`).join('')}
+  </svg>`;
+}
+function renderReport(){
+  testChrome('Overzicht');show('report');
+  const T=store.get('test'),{rows,sc,iq}=computeReport(T);
+  if(iq==null){openHub();return}
+  const band=sc.length>=6?8:sc.length>=4?10:13,hist=store.get('history',[]);
+  setPrompt('');
+  stage.innerHTML=`<div class="report">
+    <div class="iqcard"><p class="lbl">Geschat speel-IQ</p><div class="iqbig">${iq}</div><p class="iqcls">${iqClass(iq)}</p>
+      <p class="iqband">waarschijnlijk ergens tussen ${iq-band} en ${iq+band} · ${sc.length} van de ${ORDER.length} onderdelen · leeftijd ${ageText(T.age)}</p></div>
+    <div class="bell">${bellSVG(iq,band)}</div>
+    <div class="warn"><b>Dit is geen echte IQ-score.</b>
+      <span>De opgaven zijn zelfgemaakt en de vergelijking met leeftijdgenoten is een ruwe schatting, niet getest bij een groep kinderen. Het getal kan er flink naast zitten, en wordt hoger naarmate er meer geoefend is. Een echt IQ wordt alleen bepaald door een psycholoog met een genormeerde test zoals de WISC-V. Zie het als een spelletje en vertel het getal liever niet aan je kind.</span></div>
+    <div class="box"><h4>Per onderdeel</h4>
+      <p class="note">Schaalscore van 1 tot 19. Gemiddeld voor de leeftijd is 10; tussen 7 en 13 valt ongeveer tweederde van de kinderen.</p>
+      <div class="scale-legend"><span></span><span><i>1</i><i>10</i><i>19</i></span><span></span></div>
+      <div class="subs">${rows.map(x=>x.skip?`<div class="subrow skip"><span class="sn">${x.g.name}<small>${x.r?'overgeslagen':'niet gedaan'}</small></span><div class="strack"><span class="mid"></span></div><span class="sv">–</span></div>`
+        :`<div class="subrow" style="--c:${x.g.color}"><span class="sn">${x.g.name}<small>${rawText(x.g,x.r)}</small></span><div class="strack"><span class="mid"></span><span class="pt" style="left:${(x.sc-1)/18*100}%"></span></div><span class="sv">${x.sc}</span></div>`).join('')}</div></div>
+    ${hist.length?`<div class="box"><h4>Eerdere uitslagen</h4><table class="hist"><thead><tr><th>Datum</th><th>Leeftijd</th><th>Speel-IQ</th><th>Onderdelen</th></tr></thead><tbody>${hist.map(h=>`<tr><td>${new Date(h.date).toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})}</td><td>${ageText(h.age)}</td><td class="n">${h.iq}</td><td>${h.k} van ${ORDER.length}</td></tr>`).join('')}</tbody></table>
+      <p class="note">Gaat de score omhoog bij een volgende keer? Dat komt vaak vooral door het oefenen, niet doordat het kind slimmer is geworden.</p></div>`:''}
+    <div class="box"><details><summary>Waarop is de test gebaseerd?</summary><div class="basis">${BASIS}</div></details></div>
+    <div class="btns"><button class="big alt" id="toHub">Terug naar het overzicht</button><button class="ghost" id="newTest">Nieuwe test beginnen</button></div>
+  </div>`;
+  $('#toHub').onclick=openHub;
+  $('#newTest').onclick=()=>{if(confirm('Een nieuwe test beginnen? De antwoorden van deze test worden gewist; de uitslag blijft in het overzicht.')){store.del('test');openHub()}};
 }
 
 /* ---------- confetti ---------- */
@@ -639,12 +1220,62 @@ function confetti(){
   const c=document.createElement('canvas');c.className='confetti';document.body.appendChild(c);
   const dpr=window.devicePixelRatio||1,w=innerWidth,h=innerHeight;c.width=w*dpr;c.height=h*dpr;
   const x=c.getContext('2d');x.scale(dpr,dpr);
-  const cols=['#6A4CE0','#E03A2E','#0B8F88','#D9730D','#C93584','#1F6FD1','#FFC83D'];
+  const cols=['#6A4CE0','#E03A2E','#0B8F88','#D9730D','#C93584','#1F6FD1','#FFC83D','#8E3FB8'];
   const P=Array.from({length:120},()=>({x:w/2+(Math.random()-.5)*140,y:h*.35,vx:(Math.random()-.5)*13,vy:-Math.random()*13-4,s:7+Math.random()*8,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.3}));
   let t=0;(function f(){t++;x.clearRect(0,0,w,h);
     P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
     if(t<150)requestAnimationFrame(f);else c.remove()})();
 }
+
+/* ---------- uitleg: waarop is de test gebaseerd ---------- */
+const BASIS=`
+  <p>De denktest is gebouwd naar het voorbeeld van de <b>WISC-V</b> (Wechsler Intelligence Scale for Children, in Nederland de WISC-V-NL). Dat is de intelligentietest die psychologen het vaakst gebruiken bij kinderen van 6 tot en met 16 jaar. De opzet, de soorten opgaven en de manier van scoren lijken erop. De opgaven zelf zijn zelfgemaakt en de normen zijn geschat.</p>
+
+  <h4>1. Soorten opgaven</h4>
+  <p>De WISC-V meet vijf gebieden, elk met een paar onderdelen. Elk spel hier lijkt op een van die onderdelen:</p>
+  <div class="twrap"><table class="btable">
+    <thead><tr><th>Spel hier</th><th>Lijkt op (WISC-V)</th><th>Gebied</th><th>Wat het meet</th></tr></thead>
+    <tbody>
+      <tr><td>Blokken</td><td>Blokpatronen</td><td>Visueel-ruimtelijk</td><td>Een figuur uit elkaar halen en nabouwen</td></tr>
+      <tr><td>Wat lijkt erop?</td><td>Overeenkomsten</td><td>Verbaal begrip</td><td>Begrippen onder één noemer brengen</td></tr>
+      <tr><td>Patronen</td><td>Matrix Redeneren</td><td>Fluïde redeneren</td><td>Regels ontdekken in nieuwe plaatjes</td></tr>
+      <tr><td>Cijfers onthouden</td><td>Cijferreeksen</td><td>Werkgeheugen</td><td>Informatie vasthouden en ermee werken</td></tr>
+      <tr><td>Weegschaal</td><td>Gewichten</td><td>Fluïde redeneren</td><td>Logisch en rekenkundig redeneren met vormen</td></tr>
+      <tr><td>Rekenen</td><td>Rekenen</td><td>Werkgeheugen (aanvullend)</td><td>Hoofdrekenen met een verhaaltje</td></tr>
+      <tr><td>Zoek het teken</td><td>Symbool Zoeken</td><td>Verwerkingssnelheid</td><td>Snel en nauwkeurig vergelijken</td></tr>
+    </tbody></table></div>
+  <p>Niet nagemaakt zijn onder andere Woordkennis, Visuele Puzzels, Plaatjesreeks en Substitutie. Een echte WISC-V heeft er dus meer onderdelen en een andere samenstelling.</p>
+
+  <h4>2. Afnameregels</h4>
+  <ol>
+    <li><b>Startpunt op leeftijd.</b> Een ouder kind begint niet bij de makkelijkste opgave, maar een stukje verder.</li>
+    <li><b>Terugzakken.</b> Lukt een van de eerste twee opgaven niet, dan gaat de test terug naar makkelijker, tot er twee op rij goed zijn. Alle opgaven daaronder tellen dan als goed.</li>
+    <li><b>Stopregel.</b> Na drie keer 0 punten op rij stopt het onderdeel. (Bij de echte WISC-V verschilt het aantal per onderdeel.)</li>
+    <li><b>Cijfers onthouden:</b> twee pogingen per lengte, stoppen als ze allebei fout zijn. Eerst vooruit, daarna achteruit.</li>
+    <li><b>Tijdslimiet</b> bij blokken (60 of 150 seconden) en rekenen (60 seconden). Zoek het teken duurt 45 seconden.</li>
+    <li><b>Geen feedback.</b> Tijdens de test hoort het kind niet of een antwoord goed was, net als bij een psycholoog.</li>
+  </ol>
+
+  <h4>3. Van ruwe score naar speel-IQ</h4>
+  <ol>
+    <li><b>Ruwe score:</b> het aantal gehaalde opgaven (bij Wat lijkt erop? het aantal punten, bij cijfers onthouden de langste reeks vooruit plus achteruit, bij zoeken goed min fout).</li>
+    <li><b>Schaalscore (1 tot 19):</b> de ruwe score vergeleken met wat je voor die leeftijd verwacht. Net als bij de WISC-V is 10 gemiddeld en is de spreiding 3.
+      <div class="formula">schaalscore = 10 + 3 × (ruwe score − verwacht voor leeftijd) ÷ spreiding</div></li>
+    <li><b>Speel-IQ:</b> de schaalscores samen, omgerekend naar de IQ-schaal (gemiddeld 100, spreiding 15). Daarbij houdt de berekening er rekening mee dat onderdelen samenhangen (aangenomen samenhang 0,45), zodat het totaal niet te extreem wordt.
+      <div class="formula">speel-IQ = 100 + 15 × (som − 10·k) ÷ (3 × √(k + k(k−1)·0,45))</div>
+      <span>met k het aantal gedane onderdelen.</span></li>
+    <li><b>Marge:</b> een band van ongeveer ±8 tot ±13 punten, breder als er onderdelen zijn overgeslagen.</li>
+  </ol>
+
+  <h4>4. Waarom het geen echt IQ is</h4>
+  <ul>
+    <li><b>Geen echte normen.</b> Wat een kind van een bepaalde leeftijd gemiddeld haalt, is hier geschat, niet gemeten. Bij de WISC-V komen de normen uit onderzoek bij een grote groep Nederlandse en Vlaamse kinderen.</li>
+    <li><b>Eigen opgaven.</b> Of een opgave echt makkelijker of moeilijker is dan de volgende, is niet onderzocht.</li>
+    <li><b>Oefeneffect.</b> Wie de spellen al kent, scoort hoger. Dat geldt ook voor de echte test, en is precies waarom je daar niet voor moet stampen.</li>
+    <li><b>Omstandigheden.</b> Een psycholoog let ook op concentratie, vermoeidheid, zicht en motivatie, en kiest de juiste onderdelen. Een scherm kan dat niet.</li>
+  </ul>
+  <p>Kortom: een leuk spel en een goede kennismaking met het s&oacute;&oacute;rt opgaven, maar geen meting. Voor een echte uitslag heb je een psycholoog nodig.</p>`;
+document.querySelector('#basisHome .basis').innerHTML=BASIS;
 
 renderHome();
 </script>
