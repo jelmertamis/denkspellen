@@ -438,6 +438,7 @@ h1{font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:.01em}
 .opt.picked,.wopt.picked{background:color-mix(in srgb,var(--game) 12%,#fff)}
 .pc,.kopt{filter:drop-shadow(0 10px 12px rgba(40,25,5,.35)) drop-shadow(0 1px 1px rgba(40,25,5,.3))}
 
+.acard{display:block;width:100%;height:auto;border-radius:8px;user-select:none}
 .credits{margin:22px 0 0;text-align:center;font-size:14px;color:#CFC3A0}
 .credits a{color:var(--cream)}
 /* uil */
@@ -528,7 +529,7 @@ h1{font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:.01em}
       <summary>Waarop is de test gebaseerd?</summary>
       <div class="body basis"></div>
     </details>
-    <p class="credits">Speelkaarten: <a href="https://commons.wikimedia.org/wiki/File:Svg-cards-2.0.svg">SVG-cards 2.0.1</a> &copy; 2005 David Bellot, vrij te gebruiken onder de <a href="https://www.gnu.org/licenses/lgpl-2.1.html">GNU LGPL</a>.</p>
+    <p class="credits">Speelkaarten: <a href="https://commons.wikimedia.org/wiki/File:Atlasnye_playing_cards_deck.svg">Atlasnye-kaartspel</a> getekend door Dmitry Fomin, naar schetsen van A.I. Charlemagne (publiek domein).</p>
   </main>
 
   <main id="play" hidden>
@@ -696,7 +697,7 @@ function renderHome(){
 $('#heroBtn').onclick=openHub;
 
 function openGame(id,test){
-  clearTimers();
+  clearTimers();if(id==='kaarten')preloadAtlas();
   const def=GD(id);
   G={def,test,round:0,total:null,results:[],earned:0,locked:false,token:0,used:new Set(),best:0};
   play.style.setProperty('--game',def.color);
@@ -1302,21 +1303,18 @@ function aceArt(s,c){
     <path d="M25 113H75L71.5 117.5L75 122H25L28.5 117.5Z" fill="#FFF3D6" stroke="#B8913A" stroke-width=".8" stroke-linejoin="round"/>
     <text x="50" y="119.8" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="7" textLength="36" lengthAdjust="spacingAndGlyphs" fill="${c}">MYRDDIN</text>`;
 }
-/* klassieke Franse kaarten (SVG-cards van David Bellot, LGPL), één keer ingeladen; lukt dat niet, dan de getekende kaarten */
-let DECK=null;const deckBox={};
-(async()=>{try{
-  const r=await fetch('kaarten/svg-cards.svg');if(!r.ok)return;
-  const t=await r.text(),box=document.createElement('div');
-  box.style.cssText='position:absolute;width:0;height:0;overflow:hidden';box.setAttribute('aria-hidden','true');
-  box.innerHTML=t.slice(t.indexOf('<svg'));document.body.appendChild(box);DECK=box.querySelector('svg');
-}catch(e){}})();
-const DSUIT=['heart','spade','club','diamond'],DFIG={11:'jack',12:'queen',13:'king'};
+/* klassieke Russische Atlasnye-kaarten (Dmitry Fomin, publiek domein); laden ze niet, dan de getekende kaarten */
+let ATLAS=false,atlasPreloaded=false;
+const ASUIT=['hearts','spades','clubs','diamonds'],ARANK={1:'ace',11:'jack',12:'queen',13:'king'};
+const atlasSrc=(v,s)=>`kaarten/atlas/Atlas_deck_${ARANK[v]||v}_of_${ASUIT[s]}.svg`;
+(()=>{const im=new Image();im.onload=()=>{ATLAS=true};im.src=atlasSrc(1,1)})();
+function preloadAtlas(){
+  if(atlasPreloaded)return;atlasPreloaded=true;
+  for(let s=0;s<4;s++)for(let v=1;v<=13;v++){const im=new Image();im.src=atlasSrc(v,s)}
+}
 function deckCard(v,s){
-  if(!DECK)return null;
-  const id='sc-'+(v<=10?`${DSUIT[s]}_${v}`:`${DFIG[v]}_${DSUIT[s]}`);
-  if(!deckBox[id]){const b=DECK.querySelector(`[id="${id}"] use`);if(!b)return null;deckBox[id]=[+b.getAttribute('x'),+b.getAttribute('y')]}
-  const [x,y]=deckBox[id];
-  return `<svg viewBox="${x-1.5} ${y-236.6} 169.6 245" role="img" aria-label="${VNAME[v]} ${SUITNAME[s]}"><use href="#${id}"/></svg>`;
+  if(!ATLAS)return null;
+  return `<img class="acard" src="${atlasSrc(v,s)}" alt="${VNAME[v]} ${SUITNAME[s]}" draggable="false">`;
 }
 function playCard(v,s,q=false){
   if(q)return cardBack();
